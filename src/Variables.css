@@ -1,0 +1,18 @@
+/* Variables.css */
+/* Store Variables Here */
+
+:root {
+  --background-color: #1C212A;
+  --section-color: #444850;
+  --primary-color: #23355B;
+  --secondary-color: #E5E5E5;
+  --accent-color: #FCA311;
+  --text-color: #FFFFFF;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --text-color: #213547;
+    --background-color: #ffffff;
+  }
+}
