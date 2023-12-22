@@ -1,0 +1,48 @@
+/* DropdownMenu.css */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown button {
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  translate: -50%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--dark-section);
+  border: 2px solid var(--section-color);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 35;
+}
+
+.dropdown-menu li {
+  position: relative;
+  padding: 0.6rem;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.dropdown-menu li:not(:last-child)::after { 
+  position: absolute;
+  width: 80%;
+  height: 2px;
+  bottom: 0%;
+  left: 50%;
+  translate: -50% -50%;
+  content: "";
+  background-color: var(--section-color);
+}

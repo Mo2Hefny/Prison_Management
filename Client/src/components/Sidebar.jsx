@@ -8,9 +8,9 @@ const Sidebar = (prop) => {
     const LogOutStyle = {
       position: "absolute",
       left: "50%",
-      bottom: "10%",
+      bottom: "6%",
       translate: "-60% 0",
-      width: "4rem",
+      width: "9rem",
     }
 
     return (
