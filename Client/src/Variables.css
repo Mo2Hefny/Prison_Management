@@ -1,6 +1,5 @@
 /* Variables.css */
 /* Store Variables Here */
-
 :root {
   --background-color: #1C212A;
   --section-color: #444850;
@@ -8,6 +7,12 @@
   --secondary-color: #E5E5E5;
   --accent-color: #FCA311;
   --text-color: #FFFFFF;
+  --light-hover: #ffffff30;
+  --light-accent: #FCA31180;
+
+  /* Fonts */
+  --title: 1.8rem;
+  --small:0.8rem;
 }
 
 @media (prefers-color-scheme: light) {
