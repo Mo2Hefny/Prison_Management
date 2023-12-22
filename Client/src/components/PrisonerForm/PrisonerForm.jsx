@@ -4,6 +4,7 @@ import OffensesSection from "./OffensesSection";
 import CellSection from "./CellSection";
 import "../Form.css";
 import "./PrisonerForm.css";
+import Button from "../Button";
 
 const PrisonerForm = ({ isOpen, onClose }) => {
   const formRef = useRef(null);
@@ -58,6 +59,10 @@ const PrisonerForm = ({ isOpen, onClose }) => {
           details={prisonerDetails}
           onChange={handlePrisonerDetailsChange}
         />
+      </div>
+      <div className="btn-section">
+        <Button type='submit' classNames='btn btn-4' text='Add Prisoner' />
+        <Button onClick={onClose} classNames='btn btn-3' text='Cancel' />
       </div>
     </form>
   );

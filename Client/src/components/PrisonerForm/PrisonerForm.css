@@ -9,7 +9,6 @@
   display: grid;
   grid-template-rows: repeat(2, auto); /* Two rows for sections */
   grid-template-columns: 1fr; /* One column for the first row (prisoner details) */
-  margin-top: 2rem;
   gap: 1rem;
 }
 

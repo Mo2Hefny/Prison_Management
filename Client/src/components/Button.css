@@ -1,7 +1,7 @@
 /* Button.css */
 
 .btn {
-  padding: 1rem 2rem;
+  padding: 0.8rem 1.5rem;
   margin: 0.5rem;
   transition: 0.3s;
   font-size: 1.1em;
@@ -17,7 +17,8 @@
   font-weight: 700;
 }
 
-.btn.btn-1:hover {
+.btn.btn-1:hover,
+.btn-4:hover {
   background-color: var(--accent-color);
   color: var(--text-color);
   box-shadow: 0 0 15px var(--light-accent);
@@ -26,15 +27,34 @@
 .btn-2 {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: var(--dark-section);
-  cursor: pointer;
   transition: border-color 0.25s;
 }
 
 .btn-2:hover {
   box-shadow: 0 0 2px 5px #1a1a1a50;
+}
+
+.btn-3 {
+  border-radius: 8px;
+  background-color: transparent;
+  border: 4px solid var(--dark-secondary);
+  color: var(--dark-secondary);
+}
+
+.btn-3:hover {
+  color: var(--dark-section);
+  background-color: var(--dark-secondary);
+}
+
+
+.btn-4 {
+  border: 4px solid var(--accent-color);
+  border-radius: 8px;
+  background-color: var(--accent-color);
+  color: var(--section-color);
+  font-weight: 700;
 }

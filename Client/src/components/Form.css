@@ -5,8 +5,9 @@
   position: absolute;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   background-color: var(--section-color);
-  border: 2px solid var(--dark-section);
+  border: 2px solid var(--dark-secondary);
   border-radius: 10px;
   left: 50%;
   top: 50%;
@@ -59,7 +60,7 @@
   height: 32px;
   background: transparent;
   border: 2px solid transparent;
-  border-bottom: 2px solid var(--light-primary);
+  border-bottom: 2px solid var(--dark-secondary);
   transition: all 0.3s ease, border-radius 0.3s ease-out;
   padding: 4px 8px;
 }
@@ -70,6 +71,7 @@
   position: absolute;
   top: 4px;
   left: 10px;
+  color: var(--dark-secondary);
   font-size: var(--small);
   transition: all 0.3s ease;
   pointer-events: none;
@@ -79,7 +81,7 @@ input:focus,
 input:focus-visible,
 input:not(:placeholder-shown) {
   border-radius: 6px;
-  border: 2px solid var(--light-primary);
+  border: 2px solid var(--secondary-color);
 }
 
 input:focus ~ span,
@@ -87,7 +89,7 @@ input:not(:placeholder-shown) ~ span {
   border-radius: 3px;
   top: -19px;
   left: 5px;
-  background: var(--light-primary);
+  background: var(--secondary-color);
   color: var(--section-color);
   font-weight: 600;
 }
@@ -97,7 +99,7 @@ input:not(:placeholder-shown) ~ span {
   text-transform: uppercase;
   font-size: var(--small);
   border-radius: 3px;
-  background: var(--light-primary);
+  background: var(--secondary-color);
   color: var(--section-color);
   margin-right: 0.5rem;
   font-weight: 600;
@@ -112,4 +114,9 @@ input:not(:placeholder-shown) ~ span {
   font-size: var(--small);
   font-weight: 500;
   color: var(--primary-color);
+}
+
+.btn-section {
+  align-self: flex-end;
+  margin: 3rem 0 1rem 0;
 }

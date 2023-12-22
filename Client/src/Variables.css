@@ -1,5 +1,7 @@
 /* Variables.css */
 /* Store Variables Here */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root {
   --background-color: #1C212A;
   --dark-section: #1a1a1a;
@@ -7,7 +9,9 @@
   --primary-color: #23355B;
   --light-primary: #087c9f;
   --dark-primary: #1d263a;
-  --secondary-color: #E5E5E5;
+  --light-secondary: #E5E5E5; 
+  --secondary-color: #d3d3d3; 
+  --dark-secondary: #8d8d8d; 
   --accent-color: #FCA311;
   --text-color: #FFFFFF;
   --light-hover: #ffffff30;

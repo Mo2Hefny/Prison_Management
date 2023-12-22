@@ -20,6 +20,46 @@ const dt = [
     served: false,
     description: 'test2'
   },
+  {
+    offenseID: 2,
+    Pid: 1,
+    offenseName: 'Theft',
+    convictedDate: '12/4/2022',
+    served: false,
+    description: 'test2'
+  },
+  {
+    offenseID: 2,
+    Pid: 1,
+    offenseName: 'Theft',
+    convictedDate: '12/4/2022',
+    served: false,
+    description: 'test2'
+  },
+  {
+    offenseID: 2,
+    Pid: 1,
+    offenseName: 'Theft',
+    convictedDate: '12/4/2022',
+    served: false,
+    description: 'test2'
+  },
+  {
+    offenseID: 2,
+    Pid: 1,
+    offenseName: 'Theft',
+    convictedDate: '12/4/2022',
+    served: false,
+    description: 'test2'
+  },
+  {
+    offenseID: 2,
+    Pid: 1,
+    offenseName: 'Theft',
+    convictedDate: '12/4/2022',
+    served: false,
+    description: 'test2'
+  },
 ]
 
 const OffensesSection = ({ details, onChange }) => {

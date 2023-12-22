@@ -14,7 +14,7 @@ const DisplayTable = ({ title, dataTable, selectedColumns}) => {
             </div>
           ))}
         </div>
-
+        
         <div className='table-body'>
           {/* Render rows with data for selected columns */}
           {dataTable.map((row, rowIndex) => (
