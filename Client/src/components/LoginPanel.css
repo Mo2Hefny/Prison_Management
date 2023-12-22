@@ -1,0 +1,42 @@
+/* LoginPanel.css */
+
+.container {
+    max-width: 300px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; /* Center text horizontally */
+  }
+  
+  .title {                  /*To Change the text OF login color*/
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: #999; /* Change text color if needed */
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .input {
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+  
+  .button {
+    background-color: #ff5722; /* Change button color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
