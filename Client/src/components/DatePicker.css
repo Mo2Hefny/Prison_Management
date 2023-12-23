@@ -1,0 +1,25 @@
+input.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  color: var(--secondary-color);
+}
+
+.MUIOutlinedInput-notchedOutline,
+fieldset.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border-width: 2px;
+  border-color: var(--secondary-color);
+}
+
+svg.css-i4bv87-MuiSvgIcon-root {
+  color: var(--secondary-color);
+}
+
+.MuiFormControl-root label{
+  border-radius: 3px;
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.MuiFormControl-root:focus label {
+  border-radius: 3px;
+  background: var(--secondary-color);
+  color: var(--section-color);
+}

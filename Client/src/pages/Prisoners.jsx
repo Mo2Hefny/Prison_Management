@@ -16,7 +16,7 @@ const Prisoners = () => {
   return (
     <div className='prisoners-page'>
     <div>Prisoners</div>
-    <button onClick={toggleForm}>Open Form</button>
+    <button className='openPrisonerForm' onClick={toggleForm}>Open Form</button>
     {/* Render the form when it is opened */}
     {isFormOpen && (<PrisonerForm isOpen={isFormOpen} onClose={toggleForm}></PrisonerForm>)}
     </div>

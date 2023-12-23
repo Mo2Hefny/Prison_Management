@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../Input';
 import DropdownMenu from '../DropdownMenu';
 import DisplayTable from '../DisplayTable';
+import DateComp from '../DateComp';
 
 const dt = [
   {
@@ -62,21 +63,30 @@ const dt = [
   },
 ]
 
-const OffensesSection = ({ details, onChange }) => {
-  const handleChange = (e, field) => {
-    onChange(field, e.target.value);
-  }
-
+const OffensesSection = ({ details, onChange, toggleOffenseForm, setPrisonerDetails }) => {
   const selectedColumns = ['offenseID', 'offenseName', 'served']
+
+  const handleAdmissionDateChange = (newAdmissionDate) => {
+    // Calculate releaseDate based on the new admissionDate
+    const newReleaseDate = new Date(newAdmissionDate);
+    newReleaseDate.setMonth(newReleaseDate.getMonth() + details['sentenceTime']);
+
+    // Update releaseDate in the parent component using setPrisonerDetails
+    setPrisonerDetails((prevDetails) => ({
+      ...prevDetails,
+      admissionDate: newAdmissionDate,
+      releaseDate: newReleaseDate,
+    }));
+  };
 
   return (
     <div className='form-section offenses-section'>
       <div className='form-section-input'>
         <div className='sentence-date'>
-          <Input type="date" value={details.admissionDate} field='admissionDate' onChange={handleChange}/>
-          <Input type="date" value={details.releaseDate} field='releaseDate' onChange={handleChange}/>
+          <DateComp label='Admission Date' value={details.admissionDate} onChange={handleAdmissionDateChange}/>
+          <DateComp label='Release Date' value={details.releaseDate} readOnly={true} />
         </div>
-        <DisplayTable title='Offenses' dataTable={dt} selectedColumns={selectedColumns}/>
+        <DisplayTable title='Offenses' dataTable={dt} selectedColumns={selectedColumns} UIMode='addBtn' onClick={toggleOffenseForm}/>
       </div>
     </div>
   )
