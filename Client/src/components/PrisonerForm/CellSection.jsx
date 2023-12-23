@@ -30,9 +30,7 @@ const CellSection = ({ details, onChange }) => {
 
   return (
     <div className='form-section cell-section'>
-      <div className='form-section-input'>
-        <DisplayTable title='Cells' dataTable={dt} selectedColumns={selectedColumns}/>
-      </div>
+      <DisplayTable title='Cells' dataTable={dt} selectedColumns={selectedColumns}/>
     </div>
   )
 }

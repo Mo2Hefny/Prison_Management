@@ -1,0 +1,33 @@
+/* Select Menu Box */
+.MuiFormControl-root.css-1vffhae-MuiFormControl-root {
+  margin: 0;
+}
+
+/* Select Menu Text */
+.MuiInputBase-sizeSmall.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+  color: var(--secondary-color);
+  text-align: left;
+  font-weight: 600;
+}
+
+label.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused  {
+  color: var(--secondary-color);
+}
+
+/* Select Menu Icon */
+svg.MuiSvgIcon-root,
+svg.MuiSelect-icon,
+svg.MuiFormControl-root.css-1vffhae-MuiFormControl-root,
+svg.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+  color: var(--secondary-color);
+}
+
+svg.css-hfutr2-MuiSvgIcon-root-MuiSelect-icon.Mui-focused {
+  color: var(--secondary-color);
+}
+
+div.MuiPaper-root,
+div.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+  color: var(--secondary-color);
+  background-color: var(--dark-section);
+}

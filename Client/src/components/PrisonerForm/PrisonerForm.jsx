@@ -57,17 +57,17 @@ const PrisonerForm = ({ isOpen, onClose }) => {
 
   return (
     <form ref={formRef} className="form prisoner-form">
-      <h2 className="form-title">Add a new prisoner</h2>
+      <h2 className="form-title">Prisoner Form</h2>
       <div className="grid-container">
         <PrisonerDetails
           details={prisonerDetails}
           onChange={handlePrisonerDetailsChange}
+          setPrisonerDetails={setPrisonerDetails}
         />
         <OffensesSection
           details={prisonerDetails}
           onChange={handlePrisonerDetailsChange}
           toggleOffenseForm={toggleOffenseForm}
-          setPrisonerDetails={setPrisonerDetails}
         />
         <CellSection
           details={prisonerDetails}

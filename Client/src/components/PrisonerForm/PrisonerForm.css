@@ -7,17 +7,29 @@
 
 .prisoner-form .grid-container {
   display: grid;
-  grid-template-rows: repeat(2, auto); /* Two rows for sections */
+  grid-template-rows: repeat(2, 1fr); /* Two rows for sections */
   grid-template-columns: 1fr; /* One column for the first row (prisoner details) */
-  gap: 1rem;
+  gap: 4rem 1rem;
 }
 
 /*
   Prisoner's details
 */
 .prisoner-details {
-  grid-row: 1 / span 1; /* Prisoner details spans the first row */
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 2; /* Prisoner details spans the first row */
+}
+
+.prisoner-details .form-section-input {
+  padding-left: 3rem;
+  justify-content: flex-start;
+  grid-auto-rows: 80px;
+  gap: 5% 15%;
+}
+
+.form-section-input .input-container {
+  align-items: flex-start;
+  text-align: left;
 }
 
 /*
@@ -26,9 +38,18 @@
 
 .offenses-section,
 .cell-section {
-  grid-row: 2 / span 1; /* Offenses and cell sections span the second row by default */
+  grid-column: 2; /* Offenses and cell sections span the second row by default */
 
   /* Adjust styles as needed for offenses and cell sections */
+}
+
+.offenses-section.form-section {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.offenses-section .form-section-input {
+  gap: 3rem;
 }
 
 .sentence-date {

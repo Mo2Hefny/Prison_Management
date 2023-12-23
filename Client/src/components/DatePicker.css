@@ -1,9 +1,13 @@
+/* Field title */
 input.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   color: var(--secondary-color);
 }
 
+/* Field Body */
+
 .MUIOutlinedInput-notchedOutline,
-fieldset.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+fieldset.css-1d3z3hw-MuiOutlinedInput-notchedOutline,
+fieldset.Mui-focused {
   border-width: 2px;
   border-color: var(--secondary-color);
 }
@@ -18,8 +22,17 @@ svg.css-i4bv87-MuiSvgIcon-root {
   font-weight: 600;
 }
 
-.MuiFormControl-root:focus label {
+.MuiFormControl-root.Mui-focused label {
   border-radius: 3px;
   background: var(--secondary-color);
   color: var(--section-color);
+}
+button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin {
+  color: var(--secondary-color);
+}
+
+span.MuiTypography-root, 
+span.MuiTypography-caption, 
+span.MuiDayCalendar-weekDayLabel {
+  color: var(--accent-color);
 }
