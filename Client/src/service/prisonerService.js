@@ -34,11 +34,18 @@ export const fetchPrisonerById = async (id) => {
     if (!prisoner) {
       throw new Error(`Prisoner with ID ${id} not found`);
     }
-    
+
+    fixPrisonerDetailsFormat(prisoner);
     console.log(`Prisoner with ID ${id}: `, prisoner); // Log the response
-    return { ...prisoner };
+    return prisoner;
   } catch (error) {
     console.error(`Error fetching prisoner with ID ${id}:`, error);
     throw error;
   }
 };
+
+const fixPrisonerDetailsFormat = (details) => {
+  details.bdate = new Date(details.bdate);
+  details.admissionDate = new Date(details.admissionDate);
+  details.releaseDate = new Date(details.releaseDate);
+}

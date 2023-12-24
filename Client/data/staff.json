@@ -1,0 +1,44 @@
+[
+  {
+    "staff_id": 1,
+    "fname": "John",
+    "lname": "Doe",
+    "ssn": "123-45-6789",
+    "bdate": "1990-01-15",
+    "hireDate": "2022-03-20",
+    "supervisorID": 101,
+    "salary": 60000,
+    "shift": "Day",
+    "status": "Active",
+    "specialty": "Cardiology",
+    "experienceYrs": 5
+  },
+  {
+    "staff_id": 2,
+    "fname": "Alice",
+    "lname": "Smith",
+    "ssn": "987-65-4321",
+    "bdate": "1985-07-10",
+    "hireDate": "2021-08-05",
+    "supervisorID": 101,
+    "salary": 55000,
+    "shift": "Night",
+    "status": "Active",
+    "type": "Armed",
+    "blockID": "A"
+  },
+  {
+    "staff_id": 3,
+    "fname": "David",
+    "lname": "Johnson",
+    "ssn": "555-44-3333",
+    "bdate": "1988-12-02",
+    "hireDate": "2020-05-15",
+    "supervisorID": 102,
+    "salary": 70000,
+    "shift": "Day",
+    "status": "Inactive",
+    "type": "Dog Handler",
+    "blockID": "B"
+  }
+]

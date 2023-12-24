@@ -7,6 +7,7 @@
     "age": 30,
     "gender": "Male",
     "bdate": "1992-05-15",
+    "status": "Detained",
     "admissionDate": "2023-01-01",
     "releaseDate": "2023-12-31",
     "sentenceTime": 11
@@ -19,6 +20,7 @@
     "age": 25,
     "gender": "Female",
     "bdate": "1997-08-22",
+    "status": "Detained",
     "admissionDate": "2023-02-15",
     "releaseDate": "2024-02-15",
     "sentenceTime": 12
@@ -31,6 +33,7 @@
     "age": 28,
     "gender": "Male",
     "bdate": "1994-11-10",
+    "status": "Detained",
     "admissionDate": "2023-03-10",
     "releaseDate": "2023-09-10",
     "sentenceTime": 6
@@ -43,6 +46,7 @@
     "age": 35,
     "gender": "Female",
     "bdate": "1987-07-05",
+    "status": "Detained",
     "admissionDate": "2023-05-20",
     "releaseDate": "2024-05-20",
     "sentenceTime": 12
