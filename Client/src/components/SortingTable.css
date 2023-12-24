@@ -60,6 +60,10 @@ tr.css-10cbwbc-MuiTableRow-root.Mui-selected:hover {
   color: var(--secondary-color);
 }
 
+div.css-194a1fa-MuiSelect-select-MuiInputBase-input {
+  color: var(--secondary-color);
+}
+
 /* Table Separators */
 td.css-1ex1afd-MuiTableCell-root {
   border-color: var(--secondary-color);

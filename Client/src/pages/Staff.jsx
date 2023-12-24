@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
-import "./Prisoners.css";
+import "./Staff.css";
 import EnhancedTable from "../components/SortingTable";
-import { fetchPrisonerById, fetchPrisoners } from "../service/prisonerService";
-import { filterPrisonersColumns } from "../utils/dataUtils";
+import { fetchStaffById, fetchStaff } from "../service/staffService";
+import { filterStaffColumns } from "../utils/dataUtils";
 
-const prisonersHeadCells = [
+const staffHeadCells = [
   {
     id: 'name',
     numeric: false,
@@ -20,34 +20,34 @@ const prisonersHeadCells = [
     label: 'SSN',
   },
   {
-    id: 'gender',
+    id: 'salary',
     numeric: true,
     disablePadding: false,
-    label: 'Gender',
+    label: 'Salary',
   },
   {
-    id: 'age',
+    id: 'supervisorID',
     numeric: true,
     disablePadding: false,
-    label: 'Age',
+    label: 'Supervisor',
   },
   {
-    id: 'admissionDate',
+    id: 'hireDate',
     numeric: true,
     disablePadding: false,
-    label: 'Admission Date',
+    label: 'Hire Date',
   },
   {
-    id: 'releaseDate',
+    id: 'shift',
     numeric: true,
     disablePadding: false,
-    label: 'Release Date',
+    label: 'Shift',
   },
   {
-    id: 'sentenceLeft',
+    id: 'staffType',
     numeric: true,
     disablePadding: false,
-    label: 'Sentence Left',
+    label: 'Position',
   },
   {
     id: 'status',
@@ -58,28 +58,34 @@ const prisonersHeadCells = [
   
 ];
 
-const Prisoners = ({ readOnly = false }) => {
+const staffDetailsTemplate = {
+  staff_id: "",
+  fname: "",
+  lname: "",
+  ssn: null,
+  bdate: "",
+  hireDate: new Date(),
+  supervisorID: null,
+  salary: null,
+  shift: "Day",
+  status: "Active",
+  staffType: "Staff",
+  speciality: "",
+  experienceYrs: null,
+  type: "Patrol Gaurd",
+  blockID: null,
+}
+
+const Staff = ({ readOnly = false }) => {
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
-  const [prisonerDetails, setPrisonerDetails] = useState([]);
-  const [prisonersFilteredTable, setPrisonersFilteredTable] = useState([{}]);
+  const [staffDetails, setStaffDetails] = useState(staffDetailsTemplate);
+  const [staffFilteredTable, setStaffFilteredTable] = useState([{}]);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
-    setPrisonerDetails({
-      pid: null,
-      fname: "",
-      lname: "",
-      age: "",
-      bDate: "",
-      gender: "Male",
-      ssn: "",
-      status: "Detained",
-      admissionDate: new Date(),
-      releaseDate: null,
-      sentenceTime: 10,
-    });
+    setStaffDetails(staffDetailsTemplate);
   };
 
   const editForm = () => {
@@ -92,11 +98,11 @@ const Prisoners = ({ readOnly = false }) => {
     setIsFormOpen(!isFormOpen);
   };
 
-  const getPrisonerDetails = async (id) => {
+  const getStaffDetails = async (id) => {
     try {
-      const newDetails = await fetchPrisonerById(id);
-      console.log("Fetched prisoner:", newDetails);
-      setPrisonerDetails({ ...newDetails });
+      const newDetails = await fetchStaffById(id);
+      console.log("Fetched staff:", newDetails);
+      setStaffDetails({ ...newDetails });
       editForm();
     } catch (error) {
       console.error("Error:", error.message);
@@ -105,39 +111,39 @@ const Prisoners = ({ readOnly = false }) => {
 
   // Retrieve all prisoners details on any change or submission
   useEffect(() => {
-    async function fetchPrisonersData() {
+    async function fetchStaffData() {
       try {
-        const prisonersDataTable = await fetchPrisoners();
-        const filteredTable = filterPrisonersColumns(prisonersDataTable, prisonersHeadCells);
+        const staffDataTable = await fetchStaff();
+        const filteredTable = filterStaffColumns(staffDataTable, staffHeadCells);
         console.log("Fetched prisoners:", filteredTable);
-        setPrisonersFilteredTable([ ...filteredTable ]);
+        setStaffFilteredTable([ ...filteredTable ]);
       } catch (error) {
         console.error("Error:", error.message);
       }
     }
-    fetchPrisonersData();
+    fetchStaffData();
   }, [isFormEdit, isFormOpen]);
 
   return (
-    <div className="page prisoners-page">
+    <div className="page staff-page">
       {/* Render the form when it is opened */}
       {isFormOpen && (
         <PrisonerForm
-          details={prisonerDetails}
+          details={staffDetails}
           isOpen={isFormOpen}
           onClose={onClose}
         ></PrisonerForm>
       )}
-      <h1 className="page-title">Prisoners Management Dashboard</h1>
+      <h1 className="page-title">Staff Management Dashboard</h1>
       <div className="page-body">
         <div className="page-body-section">
           <div className="table enhanced-table">
             <EnhancedTable
-              dataTable={prisonersFilteredTable}
-              dataHeadCells={prisonersHeadCells}
-              title="Prisoners"
+              dataTable={staffFilteredTable}
+              dataHeadCells={staffHeadCells}
+              title="Staff"
               onAdd={toggleForm}
-              onEdit={getPrisonerDetails}
+              onEdit={getStaffDetails}
               readOnly={readOnly}
             />
           </div>
@@ -147,4 +153,4 @@ const Prisoners = ({ readOnly = false }) => {
   );
 };
 
-export default Prisoners;
+export default Staff;

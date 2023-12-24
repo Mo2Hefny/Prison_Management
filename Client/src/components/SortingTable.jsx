@@ -173,7 +173,7 @@ function EnhancedTableToolbar({ onAdd, readOnly, title, ...props }) {
         </Typography>
       )}
 
-      {numSelected > 0 ? (
+      {numSelected > 0 && !readOnly ? (
         <Tooltip title="Delete">
           <IconButton>
             <DeleteIcon />
@@ -353,7 +353,7 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={6 + !readOnly} />
+                  <TableCell colSpan={rows.length + 1 + !readOnly} />
                 </TableRow>
               )}
             </TableBody>
