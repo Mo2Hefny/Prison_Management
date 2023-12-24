@@ -7,21 +7,10 @@ import "./PrisonerForm.css";
 import Button from "../Button";
 import OffenseForm from "../OffenseForm/OffenseForm";
 
-const PrisonerForm = ({ isOpen, onClose }) => {
+const PrisonerForm = ({ details, isOpen, onClose }) => {
   const formRef = useRef(null);
   // State variable to manage the form's input values.
-  const [prisonerDetails, setPrisonerDetails] = useState({
-    fname: "",
-    lname: "",
-    age: "",
-    bDate: "",
-    gender: "Male",
-    ssn: "",
-    status: "Detained",
-    admissionDate: new Date(),
-    releaseDate: null,
-    sentenceTime: 10,
-  });
+  const [prisonerDetails, setPrisonerDetails] = useState(details);
 
   const handlePrisonerDetailsChange = (field, value) => {
     setPrisonerDetails({ ...prisonerDetails, [field]: value });

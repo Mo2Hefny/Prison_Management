@@ -375,7 +375,7 @@ export default function EnhancedTable({ title, dt, onEdit, onAdd, onDelete, read
                         aria-label="edit"
                         color="primary"
                         size="small"
-                        onClick={() => handleEditClick(row.id)} // Replace with your edit function
+                        onClick={() => onEdit(row.id)} // Replace with your edit function
                       >
                         <EditIcon />
                       </IconButton>
@@ -390,7 +390,7 @@ export default function EnhancedTable({ title, dt, onEdit, onAdd, onDelete, read
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={6 + !readOnly} />
                 </TableRow>
               )}
             </TableBody>

@@ -6,6 +6,7 @@ import './App.css'
 import Sidebar from './components/Sidebar'
 import Page from './components/Page'
 import Prisoners from './pages/Prisoners'
+import PrisonUnits from './pages/PrisonUnits'
 import Dashboard from './pages/Dashboard'
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <div className="content">
         <Routes>
           <Route exact path="/dashboard" element={<Dashboard/>}></Route>
-          <Route exact path="/prison-units" element={<Prisoners/>}></Route>
+          <Route exact path="/prison-units" element={<PrisonUnits/>}></Route>
           <Route exact path="/prisoners" element={<Prisoners/>}></Route>
           <Route exact path="/" element={<Prisoners/>}></Route>
 

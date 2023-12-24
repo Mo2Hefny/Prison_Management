@@ -5,9 +5,11 @@
   background-color: var(--dark-section);
   border-radius: 10px;
   box-shadow: 0 0 6px #D2D1D350;
-  padding: 1rem 1.5rem;
-  padding-bottom: 0;
+  padding: 2rem 1.5rem;
   z-index: 0;
+}
+.table.enhanced-table {
+  padding-bottom: 0;
 }
 
 div.MuiToolbar-root.MuiToolbar-gutters.css-1whpjm6-MuiToolbar-root{
@@ -30,6 +32,13 @@ div.MuiToolbar-root.MuiToolbar-gutters.css-1whpjm6-MuiToolbar-root{
   font-weight: 600;
 }
 
+/* Table Header Separator */
+th.css-hbtnrh-MuiTableCell-root,
+th.css-10dfkli-MuiTableCell-root,
+th.css-1azl6jz-MuiTableCell-root {
+  border-color: var(--dark-primary);
+}
+
 /* Table body content */
 .page-body-section > .table tbody td {
   color: var(--light-secondary);
@@ -49,4 +58,15 @@ tr.css-10cbwbc-MuiTableRow-root.Mui-selected:hover {
 .MuiTablePagination-select,
 .css-levciy-MuiTablePagination-displayedRows {
   color: var(--secondary-color);
+}
+
+/* Table Separators */
+td.css-1ex1afd-MuiTableCell-root {
+  border-color: var(--secondary-color);
+}
+
+td.css-177gid-MuiTableCell-root,
+td.css-1nf681w-MuiTableCell-root,
+th.css-11w94w9-MuiTableCell-root {
+  border-color: var(--dark-secondary);
 }

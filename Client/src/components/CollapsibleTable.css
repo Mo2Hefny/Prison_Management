@@ -1,0 +1,41 @@
+/* CollapsibleTable.css */
+
+/* Table */
+table.css-rqglhn-MuiTable-root.MuiTable-root {
+ border-color: transparent;
+}
+
+/* Table Header */
+.page-body-section > .table thead tr {
+  border-color: var(--dark-primary);
+}
+
+.page-body-section > .table thead span,
+.page-body-section > .table thead th,
+.page-body-section > .table thead span svg.MuiSvgIcon-root.MuiTableSortLabel-icon {
+  color: var(--dark-primary);
+  font-weight: 600;
+}
+
+th.css-1ygcj2i-MuiTableCell-root,
+th.css-1howxi1-MuiTableCell-root,
+th.css-6qfsqn-MuiTableCell-root {
+  border-color: var(--dark-primary);
+}
+
+/* Table Separators */
+td.css-177gid-MuiTableCell-root,
+th.css-1ex1afd-MuiTableCell-root,
+td.css-1ex1afd-MuiTableCell-root {
+  border-color: var(--dark-secondary);
+}
+
+/* Collapsible Table */
+.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered {
+  padding: 0.5rem 0;
+}
+
+.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered tbody th {
+  color: var(--light-accent);
+  opacity: 0.8;
+}

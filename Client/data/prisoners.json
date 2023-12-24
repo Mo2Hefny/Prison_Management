@@ -1,0 +1,50 @@
+[
+  {
+    "pid": 1,
+    "fname": "John",
+    "lname": "Doe",
+    "ssn": 123456789,
+    "age": 30,
+    "gender": "Male",
+    "bdate": "1992-05-15",
+    "admissionDate": "2023-01-01",
+    "releaseDate": "2023-12-31",
+    "sentenceTime": 11
+  },
+  {
+    "pid": 2,
+    "fname": "Jane",
+    "lname": "Doe",
+    "ssn": 987654321,
+    "age": 25,
+    "gender": "Female",
+    "bdate": "1997-08-22",
+    "admissionDate": "2023-02-15",
+    "releaseDate": "2024-02-15",
+    "sentenceTime": 12
+  },
+  {
+    "pid": 3,
+    "fname": "Bob",
+    "lname": "Smith",
+    "ssn": 456789012,
+    "age": 28,
+    "gender": "Male",
+    "bdate": "1994-11-10",
+    "admissionDate": "2023-03-10",
+    "releaseDate": "2023-09-10",
+    "sentenceTime": 6
+  },
+  {
+    "pid": 4,
+    "fname": "Alice",
+    "lname": "Johnson",
+    "ssn": 789012345,
+    "age": 35,
+    "gender": "Female",
+    "bdate": "1987-07-05",
+    "admissionDate": "2023-05-20",
+    "releaseDate": "2024-05-20",
+    "sentenceTime": 12
+  }
+]
