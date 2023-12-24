@@ -32,7 +32,7 @@ export const filterPrisonersColumns = (dataTable, neededColumns) => {
 export const filterStaffColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
     const newRow = {};
-    newRow['id'] = row['pid'];
+    newRow['id'] = row['staff_id'];
     neededColumns.forEach((column) => {
       if (column['id'] === 'name') {
         // Combine fname and lname to create the "Name" column

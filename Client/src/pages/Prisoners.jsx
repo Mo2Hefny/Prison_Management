@@ -58,12 +58,13 @@ const prisonersHeadCells = [
   
 ];
 
-const Prisoners = ({ readOnly = false }) => {
+const Prisoners = ({ view }) => {
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
   const [prisonerDetails, setPrisonerDetails] = useState([]);
   const [prisonersFilteredTable, setPrisonersFilteredTable] = useState([{}]);
+  const readOnly = ["visitor", "doctor"].includes(view);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);

@@ -4,7 +4,7 @@ import Profile from "./Profile"
 import SidebarNav from "./SidebarNav"
 import Button from "./Button"
 
-const Sidebar = (prop) => {
+const Sidebar = ({ onLogOut }) => {
     const LogOutStyle = {
       position: "absolute",
       left: "50%",
@@ -17,7 +17,7 @@ const Sidebar = (prop) => {
       <div className="Sidebar">
         <Profile></Profile>
         <SidebarNav></SidebarNav>
-        <Button text="Log Out" classNames="btn btn-1" btnStyle={LogOutStyle}></Button>
+        <Button onClick={onLogOut} text="Log Out" classNames="btn btn-1" btnStyle={LogOutStyle}></Button>
       </div>
     )
 }

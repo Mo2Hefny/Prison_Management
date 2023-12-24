@@ -76,12 +76,13 @@ const staffDetailsTemplate = {
   blockID: null,
 }
 
-const Staff = ({ readOnly = false }) => {
+const Staff = ({ view }) => {
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
   const [staffDetails, setStaffDetails] = useState(staffDetailsTemplate);
   const [staffFilteredTable, setStaffFilteredTable] = useState([{}]);
+  const readOnly = ["visitor"].includes(view);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);

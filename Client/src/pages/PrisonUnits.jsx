@@ -4,10 +4,11 @@ import PrisonerForm from '../components/PrisonerForm/PrisonerForm';
 import './Prisoners.css'
 import CollapsibleTable from '../components/CollapsibleTable';
 
-const PrisonUnits = () => {
+const PrisonUnits = ({ view }) => {
 
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const readOnly = ["staff", "visitor", "doctor"].includes(view);
 
   // Function to toggle the form's visibility.
   const toggleForm = () => {

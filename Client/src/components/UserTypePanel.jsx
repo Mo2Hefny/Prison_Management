@@ -2,9 +2,9 @@
 
 import React from 'react'
 import './UserTypePanel.css'
-const UserTypePanel = ({ onSelectUserType }) => {
+const UserTypePanel = ({ onClick }) => {
 	const handleUserTypeSelect = (userType) => {
-		onSelectUserType(userType)
+		onClick(userType)
 	}
 
 	return (
