@@ -3,3 +3,8 @@
   position: relative;
   height: 100%;
 }
+
+.page-title {
+  font-size: var(--title-L);
+  padding: 1.5rem 2.5rem;
+}

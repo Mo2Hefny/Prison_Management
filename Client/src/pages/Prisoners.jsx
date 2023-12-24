@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import PrisonerForm from '../components/PrisonerForm/PrisonerForm';
 import './Prisoners.css'
+import EnhancedTable from '../components/SortingTable';
 
 const Prisoners = () => {
 
@@ -14,11 +15,17 @@ const Prisoners = () => {
   };
   
   return (
-    <div className='prisoners-page'>
-    <div>Prisoners</div>
-    <button className='openPrisonerForm' onClick={toggleForm}>Open Form</button>
+    <div className='page prisoners-page'>
     {/* Render the form when it is opened */}
     {isFormOpen && (<PrisonerForm isOpen={isFormOpen} onClose={toggleForm}></PrisonerForm>)}
+      <h1 className='page-title'>Prisoners Management Dashboard</h1>
+      <div className='page-body'>
+        <div className='page-body-section'>
+          <div className='table'>
+            <EnhancedTable title='Prisoners' onAdd={toggleForm} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

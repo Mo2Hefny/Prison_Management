@@ -1,0 +1,52 @@
+/* SortingTable.css */
+/* Table */
+.page-body-section > .table {
+  margin: 0 3rem;
+  background-color: var(--dark-section);
+  border-radius: 10px;
+  box-shadow: 0 0 6px #D2D1D350;
+  padding: 1rem 1.5rem;
+  padding-bottom: 0;
+  z-index: 0;
+}
+
+div.MuiToolbar-root.MuiToolbar-gutters.css-1whpjm6-MuiToolbar-root{
+  background-color: #213A6F80;
+}
+
+.page-body-section > .table tbody th {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* Table Header */
+.page-body-section > .table thead tr {
+  border-color: var(--dark-primary);
+}
+
+.page-body-section > .table thead span,
+.page-body-section > .table thead span svg.MuiSvgIcon-root.MuiTableSortLabel-icon {
+  color: var(--dark-primary);
+  font-weight: 600;
+}
+
+/* Table body content */
+.page-body-section > .table tbody td {
+  color: var(--light-secondary);
+}
+
+tr.css-10cbwbc-MuiTableRow-root.Mui-selected {
+  background-color: #8d8d8d20;
+}
+
+tr.css-10cbwbc-MuiTableRow-root.Mui-selected:hover {
+  background-color: #8d8d8d50;
+}
+
+/* Table Pagination */
+.MuiTablePagination-selectLabel.css-pdct74-MuiTablePagination-selectLabel,
+.MuiSelect-select,
+.MuiTablePagination-select,
+.css-levciy-MuiTablePagination-displayedRows {
+  color: var(--secondary-color);
+}

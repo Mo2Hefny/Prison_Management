@@ -9,6 +9,29 @@
   transition: 0.3s all ease;
 }
 
+.btn.right {
+  position: absolute;
+  right: 0;
+}
+
+.btn.btn-wide.btn-G {
+  padding: 1rem 2rem;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.btn.btn-wide.btn-G span {
+  gap: 0.5rem;
+}
+
+.btn.btn-wide svg {
+  scale: 1.2;
+}
+
 .btn-1 {
   border: 4px solid var(--accent-color);
   border-radius: 8px;
