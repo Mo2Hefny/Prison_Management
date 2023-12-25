@@ -1,0 +1,26 @@
+[
+  {
+    "cell_id": 1,
+    "block_id": 1,
+    "cap": 2,
+    "floor": 1,
+    "type": "Solitary",
+    "size": "Small"
+  },
+  {
+    "cell_id": 2,
+    "block_id": 1,
+    "cap": 4,
+    "floor": 2,
+    "type": "Double",
+    "size": "Medium"
+  },
+  {
+    "cell_id": 3,
+    "block_id": 2,
+    "cap": 3,
+    "floor": 1,
+    "type": "Double-Occupancy",
+    "size": "Medium"
+  }
+]

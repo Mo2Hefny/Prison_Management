@@ -29,6 +29,7 @@ export const filterPrisonersColumns = (dataTable, neededColumns) => {
   });
 };
 
+// Staff
 export const filterStaffColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
     const newRow = {};
@@ -40,6 +41,36 @@ export const filterStaffColumns = (dataTable, neededColumns) => {
       } else if (column['id'] === 'staffType') {
         // Get remaining service to serve from the release date and today's date to create the "Sentence Left" column
         newRow[column['id']] = getStaffType(row);
+      } else {
+        newRow[column['id']] = row[column['id']];
+      }
+    });
+    return newRow;
+  });
+};
+
+// Prison Units
+export const filterBlockColumns = (dataTable, neededColumns, neededCollapsingTableColumns) => {
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = row['block_id'];
+    neededColumns.forEach((column) => {
+      newRow[column['id']] = row[column['id']];
+    });
+    newRow['subTable'] = filterCellsColumns(row['cells'], neededCollapsingTableColumns);
+    return newRow;
+  });
+};
+
+// Cells
+export const filterCellsColumns = (dataTable, neededColumns) => {
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = row['cell_id'];
+    neededColumns.forEach((column) => {
+      if (column['id'] === 'cap') {
+        // Combine current capacity and max capacity to create the "capacity" column
+        newRow[column['id']] = `- / ${row['cap']}`;
       } else {
         newRow[column['id']] = row[column['id']];
       }

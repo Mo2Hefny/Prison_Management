@@ -1,0 +1,20 @@
+[
+  {
+    "block_id": 1,
+    "securityType": "High",
+    "blockName": "A Block",
+    "cellsNum": 10
+  },
+  {
+    "block_id": 2,
+    "securityType": "Medium",
+    "blockName": "B Block",
+    "cellsNum": 8
+  },
+  {
+    "block_id": 3,
+    "securityType": "Low",
+    "blockName": "C Block",
+    "cellsNum": 12
+  }
+]

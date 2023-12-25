@@ -40,8 +40,7 @@ function createData(name, calories, fat, carbs, protein, price) {
   };
 }
 
-function Row(props) {
-  const { row } = props;
+function Row({ key, row }) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -81,15 +80,15 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                  {row.subTable.map((subRow) => (
+                    <TableRow key={subRow.date}>
                       <TableCell component="th" scope="row">
-                        {historyRow.date}
+                        {subRow.date}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
+                      <TableCell>{subRow.customerId}</TableCell>
+                      <TableCell align="right">{subRow.amount}</TableCell>
                       <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                        {Math.round(subRow.amount * subRow.price * 100) / 100}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -129,11 +128,12 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
 ];
 
-export default function CollapsibleTable({ title, onAdd, readOnly}) {
+export default function CollapsibleTable({ dataTable, dataHeadCells, title, onAdd, readOnly}) {
   const plusSign = `<svg data-slot="icon" data-darkreader-inline-stroke="" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
   </svg><p>Add</p>`
-
+  const empty = Array.isArray(dataTable) && dataTable.every(obj => Object.keys(obj).length === 0);
+  console.log(dataTable);
   return (
     <TableContainer component={Paper}>
       <Toolbar
@@ -166,8 +166,8 @@ export default function CollapsibleTable({ title, onAdd, readOnly}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
+          {!empty && dataTable.map((row) => (
+            <Row key={row.id} row={row} />
           ))}
         </TableBody>
       </Table>
