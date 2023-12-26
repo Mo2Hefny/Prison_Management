@@ -1,0 +1,26 @@
+[
+  {
+    "visID": 1,
+    "visFname": "Mark",
+    "visLname": "Ruffalo",
+    "ssn": 99318291,
+    "bdate": "1999-05-15",
+    "address": "Madinty"
+  },
+  {
+    "visID": 3,
+    "visFname": "Zein",
+    "visLname": "Leonardo",
+    "ssn": 99751293,
+    "bdate": "1992-05-15",
+    "address": "Maadi"
+  },
+  {
+    "visID": 7,
+    "visFname": "Toni",
+    "visLname": "Marley",
+    "ssn": 99318291,
+    "bdate": "1983-05-15",
+    "address": "Chicago"
+  }
+]

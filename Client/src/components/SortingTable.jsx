@@ -325,11 +325,15 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
                         id={labelId}
                         scope="row"
                         padding="none"
+                        >
+                        {row[column['id']]}
+                      </TableCell>
+                    ) : (
+                      <TableCell 
+                        align={column['numeric']===true ? "right" : "left"} 
                       >
                         {row[column['id']]}
                       </TableCell>
-                      ) : (
-                      <TableCell align={column['numeric']===true ? "right" : "left"} >{row[column['id']]}</TableCell>
                     )))}
                     {/* New TableCell for Edit button */}
                     {!readOnly && (

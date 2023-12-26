@@ -10,9 +10,9 @@
   border: 2px solid var(--dark-secondary);
   border-radius: 10px;
   left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  padding: 1rem 3rem;
+  top: 5%;
+  translate: -50% 0;
+  padding: 2% 2%;
   box-shadow: 0 0 100px 300px #1C212A99;
   z-index: 10;
 }
@@ -35,9 +35,9 @@
 .form-section-input {
   position: relative;
   display: grid;
-  grid-template-columns: 300px 300px;
+  grid-template-columns: min(300px, 30%) min(300px, 30%);
   justify-content: space-around;
-  gap: 1rem 1.5rem;
+  gap: 1% 10%;
 }
 
 .form-section-title {
@@ -121,5 +121,5 @@ input.custom-input:not(:placeholder-shown) ~ span {
 
 .btn-section {
   align-self: center;
-  margin: 3rem 0 1rem 0;
+  margin: clamp(1rem, 2%, 3rem) 0 1rem 0;
 }

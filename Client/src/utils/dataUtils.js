@@ -2,6 +2,7 @@ import { getStaffType } from "../service/staffService";
 import { getDayDifference, getMonthDifference } from "./dateUtils";
 
 // dataUtils.js
+// Prisoners
 export const filterPrisonersColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
     const newRow = {};
@@ -44,8 +45,39 @@ export const filterStaffColumns = (dataTable, neededColumns) => {
       } else {
         newRow[column['id']] = row[column['id']];
       }
-
+      
       if (newRow[column['id']]==null) newRow[column['id']] = '-';
+    });
+    return newRow;
+  });
+};
+
+// visitors
+export const filterVisitorsColumns = (dataTable, neededColumns) => {
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = row['visID'];
+    neededColumns.forEach((column) => {
+      if (column['id'] === 'name') {
+        // Combine fname and lname to create the "Name" column
+        console.log(row);
+        newRow[column['id']] = `${row['visFname']} ${row['visLname']}`;
+      } else {
+        newRow[column['id']] = row[column['id']];
+      }
+      if (newRow[column['id']]==null) newRow[column['id']] = '-';
+    });
+    return newRow;
+  });
+};
+
+// Visits
+export const filterVisitsColumns = (dataTable, neededColumns) => {
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = [row['pid'], row['date'], row['visID']];
+    neededColumns.forEach((column) => {
+      newRow[column['id']] = row[column['id']];
     });
     return newRow;
   });
@@ -76,6 +108,7 @@ export const filterCellsColumns = (dataTable, neededColumns) => {
       } else {
         newRow[column['id']] = row[column['id']];
       }
+      if (newRow[column['id']]==null) newRow[column['id']] = '-';
     });
     return newRow;
   });

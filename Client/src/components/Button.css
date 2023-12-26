@@ -97,3 +97,7 @@
   color: var(--dark-section);
   box-shadow: 0 0 7px var(--light-green);
 }
+
+.btn-section .btn {
+  scale: 0.85;
+}

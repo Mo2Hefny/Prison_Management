@@ -83,6 +83,23 @@
 }
 
 /*
+  Display Tables in tables
+*/
+
+.page-body-section > .table-grid .display-grid-container {
+  border-color: var(--primary-color);
+  height: 95%;
+}
+
+.page-body-section > .table-grid .display-table-title {
+  color: var(--primary-color);
+}
+
+.page-body-section > .table-grid .table-header {
+  border-color: var(--primary-color);
+}
+
+/*
   Display Tables in forms
 */
 
@@ -90,7 +107,6 @@
   text-align: left;
   color: var(--accent-color);
 }
-
 
 /*
   Add buttons

@@ -13,7 +13,7 @@
 .App {
   width: 100%;
   display: grid;
-  grid-template-columns: 16rem auto;
+  grid-template-columns: clamp(220px, 50%, 14rem) auto;
 }
 
 .page {
@@ -22,7 +22,7 @@
 }
 
 .page-body-section {
-  padding: 3rem;
+  padding: 2%;
   max-height: 75vh;
   overflow: auto;
 }

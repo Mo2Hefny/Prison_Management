@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { StrictMode, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -10,6 +10,7 @@ import Prisoners from './pages/Prisoners'
 import PrisonUnits from './pages/PrisonUnits'
 import Staff from './pages/Staff'
 import Dashboard from './pages/Dashboard'
+import Visitations from './pages/Visitations'
 
 function App() {
   const [viewType, setViewType] = useState('');
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard view={viewType} />} />
                 <Route path="/prison-units" element={<PrisonUnits view={viewType} />} />
                 <Route path="/prisoners" element={<Prisoners view={viewType} />} />
+                <Route path="/visitations" element={<Visitations view={viewType} />} />
                 <Route path="/staff" element={<Staff view={viewType} />} />
                 <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/login" element={<Navigate to="/dashboard" />} />

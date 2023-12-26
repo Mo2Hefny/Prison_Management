@@ -1,13 +1,21 @@
 /* SortingTable.css */
 /* Table */
 .page-body-section > .table {
-  margin: 0 3rem;
+  margin: 0 3%;
   background-color: var(--dark-section);
   border-radius: 10px;
   box-shadow: 0 0 6px #D2D1D350;
-  padding: 2rem 1.5rem;
+  padding: 2% 3%;
   z-index: 0;
 }
+
+.page-body-section > .table-grid {
+  display: grid;
+  grid-template-columns: clamp(500px, 60%, 700px) auto;
+  grid-auto-rows: auto;
+  gap: 2%;
+}
+
 .table.enhanced-table {
   padding-bottom: 0;
 }
@@ -31,6 +39,8 @@ div.MuiToolbar-root.MuiToolbar-gutters.css-1whpjm6-MuiToolbar-root{
   color: var(--dark-primary);
   font-weight: 600;
 }
+
+
 
 /* Table Header Separator */
 th.css-hbtnrh-MuiTableCell-root,

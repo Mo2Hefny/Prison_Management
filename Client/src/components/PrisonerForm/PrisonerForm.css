@@ -1,15 +1,16 @@
 /* PrisonerForm.css */
 
-.prisoner-form {
+.prisoner-form.form {
+  top: 2%;
   width: 95%;
-  height: 85%;
+  max-height: 85%;
 }
 
 .prisoner-form .grid-container {
   display: grid;
   grid-template-rows: repeat(2, 1fr); /* Two rows for sections */
   grid-template-columns: 1fr; /* One column for the first row (prisoner details) */
-  gap: 4rem 1rem;
+  gap: clamp(1rem, 7%, 4rem) 1rem;
 }
 
 /*
@@ -21,10 +22,10 @@
 }
 
 .prisoner-details .form-section-input {
-  padding-left: 3rem;
+  padding-left: min(3rem, 3%);
   justify-content: flex-start;
   grid-auto-rows: 80px;
-  gap: 5% 15%;
+  gap: 2% 10%;
 }
 
 .form-section-input .input-container {
@@ -49,7 +50,7 @@
 }
 
 .offenses-section .form-section-input {
-  gap: 3rem;
+  gap: 1%;
 }
 
 .sentence-date {
