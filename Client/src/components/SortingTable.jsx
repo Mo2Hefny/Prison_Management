@@ -68,7 +68,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function EnhancedTableHead({ dataHeadCells, readOnly, ...props }) {
+function EnhancedTableHead({ dataHeadCells, readOnly, editable, ...props }) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
@@ -100,7 +100,7 @@ function EnhancedTableHead({ dataHeadCells, readOnly, ...props }) {
           />
         </TableCell>
         {headCells.map((headCell) => (
-          (headCell.id !== '' || !readOnly) &&
+          (headCell.id !== '' || (!readOnly && editable)) &&
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -192,7 +192,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit, onAdd, onDelete, readOnly }) {
+export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit, onAdd, onDelete, readOnly, editable }) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -275,7 +275,7 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
           title={title} 
           numSelected={selected.length}
           onAdd={onAdd}
-          readOnly={readOnly} 
+          readOnly={readOnly}
         />
         <TableContainer>
           <Table
@@ -292,6 +292,7 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               readOnly={readOnly}
+              editable={editable}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
@@ -336,7 +337,7 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
                       </TableCell>
                     )))}
                     {/* New TableCell for Edit button */}
-                    {!readOnly && (
+                    {(!readOnly && editable) && (
                     <TableCell align="right">
                       <IconButton
                         aria-label="edit"
@@ -357,7 +358,7 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
                     height: (dense ? 33 : 53) * emptyRows,
                   }}
                 >
-                  <TableCell colSpan={rows.length + 1 + !readOnly} />
+                  <TableCell colSpan={rows.length + 1 + (!readOnly && editable)} />
                 </TableRow>
               )}
             </TableBody>
@@ -379,4 +380,5 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
 
 EnhancedTable.defaultProps = {
   readOnly: false,
+  editable: true,
 };

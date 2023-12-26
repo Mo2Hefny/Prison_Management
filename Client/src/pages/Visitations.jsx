@@ -165,7 +165,7 @@ const Visitations = ({ view }) => {
               onAdd={toggleForm}
               onEdit={getVisitorDetails}
               readOnly={readOnly}
-            />
+              />
           </div>
           <div className="table enhanced-table table-grid">
               <EnhancedTable
@@ -174,6 +174,8 @@ const Visitations = ({ view }) => {
                 title="Visitations"
                 onAdd={toggleForm}
                 onEdit={getVisitorDetails}
+                readOnly={readOnly}
+                editable={false}
               />
               <DisplayTable
                 title="Today visits"
