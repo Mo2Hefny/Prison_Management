@@ -44,6 +44,8 @@ export const filterStaffColumns = (dataTable, neededColumns) => {
       } else {
         newRow[column['id']] = row[column['id']];
       }
+
+      if (newRow[column['id']]==null) newRow[column['id']] = '-';
     });
     return newRow;
   });

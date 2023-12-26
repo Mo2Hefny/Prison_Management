@@ -50,7 +50,7 @@ const prisonCellsHeadCells = [
     label: "Floor",
   },
   {
-    id: "Small",
+    id: "size",
     numeric: true,
     disablePadding: false,
     label: "Size",
@@ -139,7 +139,11 @@ const PrisonUnits = ({ view }) => {
           <div className="table collapsible-table">
             <CollapsibleTable
               dataTable={blockFilteredTable}
+              dataHeadCells={prisonBlockHeadCells}
+              subDataHeadCells={prisonCellsHeadCells}
               title="Prison Blocks"
+              subTableTitle="Cells"
+              readOnly={readOnly}
               onAdd={toggleForm}
             />
           </div>

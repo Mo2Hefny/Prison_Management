@@ -16,6 +16,17 @@
   grid-template-columns: 16rem auto;
 }
 
+.page {
+  max-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.page-body-section {
+  padding: 3rem;
+  max-height: 75vh;
+  overflow: auto;
+}
+
 Sidebar {
   grid-column-start: 1;
 }

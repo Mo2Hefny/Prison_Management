@@ -39,3 +39,7 @@ td.css-1ex1afd-MuiTableCell-root {
   color: var(--light-accent);
   opacity: 0.8;
 }
+
+.MuiCollapse-root .css-1y3yv5w-MuiTableCell-root {
+  border-color: var(--dark-primary);
+}

@@ -318,7 +318,7 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
                         }}
                       />
                     </TableCell>
-                    
+                    {/* Add TableCells */}
                     {dataHeadCells.map((column) => (column['id']===dataHeadCells[0]['id'] ? (
                       <TableCell
                         component="th"
