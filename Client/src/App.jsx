@@ -11,6 +11,7 @@ import PrisonUnits from './pages/PrisonUnits'
 import Staff from './pages/Staff'
 import Dashboard from './pages/Dashboard'
 import Visitations from './pages/Visitations'
+import MedicalRecords from './pages/MedicalRecords'
 
 function App() {
   const [viewType, setViewType] = useState('');
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/prisoners" element={<Prisoners view={viewType} />} />
                 <Route path="/visitations" element={<Visitations view={viewType} />} />
                 <Route path="/staff" element={<Staff view={viewType} />} />
+                <Route path="/medical-records" element={<MedicalRecords view={viewType} />} />
                 <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/login" element={<Navigate to="/dashboard" />} />
               </Routes>

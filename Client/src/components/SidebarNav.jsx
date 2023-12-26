@@ -7,12 +7,12 @@ const SidebarNav = () => {
 
   const location = useLocation();
   const [activePage, setActivePage] = useState('');
-  const pageNames = ["Dashboard", "Prison Units", "Prisoners", "Programs", "Visitations", "Prison Report", "Staff", "Medical Wing"]
+  const pageNames = ["Dashboard", "Prison Units", "Prisoners", "Programs", "Visitations", "Prison Report", "Staff", "Medical Records"]
 
   const sidebarNavStyle = {
     position: "relative",
     width: "100%",
-    "margin-top": "4rem",
+    "margin-top": "13%",
     display: "grid",
     gap: "0.4rem",
   }
