@@ -20,4 +20,6 @@ adminrouter.get("/getprisonersincell",admincontroller.getprisonersincell)
 adminrouter.get("/getnumprisonersincell",admincontroller.getnumberprisonersincell)
 adminrouter.get("/getallvisitation",admincontroller.getallvisitations)
 adminrouter.get("/getdoctorrecords",admincontroller.getdoctorrecords)
+adminrouter.post("/updateprisoner",admincontroller.updateprisoner)
+adminrouter.get("/getoffensesonprisoner",admincontroller.getoffensesbyprisoner)
 export default adminrouter

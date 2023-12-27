@@ -469,6 +469,69 @@ const admincontroller={
                     return res.json({err});
                 }
             },
+            updateprisoner : async(req,res)=>{
+
+                let pid = req.body.pid;
+                const new_data = [
+                    req.body.ssn,
+                    req.body.fname,
+                    req.body.lname,
+                    req.body.gender,
+                    req.body.bdate,
+                    req.body.admissiondate,
+                    req.body.releasedate,
+                    req.body.status,
+                    req.body.blockid,
+                    req.body.cell_id
+                ]
+                const q = ` UPDATE prisoner 
+                            SET 
+                                ssn = ?,
+                                fname = ?,
+                                lname = ?,
+                                gender = ?,
+                                bdate = ?,
+                                admission_date = ?,
+                                release_date = ?,
+                                status = ?,
+                                blockid = ?,
+                                cell_id = ?
+                            WHERE 
+                                pid = ?`;
+
+                try {
+                    db.query(q, [...new_data, pid], (error, data) => {
+                        if (error) {
+                            return res.json({ error });
+                        } else {
+                            return res.json(data);
+                        }
+                    });
+                } catch (err) {
+                    return res.json({ err });
+                }
+            },
+            getoffensesbyprisoner : async(req,res)=>{
+                let pid = req.body.prisonerid;
+                const q=`Select * from offense natural join convicted_of where prisonerid = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,pid,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
 
 }
 
