@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './LoginPanel.css' // Import the CSS file
+import axios from 'axios'
 
-const LoginPanel = () => {
+const LoginPanel = (onClick) => {
 	const [userId, setUserId] = useState('')
 	const [password, setPassword] = useState('')
 	const [userIdError, setUserIdError] = useState('')
@@ -43,6 +44,33 @@ const LoginPanel = () => {
 		// Your authentication logic here
 		console.log('User ID:', userId)
 		console.log('Password:', password)
+		const backendUrl = "localhost:3000/admin/prisoner"; // Replace with your actual backend URL
+
+		// Creating a Promise to handle the asynchronous operation
+		const axiosPromise = new Promise((resolve, reject) => {
+		  axios.post(backendUrl, {
+		    id: userId,
+		    password: password
+		  })
+		  .then(response => {
+		    // Resolve the Promise if the request is successful
+		    resolve(response.data);
+		  })
+		  .catch(error => {
+		    // Reject the Promise if there is an error
+		    reject(error);
+		  });
+		});
+
+		// Using the Promise
+		axiosPromise.then(data => {
+		  // Handle the data returned from the backend
+		  console.log('Backend response:', data);
+		})
+		.catch(error => {
+		  // Handle errors
+		  console.error('Error:', error);
+		});
 	}
 
 	return (

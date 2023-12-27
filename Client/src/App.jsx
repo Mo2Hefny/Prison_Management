@@ -6,6 +6,7 @@ import './App.css'
 import Sidebar from './components/Sidebar'
 import Page from './components/Page'
 import UserTypePanel from './components/UserTypePanel'
+import LoginPanel from './components/LoginPanel'
 import Prisoners from './pages/Prisoners'
 import PrisonUnits from './pages/PrisonUnits'
 import Staff from './pages/Staff'
@@ -18,7 +19,7 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   console.log(viewType);
   const handleUserSelection = (type) => {
-    setViewType(type);
+    setViewType("admin");
     setLoggedIn(true);
   }
   
@@ -47,7 +48,7 @@ function App() {
           </>
         ) : (
           <Routes>
-            <Route path="/login" element={<UserTypePanel onClick={handleUserSelection} />} />
+            <Route path="/login" element={<LoginPanel onClick={handleUserSelection} />} />
             <Route path="/*" element={<Navigate to="/login" />} />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>

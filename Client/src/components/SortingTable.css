@@ -11,7 +11,7 @@
 
 .page-body-section > .table-grid {
   display: grid;
-  grid-template-columns: clamp(500px, 60%, 700px) auto;
+  grid-template-columns: auto 400px;
   grid-auto-rows: auto;
   gap: 2%;
 }

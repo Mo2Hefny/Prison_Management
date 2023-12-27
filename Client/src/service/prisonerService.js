@@ -1,3 +1,4 @@
+import axios from 'axios'
 // prisonerService.js
 
 const JSON_FILE_URL = '../../data/prisoners.json'; // Adjust the path as needed
@@ -5,12 +6,16 @@ const JSON_FILE_URL = '../../data/prisoners.json'; // Adjust the path as needed
 // Function to fetch a list of prisoners
 export const fetchPrisoners = async () => {
   try {
-    const response = await fetch(JSON_FILE_URL);
+    const response = await axios ({
+      method: "get",
+      url: "localhost:3000/admin/prisoner"
+    })
     if (!response.ok) {
       throw new Error('Failed to fetch prisoners');
     }
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error('Error fetching prisoners:', error);

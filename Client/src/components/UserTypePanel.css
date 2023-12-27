@@ -14,7 +14,7 @@
     text-align: center;
   }
   
-  .button {
+  button {
     margin: 8px;
     padding: 10px;
     border: none;
@@ -24,7 +24,7 @@
     color: white;
   }
   
-  .button:hover {
+  button:hover {
     background-color: #45a049;
   }
   
