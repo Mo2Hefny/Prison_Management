@@ -222,7 +222,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"Medica record recieved"}); // ok : recieved data
+                            return res.json(data); // ok : recieved data
                         }
                     })
                 }
@@ -244,7 +244,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"Upcoming visits returned successfully."});
+                            return res.json(data);
                         }
                     })
                 }
@@ -266,7 +266,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"Previous visits returned successfully."});
+                            return res.json(data);
                         }
                     })
                 }
@@ -287,7 +287,29 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"this date's visits returned successfully."});
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getallvisitations : async(req,res)=>{
+                const q=`Select concat(prisoner.fname," " , prisoner.lname) as "Prisoner Name" , prisonerid as "Prisoner id", visitor.visitorid as "Visitor id", visitdate as "Visit date" ,
+                attended, concat(visitor.Fname, " " ,visitor.Lname) as "Visitor Name"
+                from visitations, visitor, prisoner where prisonerid = pid and visitor.visitorid = visitations.visitorid`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
                         }
                     })
                 }
@@ -307,7 +329,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"data returned"});
+                            return res.json(data);
                         }
                     })
                 }
@@ -329,7 +351,6 @@ const admincontroller={
                         else
                         {
                             return res.json(data);
-                            return res.json({message:"data returned"});
                         }
                     })
                 }
@@ -338,7 +359,116 @@ const admincontroller={
                     return res.json({err});
                 }
             },
+            getprisonblocksbyid : async(req,res)=>{
 
+                let blockid = req.body.block_id;
+                const q=`Select * from cell_block where blockid = ? `; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[blockid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
+            getcellbyid : async(req,res)=>{
+
+                let cellid = req.body.cell_id;
+                let blockid = req.body.block_id
+                const q=`Select * from cell where cell_id = ? and block_id = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[cellid,blockid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
+            getcellsforblocks : async(req,res)=>{
+                let blockid = req.body.block_id
+                const q=`Select * from cell where block_id = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[blockid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
+            getprisonersincell : async(req,res)=>{
+
+                let cellid = req.body.cell_id;
+                const q=`Select * from prisoner where cell_id = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[cellid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
+            getnumberprisonersincell : async(req,res)=>{
+
+                let cellid = req.body.cell_id;
+                const q=`Select count(*) as "Count prisoners" from prisoner where cell_id = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[cellid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
+            getdoctorrecords : async(req,res)=>{
+
+                let docid = req.body.doctorid;
+                const q=`Select concat(fname, " ",lname) as "Prisoner Name", pid as "Prisoner id", recordid as "Record id",
+                        updatedate as "Update date" from prisoner natural join
+                            medical_record join doctor on doctor_id = doctorid where doctorid = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[docid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
 
 }
 
