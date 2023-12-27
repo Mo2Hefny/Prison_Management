@@ -44,7 +44,7 @@ const LoginPanel = (onClick) => {
 		// Your authentication logic here
 		console.log('User ID:', userId)
 		console.log('Password:', password)
-		const backendUrl = "localhost:3000/admin/prisoner"; // Replace with your actual backend URL
+		const backendUrl = "http://localhost:3000/admin/prisoner"; // Replace with your actual backend URL
 
 		// Creating a Promise to handle the asynchronous operation
 		const axiosPromise = new Promise((resolve, reject) => {
@@ -61,7 +61,6 @@ const LoginPanel = (onClick) => {
 		    reject(error);
 		  });
 		});
-
 		// Using the Promise
 		axiosPromise.then(data => {
 		  // Handle the data returned from the backend
