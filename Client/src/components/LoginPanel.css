@@ -20,18 +20,18 @@
     color: #999; /* Change text color if needed */
   }
   
-  .form {
+  form {
     display: flex;
     flex-direction: column;
     text-align: center;
   }
   
-  .input {
+  input {
     margin-bottom: 8px;
     padding: 8px;
   }
   
-  .button {
+  button {
     background-color: #ff5722; /* Change button color */
     color: white;
     padding: 10px;

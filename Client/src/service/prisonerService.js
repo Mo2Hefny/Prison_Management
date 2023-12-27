@@ -8,14 +8,10 @@ export const fetchPrisoners = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "localhost:3000/admin/prisoner"
+      url: "http://localhost:3000/admin/prisoner",
     })
-    if (!response.ok) {
-      throw new Error('Failed to fetch prisoners');
-    }
-
-    const data = await response.json();
-    console.log(data);
+    const responseData = response.data;
+    const data = responseData["data"];
     return data;
   } catch (error) {
     console.error('Error fetching prisoners:', error);
@@ -25,24 +21,19 @@ export const fetchPrisoners = async () => {
 
 export const fetchPrisonerById = async (id) => {
   try {
-    const response = await fetch(JSON_FILE_URL);
-    console.log('Response:', response); // Log the response
-    if (!response.ok) {
-      throw new Error('Failed to fetch prisoners');
-    }
-    
-    const data = await response.json();
-
-    // Find the prisoner with the specified ID
-    const prisoner = data.find((prisoner) => prisoner.pid === id);
-
-    if (!prisoner) {
-      throw new Error(`Prisoner with ID ${id} not found`);
-    }
-
-    fixPrisonerDetailsFormat(prisoner);
-    console.log(`Prisoner with ID ${id}: `, prisoner); // Log the response
-    return prisoner;
+    const response = await axios
+    .post("http://localhost:3000/admin/prisonerid", { "prisonerid": id})
+    .then((res) => {
+      // Find the prisoner with the specified ID
+      const prisoner = res.data
+      if (!prisoner) {
+        throw new Error(`Prisoner with ID ${id} not found`);
+      }
+      //fixPrisonerDetailsFormat(prisoner[0]);
+      console.log(`Prisoner with ID ${id}: `, prisoner[0]); // Log the response
+      return prisoner[0];
+    })
+    .catch((err) => console.log(err));
   } catch (error) {
     console.error(`Error fetching prisoner with ID ${id}:`, error);
     throw error;
@@ -51,6 +42,6 @@ export const fetchPrisonerById = async (id) => {
 
 const fixPrisonerDetailsFormat = (details) => {
   details.bdate = new Date(details.bdate);
-  details.admissionDate = new Date(details.admissionDate);
-  details.releaseDate = new Date(details.releaseDate);
+  details.admission_date = new Date(details.admissionDate);
+  details.release_date = new Date(details.releaseDate);
 }

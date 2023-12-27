@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './LoginPanel.css' // Import the CSS file
 import axios from 'axios'
 
-const LoginPanel = (onClick) => {
+const LoginPanel = ({onClick}) => {
 	const [userId, setUserId] = useState('')
 	const [password, setPassword] = useState('')
 	const [userIdError, setUserIdError] = useState('')
@@ -65,12 +65,14 @@ const LoginPanel = (onClick) => {
     const response = await axios({
       method: "get",
       url: "http://localhost:3000/admin",
-      headers: `{
-        Authorization: Bearer ${localStorage.getItem("token")},
-      }`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
 
     });
     console.log(response.data);
+
+		onClick();
 	}
 
 	const handleLoginUser = (res) => {
