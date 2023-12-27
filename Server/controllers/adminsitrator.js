@@ -13,34 +13,34 @@ const admincontroller={
             }
             else
             {
-            if(data && data[0] && data[0]['count(*)'] == 0)
-            {
-                return res.json("admin doesn't exist");
-            }
-            const q2=`select password from staff where staff_id=${idc}`;
-            db.query(q2,(error,data)=>{
-            if(error)
-            {
-                return res.json({error});
-            }
-            else
-            {
-                if(data && data[0] && data[0].password != password)
+                if(data && data[0] && data[0]['count(*)'] == 0)
                 {
-                    return res.json("wrong password!!");
+                    return res.json("admin doesn't exist");
                 }
-            }
-            });
-            const token = jwt.sign(
-                { id: idc},
-                process.env.JWT_SECRET,
+                const q2=`select password from staff where staff_id=${idc}`;
+                db.query(q2,(error,data)=>{
+                if(error)
                 {
-                expiresIn: "1h",
+                    return res.json({error});
                 }
-            );
-            res.status(200).json({ message: "Logged in successfully", token });
+                else
+                {
+                    if(data && data[0] && data[0].password != password)
+                    {
+                        return res.json("wrong password!!");
+                    }
                 }
             });
+                const token = jwt.sign(
+                    { id: idc},
+                    process.env.JWT_SECRET,
+                    {
+                    expiresIn: "1h",
+                    }
+                );
+                return res.json({ message: "Logged in successfully", token });
+            }
+        });
     },
 
     aftertoken:(req, res) => {

@@ -1,4 +1,4 @@
-import { StrictMode, useState } from 'react'
+import React, { StrictMode, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'

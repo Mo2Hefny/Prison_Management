@@ -32,7 +32,7 @@ const LoginPanel = (onClick) => {
 		}
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault()
 
 		// Check if there are any validation errors before proceeding
@@ -44,32 +44,44 @@ const LoginPanel = (onClick) => {
 		// Your authentication logic here
 		console.log('User ID:', userId)
 		console.log('Password:', password)
-		const backendUrl = "http://localhost:3000/admin/prisoner"; // Replace with your actual backend URL
+		const id = parseInt(userId)
+		console.log('User ID:', id)
+		const backendUrl = "http://localhost:3000/admin"; // Replace with your actual backend URL
 
 		// Creating a Promise to handle the asynchronous operation
-		const axiosPromise = new Promise((resolve, reject) => {
-		  axios.post(backendUrl, {
-		    id: userId,
-		    password: password
-		  })
-		  .then(response => {
-		    // Resolve the Promise if the request is successful
-		    resolve(response.data);
-		  })
-		  .catch(error => {
-		    // Reject the Promise if there is an error
-		    reject(error);
-		  });
-		});
-		// Using the Promise
-		axiosPromise.then(data => {
-		  // Handle the data returned from the backend
-		  console.log('Backend response:', data);
-		})
-		.catch(error => {
-		  // Handle errors
-		  console.error('Error:', error);
-		});
+		await login(e, id, password)
+
+	}
+
+	const login = async (event, id, password) => {
+		event.preventDefault();
+		const info = {id: id, password: password};
+    console.log(info);
+    await axios
+      .post("http://localhost:3000/admin", info)
+      .then(handleLoginUser)
+      .catch((err) => console.log(err));
+    //await axios.get("http://localhost:8082/trainee/login").then(console.log("salam")).catch(err => console.log(err));
+    const response = await axios({
+      method: "get",
+      url: "http://localhost:3000/admin",
+      headers: `{
+        Authorization: Bearer ${localStorage.getItem("token")},
+      }`,
+
+    });
+    console.log(response.data);
+	}
+
+	const handleLoginUser = (res) => {
+		console.log(res)
+		console.log(res.data)
+		console.log(res.data.token)
+		const data = res.data.token;
+		console.log(data)
+    localStorage.setItem("token", data);
+    console.log(res.data.token);
+    alert("logged in successfully");
 	}
 
 	return (
