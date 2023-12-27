@@ -1,5 +1,6 @@
 import { getStaffType } from "../service/staffService";
-import { getDayDifference, getMonthDifference } from "./dateUtils";
+import { getDateFromDBFormat, getDayDifference, getMonthDifference, getYearDifference } from "./dateUtils";
+import { fixPrisonerFormat } from "./formatUtils";
 
 // dataUtils.js
 // Prisoners
@@ -7,14 +8,18 @@ export const filterPrisonersColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
     const newRow = {};
     newRow['id'] = row['pid'];
+    fixPrisonerFormat(row);
     neededColumns.forEach((column) => {
       if (column['id'] === 'name') {
         // Combine fname and lname to create the "Name" column
         newRow[column['id']] = `${row['fname']} ${row['lname']}`;
-      } else if (column['id'] === 'sentenceLeft') {
+      } else if (column['id'] === 'age') {
+        // Get age from the birth date and today's date to create the "Age" column
+        newRow[column['id']] = getYearDifference(new Date(row['bdate']), new Date());
+      } else if (column['id'] === 'sentence_left') {
         // Get remaining service to serve from the release date and today's date to create the "Sentence Left" column
-        const monthDifference = getMonthDifference(new Date(), new Date(row['releaseDate']));
-        const dayDifference = getDayDifference(new Date(), new Date(row['releaseDate']));
+        const monthDifference = getMonthDifference(new Date(), new Date(row['release_date']));
+        const dayDifference = getDayDifference(new Date(), new Date(row['release_date']));
         if (monthDifference > 0) {
           newRow[column['id']] = `${monthDifference} month${monthDifference > 1 ? 's' : ''}`;
         } else if (dayDifference > 0) {
@@ -22,6 +27,9 @@ export const filterPrisonersColumns = (dataTable, neededColumns) => {
         } else {
           newRow[column['id']] = `-`;
         }
+        // If prisoner is dead or released
+        if (row['status'] !== 'Detained')
+          newRow[column['id']] = `-`;
       } else {
         newRow[column['id']] = row[column['id']];
       }

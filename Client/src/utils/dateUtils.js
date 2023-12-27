@@ -13,3 +13,13 @@ export const getDayDifference = (startDate, endDate) => {
 
   return diffInDays;
 }
+
+export const getYearDifference = (startDate, endDate) => {
+  const years = endDate.getFullYear() - startDate.getFullYear();
+
+  return years
+}
+
+export const getDateFromDBFormat = (date) => {
+  return date.split('T')[0];
+}
