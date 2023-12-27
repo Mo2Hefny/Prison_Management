@@ -266,7 +266,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"Previous visits returned successfully."});
+                            return res.json(data);
                         }
                     })
                 }
@@ -287,7 +287,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"this date's visits returned successfully."});
+                            return res.json(data);
                         }
                     })
                 }
@@ -329,7 +329,7 @@ const admincontroller={
                         }
                         else
                         {
-                            return res.json({message:"data returned"});
+                            return res.json(data);
                         }
                     })
                 }
@@ -351,7 +351,6 @@ const admincontroller={
                         else
                         {
                             return res.json(data);
-                            return res.json({message:"data returned"});
                         }
                     })
                 }
@@ -398,7 +397,6 @@ const admincontroller={
                 }
             },
             getcellsforblocks : async(req,res)=>{
-
                 let blockid = req.body.block_id
                 const q=`Select * from cell where block_id = ?`; // formulate query
                 try // try-catch for error handling
@@ -451,7 +449,26 @@ const admincontroller={
                     return res.json({err});
                 }
             },
+            getdoctorrecords : async(req,res)=>{
 
+                let docid = req.body.doctorid;
+                const q=`Select concat(fname, " ",lname) as "Prisoner Name", pid as "Prisoner id", recordid as "Record id",
+                        updatedate as "Update date" from prisoner natural join
+                            medical_record join doctor on doctor_id = doctorid where doctorid = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[docid],(error,data)=>{  // set the block id
+                        if(error)
+                            return res.json({error}); // error occured
+                        else
+                            return res.json(data); // return data if a ll good
+                    }) 
+                }
+                catch(err) // catch block
+                {
+                    return res.json({err});
+                }
+            },
 
 }
 

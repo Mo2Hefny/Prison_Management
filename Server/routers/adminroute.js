@@ -19,4 +19,5 @@ adminrouter.get("/getcellsblock",admincontroller.getcellsforblocks)
 adminrouter.get("/getprisonersincell",admincontroller.getprisonersincell)
 adminrouter.get("/getnumprisonersincell",admincontroller.getnumberprisonersincell)
 adminrouter.get("/getallvisitation",admincontroller.getallvisitations)
+adminrouter.get("/getdoctorrecords",admincontroller.getdoctorrecords)
 export default adminrouter
