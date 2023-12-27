@@ -9,6 +9,7 @@ export const fetchPrisoners = async () => {
       method: "get",
       url: "http://localhost:3000/admin/prisoner",
     })
+    console.log('Response:', response); // Log the response
     const responseData = response.data;
     const data = responseData["data"];
     console.log(`Prisoners: `, data);
@@ -42,11 +43,4 @@ export const fetchPrisonerById = async (id) => {
     console.error(`Error fetching prisoner with ID ${id}:`, error);
     throw error;
   }
-
 };
-
-const fixPrisonerDetailsFormat = (details) => {
-  details.bdate = new Date(details.bdate);
-  details.admission_date = new Date(details.admissionDate);
-  details.release_date = new Date(details.releaseDate);
-}

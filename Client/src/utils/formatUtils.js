@@ -11,8 +11,21 @@ export const fixPrisonerFormat = (row) => {
   row['status'] = (row['status'] === 1 ? 'Detained' : 'Released');
 }
 
+// Fix staff dates, gender, and status format
+export const fixStaffFormat = (row) => {
+  row['birthdate'] = getDateFromDBFormat(row['birthdate']);
+  row['hiredate'] = getDateFromDBFormat(row['hiredate']);
+  row['shift'] = (row['shift'] === 1 ? 'Day' : 'Night');
+  row['status'] = (row['status'] === 1 ? 'Available' : 'Unavailable');
+}
+
 // Fix visits date, and attended format
 export const fixVisitFormat = (row) => {
   row['Visit date'] = getDateFromDBFormat(row['Visit date']);
   row['attended'] = (isDateInFuture(row['Visit date']) ? 'Pending' : row['attended'] === 1 ? 'Attended' : 'Absence');
+}
+
+// Fix medical record date
+export const fixMedicalRecordFormat = (row) => {
+  row['updatedate'] = getDateFromDBFormat(row['updatedate']);
 }

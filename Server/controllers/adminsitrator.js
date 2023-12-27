@@ -210,27 +210,53 @@ const admincontroller={
         }
     },
     // Ziad updated here.
+        getallmedicalrecords : async(req,res)=>{
+            const q=`Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner name",
+                         concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
+                         join staff s on staff_id = doctorid`;
+            try // try catch for handling errors
+            {
+                db.query(q, (error,data)=>{ // execute query
+                    if(error)
+                    { 
+                        return res.json({error});
+                    }
+                    else
+                    {
+                        return res.json(data); // ok : recieved data
+                    }
+                })
+            }
+            catch(err)
+            {
+                return res.json({err}); // say what is the error
+            }
+        },
         getmedicalrecord : async(req,res)=>{
-                let record_id = req.body.record_id; // to be read from the front end
-                const q=`Select * from medical_record where recordid= ?`;
-                try // try catch for handling errors
-                {
-                    db.query(q,[record_id],(error,data)=>{ // execute query
-                        if(error)
-                        { 
-                            return res.json({error});
-                        }
-                        else
-                        {
-                            return res.json(data); // ok : recieved data
-                        }
-                    })
-                }
-                catch(err)
-                {
-                    return res.json({err}); // say what is the error
-                }
-            },
+            let record_id = req.body.record_id; // to be read from the front end
+            let prisonerid = req.body.prisoner_id;
+            const q=`Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner Name",
+                        concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
+                            join staff s on staff_id = doctorid 
+                            where recordid= ? and p.pid = ?`;
+            try // try catch for handling errors
+            {
+                db.query(q,[record_id,prisonerid],(error,data)=>{ // execute query
+                    if(error)
+                    { 
+                        return res.json({error});
+                    }
+                    else
+                    {
+                        return res.json(data); // ok : recieved data
+                    }
+                })
+            }
+            catch(err)
+            {
+                return res.json({err}); // say what is the error
+            }
+        },
             getupcomingvisitations : async(req,res)=>{
                 var datetime = new Date(); // get the current date and time
                 let currentdate = datetime.toISOString().slice(0,10); // take the date part only
@@ -469,7 +495,89 @@ const admincontroller={
                     return res.json({err});
                 }
             },
-
+            getRecordtreatments : async(req,res)=>{
+                let recordid = req.body.recordid;
+                const q=`Select t.drugname as "Drug Name", t.doses as "Drug Doses", r.doses as "Admission doses" from record_treatments as r natural join medical_record join treatments t on t.drugname = r.drugname`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[recordid],(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getallstaff : async(req,res)=>{
+                const q=`Select * from staff `; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getstaffbyid : async(req,res)=>{
+                let staffid = req.body.staff_id;
+                const q=`Select concat(fname," ", lname) as "Staff Name", 
+                ssn, birthdate, hiredate,supervisor_id,salary,shift,status,staff_type as "Type" from staff where staff_id = ?`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[staffid],(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getallPrisonerCondition : async(req,res)=>{
+                const q=`Select pid as "Prisoner id" , conditionname as "Condition Name", severity as "Severity" from prisoner_condition`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
 }
 
 export default admincontroller

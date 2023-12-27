@@ -25,6 +25,8 @@
   padding: 2%;
   max-height: 75vh;
   overflow: auto;
+  display: grid;
+  gap: 3%;
 }
 
 Sidebar {

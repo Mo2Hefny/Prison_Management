@@ -1,17 +1,17 @@
 import axios from "axios";
+import { fixStaffFormat } from "../utils/formatUtils";
 // Staff service
-
-const JSON_FILE_URL = '../../data/staff.json'; // Adjust the path as needed
 
 // Function to fetch a list of prisoners
 export const fetchStaff = async () => {
   try {
-    const response = await fetch(JSON_FILE_URL);
-    if (!response.ok) {
-      throw new Error('Failed to fetch staff');
-    }
-
-    const data = await response.json();
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getallstaff",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    console.log(`Staff: `, data);
     return data;
   } catch (error) {
     console.error('Error fetching staff:', error);
@@ -19,36 +19,47 @@ export const fetchStaff = async () => {
   }
 };
 
-export const fetchStaffById = async (id) => {
+export const fetchDoctors = async () => {
   try {
-    const response = await fetch(JSON_FILE_URL);
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getallstaff",
+    })
     console.log('Response:', response); // Log the response
-    if (!response.ok) {
-      throw new Error('Failed to fetch prisoners');
-    }
-    
-    const data = await response.json();
-
-    // Find the prisoner with the specified ID
-    const employee = data.find((employee) => employee.staff_id === id);
-
-    if (!employee) {
-      throw new Error(`Employee with ID ${id} not found`);
-    }
-
-    fixStaffDetailsFormat(employee);
-    console.log(`Employee with ID ${id}: `, employee); // Log the response
-    return employee;
+    const data = response.data;
+    const doctors = data.filter((staff) => getStaffType(staff) === 'Doctor')
+    console.log(`Doctors: `, doctors);
+    return doctors;
   } catch (error) {
-    console.error(`Error fetching employee with ID ${id}:`, error);
+    console.error('Error fetching doctors:', error);
     throw error;
   }
 };
 
-const fixStaffDetailsFormat = (details) => {
-  details.bdate = new Date(details.bdate);
-  details.hireDate = new Date(details.hireDate);
-}
+export const fetchStaffById = async (id) => {
+  try {
+    const response = await axios
+    .post("http://localhost:3000/admin/getstaffbyid", { "staff_id": id})
+    .then((res) => {
+      // Find the prisoner with the specified ID
+      const data = res.data
+      if (!data) {
+        throw new Error(`Staff with ID ${id} not found`);
+      }
+
+      const staff = data[0];
+      fixStaffFormat(staff);
+      //fixPrisonerDetailsFormat(prisoner[0]);
+      console.log(`Staff with ID ${id}: `, prisoner); // Log the response
+      return prisoner;
+    })
+    .catch((err) => console.log(err));
+    return response;
+  } catch (error) {
+    console.error(`Error fetching staff with ID ${id}:`, error);
+    throw error;
+  }
+};
 
 export const getStaffType = (staff) => {
   if (staff.hasOwnProperty("specialty")) {

@@ -3,36 +3,38 @@ import { useState, useEffect } from "react";
 import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import EnhancedTable from "../components/SortingTable";
-import { filterVisitorsColumns, filterVisitsColumns } from "../utils/dataUtils";
-import { fetchVisitations, fetchVisitationsByDate, fetchVisitorById, fetchVisitors } from "../service/visitationService";
+import { filterMedicalRecordsColumns, filterStaffColumns } from "../utils/dataUtils";
+import { fetchMedicalRecords, fetchMedicalRecordById } from "../service/medicalRecordService";
 import DisplayTable from "../components/DisplayTable";
+import CollapsibleTable from "../components/CollapsibleTable";
+import { fetchDoctors, fetchStaff } from "../service/staffService";
 
-const visitorsHeadCells = [
+const recordsHeadCells = [
   {
-    id: 'name',
+    id: 'Prisoner name',
     numeric: false,
     disablePadding: false,
     color: "var(--primary-color)",
-    label: 'Full Name',
+    label: 'Patient',
   },
   {
-    id: 'ssn',
+    id: 'Staff name',
     numeric: false,
     disablePadding: false,
-    label: 'SSN',
+    label: 'Assigned Doctor',
   },
   {
-    id: 'address',
+    id: 'updatedate',
     numeric: true,
     disablePadding: false,
-    label: 'Address',
+    label: 'Last Updated',
   },
   
 ];
 
-const visitationsHeadCells = [
+const doctorsHeadCells = [
   {
-    id: 'prisoner',
+    id: 'staff_id',
     numeric: false,
     disablePadding: true,
     label: 'Prisoner',
@@ -56,18 +58,16 @@ const MedicalRecords = ({ view }) => {
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
-  // visitors variables
-  const [visitorDetails, setVisitorDetails] = useState([]);
-  const [visitorsFilteredTable, setVisitorsFilteredTable] = useState([{}]);
-  // visitations variables
-  const [visitationDetails, setVisitationDetails] = useState([]);
-  const [visitsFilteredTable, setVisitsFilteredTable] = useState([{}]);
-  const [tdyVisitsFilteredTable, setTdyVisitsFilteredTable] = useState([{}]);
-  const readOnly = ["visitor", "doctor"].includes(view);
+  // Record variables
+  const [recordDetails, setRecordDetails] = useState([]);
+  const [recordFilteredTable, setRecordsFilteredTable] = useState([{}]);
+  // Doctors variables
+  const [doctorsFilteredTable, setDoctorsFilteredTable] = useState([{}]);
+  const readOnly = ["visitor", "staff"].includes(view);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
-    setVisitorDetails({
+    setRecordDetails({
       pid: null,
       fname: "",
       lname: "",
@@ -92,56 +92,53 @@ const MedicalRecords = ({ view }) => {
     setIsFormOpen(!isFormOpen);
   };
 
-  const getVisitorDetails = async (id) => {
+  const getRecordDetails = async (id) => {
     try {
-      const newDetails = await fetchVisitorById(id);
+      const newDetails = await fetchMedicalRecordById(id);
       console.log("Fetched prisoner:", newDetails);
-      setVisitorDetails({ ...newDetails });
+      setRecordDetails({ ...newDetails });
       editForm();
     } catch (error) {
       console.error("Error:", error.message);
     }
   };
 
-  // Retrieve all visitors details on any change or submission
+  // Retrieve all medical records and the treatments administered to each patient
   useEffect(() => {
-    async function fetchVisitorsData() {
+    async function fetchMedicalRecordData() {
       try {
-        const visitorsDataTable = await fetchVisitors();
-        const filteredTable = filterVisitorsColumns(visitorsDataTable, visitorsHeadCells);
-        console.log("Fetched prisoners:", filteredTable);
-        setVisitorsFilteredTable([ ...filteredTable ]);
+        const recordsDataTable = await fetchMedicalRecords();
+        // Retrieve all treatments details belonging to each patient.
+        const tableWithTreatments = await Promise.all(
+          recordsDataTable.map(async (record) => {
+            const treatments = await fetchMedicalRecords();
+            return { ...record, treatments };
+          })
+        );
+        const filteredTable = filterMedicalRecordsColumns(tableWithTreatments, recordsHeadCells, recordsHeadCells);
+        console.log("Fetched medical records:", filteredTable);
+        setRecordsFilteredTable([ ...filteredTable ]);
       } catch (error) {
         console.error("Error:", error.message);
       }
     }
-    fetchVisitorsData();
+    fetchMedicalRecordData();
   }, [isFormEdit, isFormOpen]);
 
   // Retrieve all visitations details on any change or submission
   useEffect(() => {
-    async function fetchVisitationsData() {
+    async function fetchDoctorsDetails() {
       try {
-        const visitationsDataTable = await fetchVisitations();
-        const filteredTable = filterVisitsColumns(visitationsDataTable, visitationsHeadCells);
-        console.log("Fetched visitations:", filteredTable);
-        setVisitsFilteredTable([ ...filteredTable ]);
+        const doctorsDataTable = await fetchStaff();
+        console.log(doctorsDataTable);
+        const filteredTable = filterStaffColumns(doctorsDataTable, doctorsHeadCells);
+        console.log("Fetched doctors:", filteredTable);
+        setDoctorsFilteredTable([ ...filteredTable ]);
       } catch (error) {
         console.error("Error:", error.message);
       }
     }
-    fetchVisitationsData();
-    async function fetchTdyVisitationsData() {
-      try {
-        const visitationsDataTable = await fetchVisitationsByDate(new Date());
-        const filteredTable = filterVisitsColumns(visitationsDataTable, visitationsHeadCells);
-        console.log("Fetched visitations:", filteredTable);
-        setTdyVisitsFilteredTable([ ...filteredTable ]);
-      } catch (error) {
-        console.error("Error:", error.message);
-      }
-    }
-    fetchTdyVisitationsData();
+    fetchDoctorsDetails();
   }, [isFormEdit, isFormOpen]);
 
   return (
@@ -154,32 +151,45 @@ const MedicalRecords = ({ view }) => {
           onClose={onClose}
         ></PrisonerForm>
       )}
-      <h1 className="page-title">Visitation Management Dashboard</h1>
+      <h1 className="page-title">Medical Wing Dashboard</h1>
       <div className="page-body">
         <div className="page-body-section">
-          <div className="table enhanced-table">
-            <EnhancedTable
-              dataTable={visitorsFilteredTable}
-              dataHeadCells={visitorsHeadCells}
-              title="Visitors"
+          <div className="table collapsible-table">
+            <CollapsibleTable
+              dataTable={recordFilteredTable}
+              dataHeadCells={recordsHeadCells}
+              subDataHeadCells={recordsHeadCells}
+              title="Medical Records"
+              subTableTitle="Patient Treatments"
               onAdd={toggleForm}
-              onEdit={getVisitorDetails}
+              onEdit={getRecordDetails}
               readOnly={readOnly}
+              />
+          </div>
+          <div className="table enhanced-table">
+              <EnhancedTable
+                dataTable={recordFilteredTable}
+                dataHeadCells={recordsHeadCells}
+                title="Doctors Records"
+                onAdd={toggleForm}
+                onEdit={getRecordDetails}
+                readOnly={readOnly}
+                editable={false}
               />
           </div>
           <div className="table enhanced-table table-grid">
               <EnhancedTable
-                dataTable={visitsFilteredTable}
-                dataHeadCells={visitationsHeadCells}
-                title="Visitations"
+                dataTable={doctorsFilteredTable}
+                dataHeadCells={doctorsHeadCells}
+                title="Treatments Management"
                 onAdd={toggleForm}
-                onEdit={getVisitorDetails}
+                onEdit={getRecordDetails}
                 readOnly={readOnly}
                 editable={false}
               />
               <DisplayTable
-                title="Today visits"
-                dataTable={tdyVisitsFilteredTable}
+                title="Prisoners Conditions"
+                dataTable={recordFilteredTable}
                 selectedColumns={["prisoner", "visitor"]}
                 onClick={toggleForm}
                 UIMode={"add"}

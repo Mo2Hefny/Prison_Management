@@ -58,8 +58,7 @@ export const fetchVisitations = async () => {
       method: "get",
       url: "http://localhost:3000/admin/getallvisitation",
     })
-    // Log response
-    console.log('Response: ', response);
+    console.log('Response:', response); // Log the response
     const data = response.data;
     console.log(`Visitations: `, data);
     return data;
@@ -75,8 +74,7 @@ export const fetchVisitationsByDate = async (date) => {
       method: "get",
       url: "http://localhost:3000/admin/getallvisitation",
     })
-    // Log response
-    console.log('Response: ', response);
+    console.log('Response:', response); // Log the response
     const data = response.data;
     
     // Find the visits in a specified date
