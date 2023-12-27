@@ -2,8 +2,6 @@ import axios from 'axios'
 import { fixPrisonerFormat } from '../utils/formatUtils';
 // prisonerService.js
 
-const JSON_FILE_URL = '../../data/prisoners.json'; // Adjust the path as needed
-
 // Function to fetch a list of prisoners
 export const fetchPrisoners = async () => {
   try {

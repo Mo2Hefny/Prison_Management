@@ -32,22 +32,28 @@ const visitorsHeadCells = [
 
 const visitationsHeadCells = [
   {
-    id: 'prisoner',
+    id: 'Prisoner Name',
     numeric: false,
     disablePadding: true,
     label: 'Prisoner',
   },
   {
-    id: 'visitor',
+    id: 'Visitor Name',
     numeric: false,
     disablePadding: false,
     label: 'Visitor',
   },
   {
-    id: 'date',
+    id: 'Visit date',
     numeric: false,
     disablePadding: false,
     label: 'Date',
+  },
+  {
+    id: 'attended',
+    numeric: false,
+    disablePadding: false,
+    label: 'Attended',
   },
   
 ];
@@ -180,7 +186,7 @@ const Visitations = ({ view }) => {
               <DisplayTable
                 title="Today visits"
                 dataTable={tdyVisitsFilteredTable}
-                selectedColumns={["prisoner", "visitor"]}
+                selectedColumns={["Prisoner Name", "Visitor Name"]}
                 onClick={toggleForm}
                 UIMode={"add"}
               />

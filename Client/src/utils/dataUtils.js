@@ -1,6 +1,6 @@
 import { getStaffType } from "../service/staffService";
 import { getDateFromDBFormat, getDayDifference, getMonthDifference, getYearDifference } from "./dateUtils";
-import { fixPrisonerFormat } from "./formatUtils";
+import { fixPrisonerFormat, fixVisitFormat } from "./formatUtils";
 
 // dataUtils.js
 // Prisoners
@@ -82,8 +82,9 @@ export const filterVisitorsColumns = (dataTable, neededColumns) => {
 // Visits
 export const filterVisitsColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
+    fixVisitFormat(row);
     const newRow = {};
-    newRow['id'] = [row['pid'], row['date'], row['visID']];
+    newRow['id'] = [row['Prisoner id'], row['Visit date'], row['Visitor id']];
     neededColumns.forEach((column) => {
       newRow[column['id']] = row[column['id']];
     });

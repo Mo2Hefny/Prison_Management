@@ -1,3 +1,5 @@
+import axios from "axios";
+import { isDateToday } from "../utils/dateUtils";
 // visitationService.js
 
 const JSON_FILE_URL_VISITS = '../../data/visitations.json'; // Adjust the path as needed
@@ -52,12 +54,14 @@ const fixVisitorsDetailsFormat = (details) => {
 // Function to fetch a list of visits log
 export const fetchVisitations = async () => {
   try {
-    const response = await fetch(JSON_FILE_URL_VISITS);
-    if (!response.ok) {
-      throw new Error('Failed to fetch visits log');
-    }
-
-    const data = await response.json();
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getallvisitation",
+    })
+    // Log response
+    console.log('Response: ', response);
+    const data = response.data;
+    console.log(`Visitations: `, data);
     return data;
   } catch (error) {
     console.error('Error fetching visits log:', error);
@@ -67,15 +71,18 @@ export const fetchVisitations = async () => {
 
 export const fetchVisitationsByDate = async (date) => {
   try {
-    date = date.toISOString().split('T')[0];
-    const response = await fetch(JSON_FILE_URL_VISITS);
-    if (!response.ok) {
-      throw new Error('Failed to fetch visits log');
-    }
-
-    const data = await response.json();
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getallvisitation",
+    })
+    // Log response
+    console.log('Response: ', response);
+    const data = response.data;
+    
     // Find the visits in a specified date
-    const visits = data.filter((visit) => visit.date === date)
+    const visits = data.filter((visit) => isDateToday(visit['Visit date']))
+    console.log(new Date())
+    console.log(`Today Visitations: `, visits);
 
     if (visits.length === 0) {
       throw new Error(`Visits with date ${date} not found`);
