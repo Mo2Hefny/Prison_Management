@@ -56,7 +56,7 @@ export const filterStaffColumns = (dataTable, neededColumns) => {
           newRow[column['id']] = supervisor['ssn']
           newRow['supervisorID'] = supervisor['supervisor_id']
         }
-      } else if (column['id'] === 'staffType') {
+      } else if (column['id'] === 'staff_type') {
         // Get remaining service to serve from the release date and today's date to create the "Sentence Left" column
         newRow[column['id']] = getStaffType(row);
       } else {

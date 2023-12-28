@@ -4,7 +4,7 @@ const managercontroller={
     login:async(req,res)=>{
         let password=req.body.password;
         let idc=req.body.id;
-        const q=`select count(*) from staff where staff_id=${idc}`;
+        const q=`select count(*) from staff where staff_id=${idc} and staff_type = 1`;
         db.query(q,(error,data)=>{
             if(error)
             {
@@ -12,39 +12,39 @@ const managercontroller={
             }
             else
             {
-                if(!data[0])
-                {
-                    return res.json("admin doesn't exist");
-                }
+            if(data && data[0] && data[0]['count(*)'] == 0)
+            {
+                return res.json("manager doesn't exist");
             }
-        });
-        const q2=`select password from staff where staff_id=${idc}`;
-        db.query(q2,(error,data)=>{
+            const q2=`select password from staff where staff_id=${idc}`;
+            db.query(q2,(error,data2)=>{
             if(error)
             {
                 return res.json({error});
             }
             else
             {
-                if(data[0].password != password)
+                if(data2 && data2[0] && data2[0].password != password)
                 {
                     return res.json("wrong password!!");
                 }
+                const token = jwt.sign(
+                    { id: idc},
+                    process.env.JWT_SECRET,
+                    {
+                    expiresIn: "1h",
+                    }
+                );
+                res.status(200).json({ message: "Logged in successfully", token });
             }
-        });
-        const token = jwt.sign(
-            { id: idc},
-            process.env.JWT_SECRET,
-            {
-              expiresIn: "1h",
-            }
-          );
-          res.status(200).json({ message: "Logged in successfully", token });
-          
+            });
+                }
+            });
     },
+
     aftertoken:(req, res) => {
     try {
-        res.status(200).json({ admin: req.admin });
+        res.status(200).json({ manager: req.manager });
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "An error occurred while fetching your data." });

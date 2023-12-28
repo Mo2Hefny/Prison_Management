@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Staff.css";
 import EnhancedTable from "../components/SortingTable";
 import { fetchStaffById, fetchStaff } from "../service/staffService";
 import { filterStaffColumns } from "../utils/dataUtils";
+import StaffForm from "../components/StaffForm/StaffForm";
 
 const staffHeadCells = [
   {
@@ -44,7 +44,7 @@ const staffHeadCells = [
     label: 'Shift',
   },
   {
-    id: 'staffType',
+    id: 'staff_type',
     numeric: true,
     disablePadding: false,
     label: 'Position',
@@ -69,7 +69,7 @@ const staffDetailsTemplate = {
   salary: null,
   shift: "Day",
   status: "Active",
-  staffType: "Staff",
+  staff_type: "general",
   speciality: "",
   experienceYrs: null,
   type: "Patrol Gaurd",
@@ -129,11 +129,11 @@ const Staff = ({ view }) => {
     <div className="page staff-page">
       {/* Render the form when it is opened */}
       {isFormOpen && (
-        <PrisonerForm
+        <StaffForm
           details={staffDetails}
           isOpen={isFormOpen}
           onClose={onClose}
-        ></PrisonerForm>
+        ></StaffForm>
       )}
       <h1 className="page-title">Staff Management Dashboard</h1>
       <div className="page-body">

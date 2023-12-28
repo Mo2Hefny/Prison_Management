@@ -63,6 +63,7 @@ export const fetchStaffById = async (id) => {
   }
 };
 
+
 export const getStaffType = (staff) => {
   if (staff.hasOwnProperty("specialty")) {
     // Doctor
@@ -73,5 +74,52 @@ export const getStaffType = (staff) => {
   } else {
     // General Staff
     return "Staff";
+  }
+};
+
+export const getsupervisors = async () => {
+  try {
+    const response = await axios
+    .get("http://localhost:3000/admin/getsupervisors")
+    .then((res) => {
+      // Find the prisoner with the specified ID
+      const data = res.data;
+      if (!data) {
+        throw new Error(`No avaialable staff`);
+      }
+      //fixPrisonerDetailsFormat(prisoner[0]);
+      console.log(`Staff back`); // Log the response
+      return data;
+    })
+    .catch((err) => console.log(err));
+    return response;
+  } catch (error) {
+    console.error(`Error getting supervisor`, error);
+    throw error;
+  }
+}
+ // Function to insert staff
+export const insertStaff = async (staffdetails) => {
+  try {
+    console.log(staffdetails);
+    console.log(localStorage.getItem('token'));
+    const response = await axios
+    .post("http://localhost:3000/admin/staff", staffdetails, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return true;
+    })
+    .catch((err) => { 
+      console.log(err);
+      return false
+    });
+    return response;
+  } catch (error) {
+    console.error(`Error inserting staff with Details: ${staffdetails}:`, error);
+    throw error;
   }
 }
