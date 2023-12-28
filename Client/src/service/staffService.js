@@ -23,13 +23,15 @@ export const fetchDoctors = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallstaff",
+      url: "http://localhost:3000/admin/doctors",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
-    const doctors = data.filter((staff) => getStaffType(staff) === 'Doctor')
-    console.log(`Doctors: `, doctors);
-    return doctors;
+    console.log(`Doctors: `, data);
+    return data;
   } catch (error) {
     console.error('Error fetching doctors:', error);
     throw error;

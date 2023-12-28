@@ -19,7 +19,7 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   console.log(viewType);
   const handleUserSelection = (type) => {
-    setViewType("admin");
+    setViewType(type);
     setLoggedIn(true);
   }
   

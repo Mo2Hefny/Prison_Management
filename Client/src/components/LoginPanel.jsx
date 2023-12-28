@@ -71,7 +71,16 @@ const LoginPanel = ({onClick}) => {
     });
     console.log(response.data);
 
-		onClick();
+		const type = response.data.admin.staff_type;
+
+		switch (type) {
+			case 0: return onClick('admin')
+			case 1: return onClick('manager')
+			case 2: return onClick('gaurd')
+			case 3: return onClick('staff')
+			case 4: return onClick('doctor')
+			default: return onClick('visitor')
+		}
 	}
 
 	const handleLoginUser = (res) => {

@@ -69,6 +69,39 @@ export const filterStaffColumns = (dataTable, neededColumns) => {
   });
 };
 
+// Doctor
+export const filterDoctorColumns = (dataTable, neededColumns, neededCollapsingTableColumns = undefined) => {
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = row['doctor_id'];
+    fixStaffFormat(row);
+    neededColumns.forEach((column) => {
+      if (column['id'] === 'name') {
+        // Combine fname and lname to create the "Name" column
+        newRow[column['id']] = `${row['fname']} ${row['lname']}`;
+      } else if (column['id'] === 'num_records') {
+        newRow['num_records'] = row['records'].length
+      } else if (column['id'] === 'supervisorSSN') {
+        newRow[column['id']] = '-'
+        newRow['supervisorID'] = null
+        const supervisor = dataTable.find((staff) => staff.staff_id === row['supervisor_id'])
+        if (supervisor) {
+          newRow[column['id']] = supervisor['ssn']
+          newRow['supervisorID'] = supervisor['supervisor_id']
+        }
+      } else {
+        newRow[column['id']] = row[column['id']];
+      }
+      if (newRow[column['id']]==null) newRow[column['id']] = '-';
+    });
+    if (typeof neededCollapsingTableColumns !== "undefined") {
+      newRow['subTable'] = filterMedicalRecordsColumns(row['records'], neededCollapsingTableColumns);
+      console.log(newRow)
+    }
+    return newRow;
+  });
+};
+
 // visitors
 export const filterVisitorsColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
@@ -102,14 +135,16 @@ export const filterVisitsColumns = (dataTable, neededColumns) => {
 };
 
 // Prison Units
-export const filterBlockColumns = (dataTable, neededColumns, neededCollapsingTableColumns) => {
+export const filterBlockColumns = (dataTable, neededColumns, neededCollapsingTableColumns = undefined) => {
   return dataTable.map((row) => {
     const newRow = {};
     newRow['id'] = row['block_id'];
     neededColumns.forEach((column) => {
       newRow[column['id']] = row[column['id']];
     });
+    if (typeof neededCollapsingTableColumns !== "undefined") {
     newRow['subTable'] = filterCellsColumns(row['cells'], neededCollapsingTableColumns);
+    }
     return newRow;
   });
 };
@@ -133,18 +168,24 @@ export const filterCellsColumns = (dataTable, neededColumns) => {
 };
 
 // Medical Records
-export const filterMedicalRecordsColumns = (dataTable, neededColumns, neededCollapsingTableColumns) => {
+export const filterMedicalRecordsColumns = (dataTable, neededColumns, neededCollapsingTableColumns = undefined) => {
   return dataTable.map((row) => {
     const newRow = {};
     newRow['id'] = [row['Prisoner id'], row['Record id']];
     fixMedicalRecordFormat(row);
     neededColumns.forEach((column) => {
-      newRow[column['id']] = row[column['id']];
+      if (column['id'] === 'record_no') {
+        newRow[column['id']] = `Record ${row['Record id']}`;
+      } else {
+        newRow[column['id']] = row[column['id']];
+      }
       if (newRow[column['id']]==null) 
         newRow[column['id']] = '-';
     });
-    newRow['subTable'] = filterTreatmentsColumns(row['treatments'], neededCollapsingTableColumns);
-    console.log(newRow)
+    if (typeof neededCollapsingTableColumns !== "undefined") {
+      newRow['subTable'] = filterTreatmentsColumns(row['treatments'], neededCollapsingTableColumns);
+      console.log(newRow)
+    }
     return newRow;
   });
 };

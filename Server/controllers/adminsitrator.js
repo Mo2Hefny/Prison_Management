@@ -478,8 +478,8 @@ const admincontroller={
             getdoctorrecords : async(req,res)=>{
 
                 let docid = req.body.doctorid;
-                const q=`Select concat(fname, " ",lname) as "Prisoner Name", pid as "Prisoner id", recordid as "Record id",
-                        updatedate as "Update date" from prisoner natural join
+                const q=`Select concat(fname, " ",lname) as "Prisoner name", pid as "Prisoner id", recordid as "Record id",
+                        updatedate from prisoner natural join
                             medical_record join doctor on doctor_id = doctorid where doctorid = ?`; // formulate query
                 try // try-catch for error handling
                 {

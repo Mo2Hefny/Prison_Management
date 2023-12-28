@@ -19,6 +19,27 @@ export const fetchMedicalRecords = async () => {
   }
 };
 
+export const fetchMedicalRecordByDoctorId = async (id) => {
+  try {
+    console.log(id)
+    const response = await axios
+    .post("http://localhost:3000/admin/getdoctorrecords", { "doctorid": id })
+    .then((res) => {
+      // Find the prisoner with the specified ID
+      const data = res.data
+      if (!data) {
+        throw new Error(`Medical records for doctor ${id} not found`);
+      }
+      return data;
+    })
+    .catch((err) => console.log(err));
+    return response;
+  } catch (error) {
+    console.error(`Error fetching prisoner with ID ${id}:`, error);
+    throw error;
+  }
+}
+
 export const fetchMedicalRecordById = async (id) => {
   try {
     const response = await axios

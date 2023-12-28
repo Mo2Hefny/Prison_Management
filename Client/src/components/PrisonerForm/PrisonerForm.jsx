@@ -9,7 +9,7 @@ import OffenseForm from "../OffenseForm/OffenseForm";
 import { insertPrisoner } from "../../service/prisonerService";
 import { queryPrisonerFormat } from "../../utils/formatUtils";
 
-const PrisonerForm = ({ details, isOpen, isEdit, onClose, onSubmit }) => {
+const PrisonerForm = ({ details, isOpen, isEdit, onClose }) => {
   const formRef = useRef(null);
   // State variable to manage the form's input values.
   const [prisonerDetails, setPrisonerDetails] = useState(details);
@@ -29,6 +29,18 @@ const PrisonerForm = ({ details, isOpen, isEdit, onClose, onSubmit }) => {
   //Insert new prisoner
   const insertNewPrisoner = () => {
     console.log(prisonerDetails);
+    // Add validation calls
+    const info = {...prisonerDetails};
+    queryPrisonerFormat(info);
+    const success = insertPrisoner(info);
+    if (success) onClose();
+  }
+
+  
+  //Insert new prisoner
+  const editNewPrisoner = () => {
+    console.log(prisonerDetails);
+    // Add validation calls
     const info = {...prisonerDetails};
     queryPrisonerFormat(info);
     const success = insertPrisoner(info);
@@ -55,7 +67,7 @@ const PrisonerForm = ({ details, isOpen, isEdit, onClose, onSubmit }) => {
         />
       </div>
       <div className="btn-section">
-        <Button onClick={isEdit ? insertNewPrisoner : insertNewPrisoner} classNames='btn btn-4' text={isEdit ? 'Edit Prisoner' : 'Add Prisoner'} />
+        <Button onClick={isEdit ? editNewPrisoner : insertNewPrisoner} classNames='btn btn-4' text={isEdit ? 'Edit Prisoner' : 'Add Prisoner'} />
         <Button onClick={onClose} classNames='btn btn-3' text='Cancel' />
       </div>
       {isOffenseFormOpen && (<OffenseForm isOpen={isOffenseFormOpen} onClose={toggleOffenseForm} />)}

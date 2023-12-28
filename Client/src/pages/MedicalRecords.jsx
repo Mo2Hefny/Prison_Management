@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import EnhancedTable from "../components/SortingTable";
-import { filterMedicalRecordsColumns, filterStaffColumns } from "../utils/dataUtils";
-import { fetchMedicalRecords, fetchMedicalRecordById, fetchTreatmentsByRecordId } from "../service/medicalRecordService";
+import { filterDoctorColumns, filterMedicalRecordsColumns, filterStaffColumns } from "../utils/dataUtils";
+import { fetchMedicalRecords, fetchMedicalRecordById, fetchTreatmentsByRecordId, fetchMedicalRecordByDoctorId } from "../service/medicalRecordService";
 import DisplayTable from "../components/DisplayTable";
 import CollapsibleTable from "../components/CollapsibleTable";
 import { fetchDoctors, fetchStaff } from "../service/staffService";
+import { fixMedicalRecordFormat } from "../utils/formatUtils";
 
 const recordsHeadCells = [
   {
@@ -31,6 +32,30 @@ const recordsHeadCells = [
   },
   
 ];
+
+const subRecordsHeadCells = [
+  {
+    id: 'Prisoner name',
+    numeric: false,
+    disablePadding: false,
+    color: "var(--primary-color)",
+    label: 'Patient',
+  },
+  {
+    id: 'record_no',
+    numeric: false,
+    disablePadding: false,
+    label: 'Record Number',
+  },
+  {
+    id: 'updatedate',
+    numeric: true,
+    disablePadding: false,
+    label: 'Last Updated',
+  },
+  
+];
+
 const treatmentsHeadCells = [
   {
     id: 'Drug Name',
@@ -56,22 +81,28 @@ const treatmentsHeadCells = [
 
 const doctorsHeadCells = [
   {
-    id: 'staff_id',
+    id: 'name',
     numeric: false,
     disablePadding: true,
-    label: 'Prisoner',
+    label: 'Doctor\'s Name',
   },
   {
-    id: 'visitor',
+    id: 'ssn',
     numeric: false,
     disablePadding: false,
-    label: 'Visitor',
+    label: 'SSN',
   },
   {
-    id: 'date',
+    id: 'speciality',
     numeric: false,
     disablePadding: false,
-    label: 'Date',
+    label: 'Specialty',
+  },
+  {
+    id: 'num_records',
+    numeric: false,
+    disablePadding: false,
+    label: 'Load',
   },
   
 ];
@@ -153,9 +184,17 @@ const MedicalRecords = ({ view }) => {
   useEffect(() => {
     async function fetchDoctorsDetails() {
       try {
-        const doctorsDataTable = await fetchStaff();
-        console.log(doctorsDataTable);
-        const filteredTable = filterStaffColumns(doctorsDataTable, doctorsHeadCells);
+        const doctorsDataTable = await fetchDoctors();
+        const tableWithRecords = await Promise.all(
+          doctorsDataTable.map(async (doctor) => {
+            console.log(doctor);
+            const records = await fetchMedicalRecordByDoctorId(doctor.doctor_id);
+            console.log(records);
+            return { ...doctor, records };
+          })
+        );
+        console.log(tableWithRecords);
+        const filteredTable = filterDoctorColumns(tableWithRecords, doctorsHeadCells, subRecordsHeadCells);
         console.log("Fetched doctors:", filteredTable);
         setDoctorsFilteredTable([ ...filteredTable ]);
       } catch (error) {
@@ -191,10 +230,12 @@ const MedicalRecords = ({ view }) => {
               />
           </div>
           <div className="table enhanced-table">
-              <EnhancedTable
-                dataTable={recordFilteredTable}
-                dataHeadCells={recordsHeadCells}
+              <CollapsibleTable
+                dataTable={doctorsFilteredTable}
+                dataHeadCells={doctorsHeadCells}
+                subDataHeadCells={subRecordsHeadCells}
                 title="Doctors Records"
+                subTableTitle="In Charge Of"
                 onAdd={toggleForm}
                 onEdit={getRecordDetails}
                 readOnly={readOnly}
