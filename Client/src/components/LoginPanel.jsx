@@ -46,7 +46,6 @@ const LoginPanel = ({onClick}) => {
 		console.log('Password:', password)
 		const id = parseInt(userId)
 		console.log('User ID:', id)
-		const backendUrl = "http://localhost:3000/admin"; // Replace with your actual backend URL
 
 		// Creating a Promise to handle the asynchronous operation
 		await login(e, id, password)
@@ -76,14 +75,9 @@ const LoginPanel = ({onClick}) => {
 	}
 
 	const handleLoginUser = (res) => {
-		console.log(res)
-		console.log(res.data)
-		console.log(res.data.token)
 		const data = res.data.token;
-		console.log(data)
+    console.log(data);
     localStorage.setItem("token", data);
-    console.log(res.data.token);
-    alert("logged in successfully");
 	}
 
 	return (

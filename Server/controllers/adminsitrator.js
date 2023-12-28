@@ -210,6 +210,28 @@ const admincontroller={
         }
     },
     // Ziad updated here.
+        getallmedicalrecords : async(req,res)=>{
+            const q=`Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner name",
+                         concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
+                         join staff s on staff_id = doctorid`;
+            try // try catch for handling errors
+            {
+                db.query(q, (error,data)=>{ // execute query
+                    if(error)
+                    { 
+                        return res.json({error});
+                    }
+                    else
+                    {
+                        return res.json(data); // ok : recieved data
+                    }
+                })
+            }
+            catch(err)
+            {
+                return res.json({err}); // say what is the error
+            }
+        },
         getmedicalrecord : async(req,res)=>{
                 let record_id = req.body.record_id; // to be read from the front end
                 let prisonerid = req.body.prisonerid;

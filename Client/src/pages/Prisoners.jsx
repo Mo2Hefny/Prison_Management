@@ -32,19 +32,19 @@ const prisonersHeadCells = [
     label: 'Age',
   },
   {
-    id: 'admissionDate',
+    id: 'admission_date',
     numeric: true,
     disablePadding: false,
     label: 'Admission Date',
   },
   {
-    id: 'releaseDate',
+    id: 'release_date',
     numeric: true,
     disablePadding: false,
     label: 'Release Date',
   },
   {
-    id: 'sentenceLeft',
+    id: 'sentence_left',
     numeric: true,
     disablePadding: false,
     label: 'Sentence Left',
@@ -58,29 +58,29 @@ const prisonersHeadCells = [
   
 ];
 
+const prisonerDetailsTemplate = {
+  pid: null,
+  fname: "",
+  lname: "",
+  bdate: "",
+  gender: "Male",
+  ssn: "",
+  status: "Detained",
+  admission_date: new Date(),
+  release_date: new Date(),
+}
+
 const Prisoners = ({ view }) => {
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
-  const [prisonerDetails, setPrisonerDetails] = useState([]);
+  const [prisonerDetails, setPrisonerDetails] = useState(prisonerDetailsTemplate);
   const [prisonersFilteredTable, setPrisonersFilteredTable] = useState([{}]);
   const readOnly = ["visitor", "doctor"].includes(view);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
-    setPrisonerDetails({
-      pid: null,
-      fname: "",
-      lname: "",
-      age: "",
-      bDate: "",
-      gender: "Male",
-      ssn: "",
-      status: "Detained",
-      admissionDate: new Date(),
-      releaseDate: null,
-      sentenceTime: 10,
-    });
+    setPrisonerDetails(prisonerDetailsTemplate);
   };
 
   const editForm = () => {

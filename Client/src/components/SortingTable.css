@@ -4,7 +4,7 @@
   margin: 0 3%;
   background-color: var(--dark-section);
   border-radius: 10px;
-  box-shadow: 0 0 6px #D2D1D350;
+  box-shadow: 1px 4px 6px #72727230;
   padding: 2% 3%;
   z-index: 0;
 }

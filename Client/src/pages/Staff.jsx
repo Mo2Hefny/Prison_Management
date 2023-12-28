@@ -26,13 +26,13 @@ const staffHeadCells = [
     label: 'Salary',
   },
   {
-    id: 'supervisorID',
+    id: 'supervisorSSN',
     numeric: true,
     disablePadding: false,
     label: 'Supervisor',
   },
   {
-    id: 'hireDate',
+    id: 'hiredate',
     numeric: true,
     disablePadding: false,
     label: 'Hire Date',
@@ -110,13 +110,13 @@ const Staff = ({ view }) => {
     }
   };
 
-  // Retrieve all prisoners details on any change or submission
+  // Retrieve all staff details on any change or submission
   useEffect(() => {
     async function fetchStaffData() {
       try {
         const staffDataTable = await fetchStaff();
         const filteredTable = filterStaffColumns(staffDataTable, staffHeadCells);
-        console.log("Fetched prisoners:", filteredTable);
+        console.log("Fetched staff:", filteredTable);
         setStaffFilteredTable([ ...filteredTable ]);
       } catch (error) {
         console.error("Error:", error.message);

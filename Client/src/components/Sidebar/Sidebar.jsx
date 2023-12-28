@@ -1,8 +1,8 @@
 import React from "react"
 import "./Sidebar.css"
-import Profile from "./Profile"
+import Profile from "../Profile"
 import SidebarNav from "./SidebarNav"
-import Button from "./Button"
+import Button from "../Button"
 
 const Sidebar = ({ onLogOut }) => {
     const LogOutStyle = {
