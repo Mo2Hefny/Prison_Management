@@ -497,10 +497,11 @@ const admincontroller={
             },
             getRecordtreatments : async(req,res)=>{
                 let recordid = req.body.recordid;
-                const q=`Select t.drugname as "Drug Name", t.doses as "Drug Doses", r.doses as "Admission doses" from record_treatments as r natural join medical_record join treatments t on t.drugname = r.drugname`; // formulate query
+                let pid = req.body.pid;
+                const q=`Select t.drugname as "Drug Name", t.doses as "Drug Doses", r.doses as "Admission doses" from record_treatments as r natural join medical_record join treatments t on t.drugname = r.drugname WHERE  r.prisonerid = ? AND r.recordid = ?;`; // formulate query
                 try // try-catch for error handling
                 {
-                    db.query(q,[recordid],(error,data)=>{ 
+                    db.query(q,[pid, recordid],(error,data)=>{ 
                         if(error)
                         {
                             return res.json({error});
@@ -563,6 +564,87 @@ const admincontroller={
                 try // try-catch for error handling
                 {
                     db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            selectdoctors:async(req,res)=>{
+                const q1=`select * from doctor,staff where staff_id=doctor_id`
+                try{
+                    db.query(q1,(error,data)=>{
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+        
+            selectdoctorsbyid:async(req,res)=>{
+                let id=req.body.id;
+                const q1=`select * from doctor,staff where staff_id=doctor_id and doctor_id=${id}`;
+                try{
+                    db.query(q1,(error,data)=>{
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            selectprisonercond:async(req,res)=>{
+                let id=req.body.id;
+        
+                const q1=`select * from prisoner_condition where pid=${id}`;
+                try{
+                    db.query(q1,(error,data)=>{
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            prisoneroffenses:async(req,res)=>{
+                let id=req.body.id;
+                const q1=`select o.offenseid,prisonerid,convicteddate,served,description,offensename,jailtime,degree from convicted_of as c,offense as o where prisonerid=${id} and o.offenseid=c.offenseid `;
+                try{
+                    db.query(q1,(error,data)=>{
                         if(error)
                         {
                             return res.json({error});

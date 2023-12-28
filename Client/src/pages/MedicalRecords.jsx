@@ -4,7 +4,7 @@ import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import EnhancedTable from "../components/SortingTable";
 import { filterMedicalRecordsColumns, filterStaffColumns } from "../utils/dataUtils";
-import { fetchMedicalRecords, fetchMedicalRecordById } from "../service/medicalRecordService";
+import { fetchMedicalRecords, fetchMedicalRecordById, fetchTreatmentsByRecordId } from "../service/medicalRecordService";
 import DisplayTable from "../components/DisplayTable";
 import CollapsibleTable from "../components/CollapsibleTable";
 import { fetchDoctors, fetchStaff } from "../service/staffService";
@@ -28,6 +28,28 @@ const recordsHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Last Updated',
+  },
+  
+];
+const treatmentsHeadCells = [
+  {
+    id: 'Drug Name',
+    numeric: false,
+    disablePadding: false,
+    color: "var(--primary-color)",
+    label: 'Drug',
+  },
+  {
+    id: 'Admission doses',
+    numeric: true,
+    disablePadding: false,
+    label: 'Admission Dosage',
+  },
+  {
+    id: 'Drug doses',
+    numeric: true,
+    disablePadding: false,
+    label: 'Drug Dosage',
   },
   
 ];
@@ -111,11 +133,13 @@ const MedicalRecords = ({ view }) => {
         // Retrieve all treatments details belonging to each patient.
         const tableWithTreatments = await Promise.all(
           recordsDataTable.map(async (record) => {
-            const treatments = await fetchMedicalRecords();
+            console.log(record);
+            const treatments = await fetchTreatmentsByRecordId([record['Prisoner id'], record['Record id']]);
+            console.log(treatments);
             return { ...record, treatments };
           })
         );
-        const filteredTable = filterMedicalRecordsColumns(tableWithTreatments, recordsHeadCells, recordsHeadCells);
+        const filteredTable = filterMedicalRecordsColumns(tableWithTreatments, recordsHeadCells, treatmentsHeadCells);
         console.log("Fetched medical records:", filteredTable);
         setRecordsFilteredTable([ ...filteredTable ]);
       } catch (error) {
@@ -158,7 +182,7 @@ const MedicalRecords = ({ view }) => {
             <CollapsibleTable
               dataTable={recordFilteredTable}
               dataHeadCells={recordsHeadCells}
-              subDataHeadCells={recordsHeadCells}
+              subDataHeadCells={treatmentsHeadCells}
               title="Medical Records"
               subTableTitle="Patient Treatments"
               onAdd={toggleForm}

@@ -154,7 +154,7 @@ export const filterTreatmentsColumns = (dataTable, neededColumns) => {
   console.log(dataTable)
   return dataTable.map((row) => {
     const newRow = {};
-    newRow['id'] = row['drug_name'];
+    newRow['id'] = row['Drug name'];
     neededColumns.forEach((column) => {
       if (column['id'] != 'id')  {
         newRow[column['id']] = row[column['id']];

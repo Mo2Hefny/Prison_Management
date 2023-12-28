@@ -16,6 +16,10 @@ const PrisonerDetails = ({ details, onChange, setPrisonerDetails }) => {
   const handleBirthDateChange = (newBirthDate) => {
     onChange('bdate', newBirthDate);
   }
+  
+  const handleDateChange = (newDate, field) => {
+    onChange(field, newBirthDate);
+  }
 
   const updateReleaseDate = (newSentenceTime) => {
     handleAdmissionDateChange(details.admission_date, newSentenceTime);
