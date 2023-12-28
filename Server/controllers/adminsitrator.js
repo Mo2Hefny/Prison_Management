@@ -5,7 +5,7 @@ const admincontroller={
     login:async(req,res)=>{
         let password=req.body.password;
         let idc=req.body.id;
-        const q=`select count(*) from staff where staff_id=${idc}`;
+        const q=`select count(*) from staff where staff_id=${idc} and staff_type = 0`;
         db.query(q,(error,data)=>{
             if(error)
             {
@@ -13,24 +13,22 @@ const admincontroller={
             }
             else
             {
-                if(data && data[0] && data[0]['count(*)'] == 0)
+            if(data && data[0] && data[0]['count(*)'] == 0)
+            {
+                return res.json("admin doesn't exist");
+            }
+            const q2=`select password from staff where staff_id=${idc}`;
+            db.query(q2,(error,data2)=>{
+            if(error)
+            {
+                return res.json({error});
+            }
+            else
+            {
+                if(data2 && data2[0] && data2[0].password != password)
                 {
-                    return res.json("admin doesn't exist");
+                    return res.json("wrong password!!");
                 }
-                const q2=`select password from staff where staff_id=${idc}`;
-                db.query(q2,(error,data)=>{
-                if(error)
-                {
-                    return res.json({error});
-                }
-                else
-                {
-                    if(data && data[0] && data[0].password != password)
-                    {
-                        return res.json("wrong password!!");
-                    }
-                }
-            });
                 const token = jwt.sign(
                     { id: idc},
                     process.env.JWT_SECRET,
@@ -38,9 +36,11 @@ const admincontroller={
                     expiresIn: "1h",
                     }
                 );
-                return res.json({ message: "Logged in successfully", token });
+                res.status(200).json({ message: "Logged in successfully", token });
             }
-        });
+            });
+            }
+            });
     },
 
     aftertoken:(req, res) => {
@@ -212,10 +212,14 @@ const admincontroller={
     // Ziad updated here.
         getmedicalrecord : async(req,res)=>{
                 let record_id = req.body.record_id; // to be read from the front end
-                const q=`Select * from medical_record where recordid= ?`;
+                let prisonerid = req.body.prisonerid;
+                const q=`Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner Name",
+                            concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
+                                join staff s on staff_id = doctorid 
+                                where recordid= ? and p.pid = ?`;
                 try // try catch for handling errors
                 {
-                    db.query(q,[record_id],(error,data)=>{ // execute query
+                    db.query(q,[record_id,prisonerid],(error,data)=>{ // execute query
                         if(error)
                         { 
                             return res.json({error});
@@ -532,7 +536,112 @@ const admincontroller={
                     return res.json({err});
                 }
             },
-
+            getallmedicalrecords : async(req,res)=>{
+                const q=`Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner Name",
+                             concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
+                             join staff s on staff_id = doctorid`;
+                try // try catch for handling errors
+                {
+                    db.query(q, (error,data)=>{ // execute query
+                        if(error)
+                        { 
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data); // ok : recieved data
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err}); // say what is the error
+                }
+            },
+            getstaffbyid : async(req,res)=>{
+                let staffid = req.body.staff_id;
+                const q=`Select concat(fname," ", lname) as "Staff Name", 
+                ssn, birthdate, hiredate,supervisor_id,salary,shift,status,staff_type as "Type" from staff where staff_id = ? `; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[staffid],(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getallstaff : async(req,res)=>{
+                const q=`Select concat(fname," ", lname) as "Staff Name", 
+                ssn, birthdate, hiredate,supervisor_id,salary,shift,status,staff_type as "Type" from staff `; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getRecordtreatments : async(req,res)=>{
+                let recordid = req.body.recordid;
+                const q=`Select t.drugname as "Drug Name", t.doses as "Drug Doses", r.doses as "Admission doses" from record_treatments as r natural join medical_record join treatments t on t.drugname = r.drugname`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,[recordid],(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getallPrisonerCondition : async(req,res)=>{
+                const q=`Select pid as "Prisoner id" , conditionname as "Condition Name", severity as "Severity" from prisoner_condition`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
 }
 
 export default admincontroller
