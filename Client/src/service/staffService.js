@@ -61,6 +61,7 @@ export const fetchStaffById = async (id) => {
   }
 };
 
+
 export const getStaffType = (staff) => {
   if (staff.hasOwnProperty("specialty")) {
     // Doctor
@@ -92,6 +93,31 @@ export const getsupervisors = async () => {
     return response;
   } catch (error) {
     console.error(`Error getting supervisor`, error);
+    throw error;
+  }
+}
+ // Function to insert staff
+export const insertStaff = async (staffdetails) => {
+  try {
+    console.log(staffdetails);
+    console.log(localStorage.getItem('token'));
+    const response = await axios
+    .post("http://localhost:3000/admin/staff", staffdetails, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return true;
+    })
+    .catch((err) => { 
+      console.log(err);
+      return false
+    });
+    return response;
+  } catch (error) {
+    console.error(`Error inserting staff with Details: ${staffdetails}:`, error);
     throw error;
   }
 }

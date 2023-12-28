@@ -3,6 +3,9 @@ import StaffDetails from "./StaffDetails";
 import "../Form.css";
 import "../PrisonerForm/PrisonerForm.css";
 import Button from "../Button";
+import { queryStaffFormat } from "../../utils/formatUtils";
+import {insertStaff} from "../../service/staffService"
+
 
 const StaffForm = ({ details, isOpen, onClose }) => {
   const formRef = useRef(null);
@@ -13,34 +16,17 @@ const StaffForm = ({ details, isOpen, onClose }) => {
     setStaffDetails({ ...staffdetails, [field]: value });
   };
 
-  /*
-  // State variable to manage the form's visibility.
-  const [isOffenseFormOpen, setIsOffenseFormOpen] = useState(false);
+  const insertNewStaff = () => {
+    console.log(staffdetails);
+    const info = {...staffdetails};
+    console.log(info)
+    queryStaffFormat(info);
+    const success = insertStaff(info);
+    if (success) onClose();
+  }
 
-  // Function to toggle the form's visibility.
-  const toggleOffenseForm = () => {
-    setIsOffenseFormOpen(!isOffenseFormOpen);
-  };*/
+
   
-
-  /*useEffect(() => {
-    const handleOutsideClick = (event) => {
-      // Check if the click occurred outside the form.
-      if (formRef.current && !formRef.current.contains(event.target) && !event.target.classList.contains('openPrisonerForm')) {
-        onClose();
-      }
-    };
-
-    // Attach the event listener when the form is opened.
-    if (isOpen) {
-      document.addEventListener("click", handleOutsideClick);
-    }
-
-    // Detach the event listener when the component is unmounted or the form is closed.
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [isOpen, onClose]);*/
 
   return (
     <form ref={formRef} className="form prisoner-form">
@@ -53,7 +39,7 @@ const StaffForm = ({ details, isOpen, onClose }) => {
         />
       </div>
       <div className="btn-section">
-        <Button type='submit' classNames='btn btn-4' text='Add Staff' />
+        <Button onClick={insertNewStaff} classNames='btn btn-4' text='Add Staff' />
         <Button onClick={onClose} classNames='btn btn-3' text='Cancel' />
       </div>
     </form>

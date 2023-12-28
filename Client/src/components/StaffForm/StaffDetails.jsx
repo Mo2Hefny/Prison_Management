@@ -10,6 +10,7 @@ const StaffDetails = ({ details, onChange, setPrisonerDetails }) => {
   const [supervisor, setSupervisor] = useState([]);
   const genderList = ['Male', 'Female']
   const statusList = ['Single', 'Married', 'Divorced', 'Widowed']
+  const staff_types = ['doctor', 'guard', 'general']
   const handleChange = (e, field) => {
     onChange(field, e.target.value);
   };
@@ -40,6 +41,7 @@ const StaffDetails = ({ details, onChange, setPrisonerDetails }) => {
         <Input type="number" value={details.salary} field='salary' label='Salary' onChange={handleChange} />
         <Input type="password" value={details.password} field='password' label='Password' onChange={handleChange} />
         <SelectSmall value={details.gender} label='Gender' list={genderList} field='gender' onChange={handleChange} maxWidth={190} Null={false}/>
+        <SelectSmall value={details.staff_type} label='Staff Type' list={staff_types} field='staff type' onChange={handleChange} maxWidth={190} Null={false}/>
         <SelectSmall value={details.status} label='Status' list={statusList} field='status' onChange={handleChange} maxWidth={190} Null={false}/>
         <SelectSmall value={details.supervisorID} label='Supervisor id' list={supervisor} field='supervisor id' onChange={handleChange} maxWidth={190} Null={false}/>
         <DateComp label='Hire Date' value={new Date(details.hireDate)} onChange={(value) => handleDateChange(value, `hiredate`)}/>

@@ -44,7 +44,7 @@ const staffHeadCells = [
     label: 'Shift',
   },
   {
-    id: 'staffType',
+    id: 'staff_type',
     numeric: true,
     disablePadding: false,
     label: 'Position',
@@ -69,7 +69,7 @@ const staffDetailsTemplate = {
   salary: null,
   shift: "Day",
   status: "Active",
-  staffType: "Staff",
+  staff_type: "general",
   speciality: "",
   experienceYrs: null,
   type: "Patrol Gaurd",

@@ -150,58 +150,52 @@ const admincontroller={
     },
 
     addstaff:async(req,res)=>{
-        let stafftype=req.body.type;
-        const {fn,ln,ssn,bd,hd,superid,salary,shift,status,password}=req.body;
-        const q1=`insert into staff(fname,lname,ssn,birthdate,hiredate,supervisor_id,salary,shift,status,password) values ('${fn}','${ln}',${ssn},'${bd}','${hd}',${superid},${salary},${shift},${status},'${password}') `
+        let stafftype=req.body.staff_type;
+        const {fname,lname,ssn,bdate,hireDate,supervisorID,salary,shift,status,password,gender}=req.body;
+        const q1=`insert into staff(fname,lname,ssn,birthdate,hiredate,supervisor_id,salary,shift,status,password,staff_type,gender) values ('${fname}','${lname}',${ssn},'${bdate}','${hireDate}',${supervisorID},${salary},${shift},${status},'${password}',${stafftype},${gender}) `
         try{
+            console.log(q1);
             db.query(q1,(error,data)=>{
                 if(error)
                 {
                     return res.json({error});
                 }
                 let staffid;
-                const q2=`select staff_id from staff where ssn=${ssn}`;
-                db.query(q2,(error,data)=>{
-                    if(error)
-                    {
-                        return res.json({error});
-                    }
-                    else{
-                        if(data && data[0])
-                        {   
-                        let stid=data[0].staff_id;
-                            if(stafftype==="doctor")
-                            {
-                            const q3=`insert into doctor(doctor_id,speciality,years_of_exp) values (${stid},'${req.body.speciality}',${req.body.yoe})`;
-                            db.query(q3,(error,data3)=>{
-                            if(error)
-                            {
-                                return res.json({error});
-                            }
-                            else
-                            {
-                                return res.json("doctor inserted");
-                            }
-                            });
-                        }
-                        else if(stafftype==="guard")
-                        {
-                            const q3=`insert into guard(guard_id,type,block_id) values (${stid},'${req.body.type}',${req.body.block_id})`
-                            db.query(q3,(error,data3)=>{
-                            if(error)
-                            {
-                                return res.json({error});
+                const q2 = `SELECT staff_id FROM staff WHERE ssn='${ssn}' LIMIT 1`;
 
-                            }
-                            else{
-                                return res.json("guard inserted");
-                            }
-                            });
-                        }
-                        return res.json({message:'inserted sucessfully'});
+db.query(q2, (error, data) => {
+    if (error) {
+        return res.json({ error });
+    } else {
+        if (data && data[0]) {
+            let stid = data[0].staff_id;
+            if (stafftype === 4) {
+                const q3 = `INSERT INTO doctor(doctor_id, speciality, years_of_exp) VALUES (${stid}, '${req.body.speciality}', ${req.body.yoe})`;
+                db.query(q3, (error, data3) => {
+                    if (error) {
+                        return res.json({ error });
+                    } else {
+                        return res.json("Doctor inserted");
                     }
-                }
                 });
+            } else if (stafftype === 2) {
+                const q3 = `INSERT INTO guard(guard_id, type, block_id) VALUES (${stid}, '${req.body.type}', ${req.body.block_id})`;
+                db.query(q3, (error, data3) => {
+                    if (error) {
+                        return res.json({ error });
+                    } else {
+                        return res.json("Guard inserted");
+                    }
+                });
+            } else {
+                // Move the success message outside the inner queries
+                return res.json({ message: 'Inserted successfully' });
+            }
+        } else {
+            return res.json({ error: 'Staff not found' });
+        }
+    }
+});
             })
         }
         catch(err)
