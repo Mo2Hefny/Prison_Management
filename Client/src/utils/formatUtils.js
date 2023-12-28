@@ -11,12 +11,19 @@ export const fixPrisonerFormat = (row) => {
   row['status'] = (row['status'] === 1 ? 'Detained' : 'Released');
 }
 
-// Fix staff dates, gender, and status format
+// Fix staff dates, gender, and status format // updated married,divorced part
 export const fixStaffFormat = (row) => {
   row['birthdate'] = getDateFromDBFormat(row['birthdate']);
   row['hiredate'] = getDateFromDBFormat(row['hiredate']);
   row['shift'] = (row['shift'] === 1 ? 'Day' : 'Night');
-  row['status'] = (row['status'] === 1 ? 'Available' : 'Unavailable');
+  if (row['status'] === 'Single')
+    row['status'] = 0;
+  else if (row['status'] === 'Married')
+    row['status'] = 1;
+  else if (row['status'] === 'Divorced')
+    row['status'] = 2;
+  else 
+    row['status'] = 3;
 }
 
 // Fix visits date, and attended format

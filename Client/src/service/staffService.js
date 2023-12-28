@@ -72,4 +72,26 @@ export const getStaffType = (staff) => {
     // General Staff
     return "Staff";
   }
+};
+
+export const getsupervisors = async () => {
+  try {
+    const response = await axios
+    .get("http://localhost:3000/admin/getsupervisors")
+    .then((res) => {
+      // Find the prisoner with the specified ID
+      const data = res.data;
+      if (!data) {
+        throw new Error(`No avaialable staff`);
+      }
+      //fixPrisonerDetailsFormat(prisoner[0]);
+      console.log(`Staff back`); // Log the response
+      return data;
+    })
+    .catch((err) => console.log(err));
+    return response;
+  } catch (error) {
+    console.error(`Error getting supervisor`, error);
+    throw error;
+  }
 }

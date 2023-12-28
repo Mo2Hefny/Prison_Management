@@ -582,8 +582,7 @@ const admincontroller={
             },
             getstaffbyid : async(req,res)=>{
                 let staffid = req.body.staff_id;
-                const q=`Select concat(fname," ", lname) as "Staff Name", 
-                ssn, birthdate, hiredate,supervisor_id,salary,shift,status,staff_type as "Type" from staff where staff_id = ? `; // formulate query
+                const q=`Select * from staff where staff_id = ? `; // formulate query
                 try // try-catch for error handling
                 {
                     db.query(q,[staffid],(error,data)=>{ 
@@ -603,8 +602,7 @@ const admincontroller={
                 }
             },
             getallstaff : async(req,res)=>{
-                const q=`Select concat(fname," ", lname) as "Staff Name", 
-                ssn, birthdate, hiredate,supervisor_id,salary,shift,status,staff_type as "Type" from staff `; // formulate query
+                const q=`Select * from staff `; // formulate query
                 try // try-catch for error handling
                 {
                     db.query(q,(error,data)=>{ 
@@ -646,6 +644,26 @@ const admincontroller={
             },
             getallPrisonerCondition : async(req,res)=>{
                 const q=`Select pid as "Prisoner id" , conditionname as "Condition Name", severity as "Severity" from prisoner_condition`; // formulate query
+                try // try-catch for error handling
+                {
+                    db.query(q,(error,data)=>{ 
+                        if(error)
+                        {
+                            return res.json({error});
+                        }
+                        else
+                        {
+                            return res.json(data);
+                        }
+                    })
+                }
+                catch(err)
+                {
+                    return res.json({err});
+                }
+            },
+            getsupervisors : async(req,res)=>{
+                const q=`Select distinct supervisor_id from staff where supervisor_id is not null`; // formulate query
                 try // try-catch for error handling
                 {
                     db.query(q,(error,data)=>{ 
