@@ -1,5 +1,5 @@
 // formatUtils.js
-import { getDateFromDBFormat, isDateInFuture } from "./dateUtils"
+import { getDateFromDBFormat, isDateInFuture, queryDateFormat } from "./dateUtils"
 
 
 // Fix prisoners dates, gender, and status format
@@ -11,7 +11,16 @@ export const fixPrisonerFormat = (row) => {
   row['status'] = (row['status'] === 1 ? 'Detained' : 'Released');
 }
 
-// Fix staff dates, gender, and status format // updated married,divorced part
+// Fix prisoners dates, gender, and status format
+export const queryPrisonerFormat = (row) => {
+  row['bdate'] = queryDateFormat(row['bdate']);
+  row['admission_date'] = queryDateFormat(row['admission_date']);
+  row['release_date'] = queryDateFormat(row['release_date']);
+  row['gender'] = (row['gender'] === 'Male' ? 1 : 0);
+  row['status'] = (row['status'] === 'Detained' ? 1 : 0);
+}
+
+// Fix staff dates, gender, and status format
 export const fixStaffFormat = (row) => {
   row['birthdate'] = getDateFromDBFormat(row['birthdate']);
   row['hiredate'] = getDateFromDBFormat(row['hiredate']);

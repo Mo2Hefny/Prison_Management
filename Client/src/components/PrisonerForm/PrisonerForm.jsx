@@ -6,8 +6,10 @@ import "../Form.css";
 import "./PrisonerForm.css";
 import Button from "../Button";
 import OffenseForm from "../OffenseForm/OffenseForm";
+import { insertPrisoner } from "../../service/prisonerService";
+import { queryPrisonerFormat } from "../../utils/formatUtils";
 
-const PrisonerForm = ({ details, isOpen, onClose }) => {
+const PrisonerForm = ({ details, isOpen, isEdit, onClose, onSubmit }) => {
   const formRef = useRef(null);
   // State variable to manage the form's input values.
   const [prisonerDetails, setPrisonerDetails] = useState(details);
@@ -24,25 +26,14 @@ const PrisonerForm = ({ details, isOpen, onClose }) => {
     setIsOffenseFormOpen(!isOffenseFormOpen);
   };
   
-
-  /*useEffect(() => {
-    const handleOutsideClick = (event) => {
-      // Check if the click occurred outside the form.
-      if (formRef.current && !formRef.current.contains(event.target) && !event.target.classList.contains('openPrisonerForm')) {
-        onClose();
-      }
-    };
-
-    // Attach the event listener when the form is opened.
-    if (isOpen) {
-      document.addEventListener("click", handleOutsideClick);
-    }
-
-    // Detach the event listener when the component is unmounted or the form is closed.
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [isOpen, onClose]);*/
+  //Insert new prisoner
+  const insertNewPrisoner = () => {
+    console.log(prisonerDetails);
+    const info = {...prisonerDetails};
+    queryPrisonerFormat(info);
+    const success = insertPrisoner(info);
+    if (success) onClose();
+  }
 
   return (
     <form ref={formRef} className="form prisoner-form">
@@ -64,7 +55,7 @@ const PrisonerForm = ({ details, isOpen, onClose }) => {
         />
       </div>
       <div className="btn-section">
-        <Button type='submit' classNames='btn btn-4' text='Add Prisoner' />
+        <Button onClick={isEdit ? insertNewPrisoner : insertNewPrisoner} classNames='btn btn-4' text={isEdit ? 'Edit Prisoner' : 'Add Prisoner'} />
         <Button onClick={onClose} classNames='btn btn-3' text='Cancel' />
       </div>
       {isOffenseFormOpen && (<OffenseForm isOpen={isOffenseFormOpen} onClose={toggleOffenseForm} />)}
