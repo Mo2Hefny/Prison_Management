@@ -106,8 +106,8 @@ const admincontroller={
                 }
             }
             else{
-            const {ssn,fname,lname,gender,birthdate,admissiondate,releasedate,status,blockid,cellid}=req.body;
-            const q3=`insert into prisoner(ssn,fname,lname,gender,bdate,admission_date,release_date,status,blockid,cell_id) values (${ssn},'${fname}','${lname}',${gender},'${birthdate}','${admissiondate}','${releasedate}',${status},${blockid},${cellid} )`;
+            const {ssn,fname,lname,gender,bdate,admission_date,release_date,status,blockid,cellid}=req.body;
+            const q3=`insert into prisoner(ssn,fname,lname,gender,bdate,admission_date,release_date,status,blockid,cell_id) values (${ssn},'${fname}','${lname}',${gender},'${bdate}','${admission_date}','${release_date}',${status},${blockid},${cellid} )`;
             try{
             db.query(q3,(error,data)=>{
                 if(error)

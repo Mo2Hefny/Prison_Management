@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import EnhancedTable from "../components/SortingTable";
-import { fetchPrisonerById, fetchPrisoners } from "../service/prisonerService";
+import { fetchPrisonerById, fetchPrisoners, insertPrisoner } from "../service/prisonerService";
 import { filterPrisonersColumns } from "../utils/dataUtils";
+import { queryPrisonerFormat } from "../utils/formatUtils";
 
 const prisonersHeadCells = [
   {
@@ -68,6 +69,8 @@ const prisonerDetailsTemplate = {
   status: "Detained",
   admission_date: new Date(),
   release_date: new Date(),
+  cellid: null,
+  blockid: null
 }
 
 const Prisoners = ({ view }) => {
@@ -82,7 +85,7 @@ const Prisoners = ({ view }) => {
     setIsFormOpen(false);
     setPrisonerDetails(prisonerDetailsTemplate);
   };
-
+  
   const editForm = () => {
     setIsFormEdit(true);
     setIsFormOpen(true);
@@ -126,6 +129,7 @@ const Prisoners = ({ view }) => {
         <PrisonerForm
           details={prisonerDetails}
           isOpen={isFormOpen}
+          isEdit={isFormEdit}
           onClose={onClose}
         ></PrisonerForm>
       )}

@@ -44,3 +44,29 @@ export const fetchPrisonerById = async (id) => {
     throw error;
   }
 };
+
+//{ssn,fname,lname,gender,birthdate,admissiondate,releasedate,status,blockid,cellid}
+export const insertPrisoner = async (prisonerDetails) => {
+  try {
+    console.log(prisonerDetails);
+    console.log(localStorage.getItem('token'));
+    const response = await axios
+    .post("http://localhost:3000/admin/prisoner", prisonerDetails, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return true;
+    })
+    .catch((err) => { 
+      console.log(err);
+      return false
+    });
+    return response;
+  } catch (error) {
+    console.error(`Error inserting prisoner with Details: ${prisonerDetails}:`, error);
+    throw error;
+  }
+}

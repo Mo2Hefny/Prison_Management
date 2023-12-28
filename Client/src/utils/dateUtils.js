@@ -26,6 +26,10 @@ export const getDateFromDBFormat = (date) => {
   return fixedDate.toISOString().split('T')[0];
 }
 
+export const queryDateFormat = (date) => {
+  return date.toISOString().split('T')[0];
+}
+
 export const isDateInPast = (dateStr) => {
   // Create a Date object from the date string
   const givenDate = new Date(dateStr);
