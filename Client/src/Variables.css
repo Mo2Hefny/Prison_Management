@@ -30,9 +30,3 @@
   --small-3: 6px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --text-color: #213547;
-    --background-color: #ffffff;
-  }
-}

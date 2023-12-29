@@ -43,13 +43,13 @@ const admincontroller = {
   },
 
   selectallprisoners: async (req, res) => {
-    const q = "select * from prisoner";
+    const q = "call getallprisoners";
     try {
       db.query(q, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json({ data });
+          return res.json( data[0] );
         }
       });
     } catch (err) {
@@ -224,14 +224,14 @@ const admincontroller = {
     }
   },
   getoffensesnoprisoner: async (req, res) => {
-    const q = `Select * from offense where offenseid not in (select offenseid from convicted_of)`; // formulate query
+    const q = `call getoffensesnoprisoner`; // formulate query
     try {
       // try-catch for error handling
       db.query(q, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json(data);
+          return res.json(data[0]);
         }
       });
     } catch (err) {
@@ -345,14 +345,14 @@ const admincontroller = {
     }
   },
   getallstaff: async (req, res) => {
-    const q = `Select * from staff `; // formulate query
+    const q = `call getallstaff`; // formulate query
     try {
       // try-catch for error handling
       db.query(q, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json(data);
+          return res.json(data[0]);
         }
       });
     } catch (err) {
@@ -360,13 +360,13 @@ const admincontroller = {
     }
   },
   selectdoctors: async (req, res) => {
-    const q1 = `select * from doctor,staff where staff_id=doctor_id`;
+    const q1 = `call selectalldoc`;
     try {
       db.query(q1, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json(data);
+          return res.json(data[0]);
         }
       });
     } catch (err) {
@@ -389,14 +389,14 @@ const admincontroller = {
     }
   },
   getsupervisors: async (req, res) => {
-    const q = `Select distinct supervisor_id from staff where supervisor_id is not null`; // formulate query
+    const q = `call getallsupervisors`; // formulate query
     try {
       // try-catch for error handling
       db.query(q, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json(data);
+          return res.json(data[0]);
         }
       });
     } catch (err) {
@@ -405,9 +405,7 @@ const admincontroller = {
   },
   // Medical
   getallmedicalrecords: async (req, res) => {
-    const q = `Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner name",
-                         concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
-                         join staff s on staff_id = doctorid`;
+    const q = `call getmedicalrecord`;
     try {
       // try catch for handling errors
       db.query(q, (error, data) => {
@@ -461,33 +459,15 @@ const admincontroller = {
       return res.json({ err });
     }
   },
-  getallmedicalrecords: async (req, res) => {
-    const q = `Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner name",
-                             concat(s.fname," ",s.lname) as "Staff name" , m.updatedate from medical_record m natural join prisoner p 
-                             join staff s on staff_id = doctorid`;
-    try {
-      // try catch for handling errors
-      db.query(q, (error, data) => {
-        // execute query
-        if (error) {
-          return res.json({ error });
-        } else {
-          return res.json(data); // ok : recieved data
-        }
-      });
-    } catch (err) {
-      return res.json({ err }); // say what is the error
-    }
-  },
   getAllTreatments: async (req, res) => {
-    const q = `Select drugname as "Drug Name", availability, type, price, doses as "Drug Doses" from treatments;`; // formulate query
+    const q = `call getAllTreatments`; // formulate query
     try {
       // try-catch for error handling
       db.query(q, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json(data);
+          return res.json(data[0]);
         }
       });
     } catch (err) {
@@ -544,14 +524,14 @@ const admincontroller = {
   },
   // Visits
   getAllVisitors: async (req, res) => {
-    const q = `Select * from visitor`; // formulate query
+    const q = `call selectvisitors`; // formulate query
     try {
       // try-catch for error handling
       db.query(q, (error, data) => {
         if (error) {
           return res.json({ error });
         } else {
-          return res.json(data);
+          return res.json(data[0]);
         }
       });
     } catch (err) {
@@ -660,13 +640,13 @@ const admincontroller = {
   },
   getcellsforblocks: async (req, res) => {
     let blockid = req.body.block_id;
-    const q = `Select * from cell where block_id = ?`; // formulate query
+    const q = `call getcellsforblocks(${blockid})`; // formulate query
     try {
       // try-catch for error handling
-      db.query(q, [blockid], (error, data) => {
+      db.query(q, (error, data) => {
         // set the block id
         if (error) return res.json({ error }); // error occured
-        else return res.json(data); // return data if a ll good
+        else return res.json(data[0]); // return data if a ll good
       });
     } catch (
       err // catch block
@@ -691,6 +671,28 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+
+  //just added
+
+  // getvisitationbyid: async (req, res) => {
+  //   let pid=req.body.pid;
+  //   let vid=req.body.visID
+  //   const q = `Select concat(prisoner.fname," " , prisoner.lname) as "Prisoner Name" , prisonerid as "Prisoner id", visitor.visitorid as "Visitor id", visitdate as "Visit date" ,
+  //   attended, concat(visitor.Fname, " " ,visitor.Lname) as "Visitor Name"
+  //   from visitations, visitor, prisoner where prisonerid = pid and visitor.visitorid = visitations.visitorid and prisonerid=${pid} and  visitorid=${vid}`; // formulate query
+  //   try {
+  //     // try-catch for error handling
+  //     db.query(q, [id], (error, data) => {
+  //       // set the block id
+  //       if (error) return res.json({ error }); // error occured
+  //       else return res.json(data); // return data if a ll good
+  //     });
+  //   } catch (
+  //     err // catch block
+  //   ) {
+  //     return res.json({ err });
+  //   }
+  // },
 };
 
 export default admincontroller;

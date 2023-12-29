@@ -4,7 +4,7 @@ const managercontroller={
     login:async(req,res)=>{
         let password=req.body.password;
         let idc=req.body.id;
-        const q=`select count(*) from staff where staff_id=${idc} and staff_type = 1`;
+        const q=`select count(*) from staff where staff_id=${idc}`;
         db.query(q,(error,data)=>{
             if(error)
             {
@@ -17,27 +17,27 @@ const managercontroller={
                 return res.json("manager doesn't exist");
             }
             const q2=`select password from staff where staff_id=${idc}`;
-            db.query(q2,(error,data2)=>{
+            db.query(q2,(error,data)=>{
             if(error)
             {
                 return res.json({error});
             }
             else
             {
-                if(data2 && data2[0] && data2[0].password != password)
+                if(data && data[0] && data[0].password != password)
                 {
                     return res.json("wrong password!!");
                 }
-                const token = jwt.sign(
-                    { id: idc},
-                    process.env.JWT_SECRET,
-                    {
-                    expiresIn: "1h",
-                    }
-                );
-                res.status(200).json({ message: "Logged in successfully", token });
             }
             });
+            const token = jwt.sign(
+                { id: idc},
+                process.env.JWT_SECRET,
+                {
+                expiresIn: "1h",
+                }
+            );
+            res.status(200).json({ message: "Logged in successfully", token });
                 }
             });
     },
@@ -50,28 +50,38 @@ const managercontroller={
         res.status(500).json({ error: "An error occurred while fetching your data." });
 
     }},
-    HireStaff : async(req,res)=>{
-        var datetime = new Date(); // get the current date and time
-        let currentdate = datetime.toISOString().slice(0,10); // take the date part only
-        const q=`Select * from visitations natural join visitor where visitdate < ?`; // formulate query
-        try // try-catch for error handling
-        {
-            db.query(q,[currentdate],(error,data)=>{ 
-                if(error)
-                {
-                    return res.json({error});
-                }
-                else
-                {
-                    return res.json({message:"Upcoming visits returned successfully."});
-                }
-            })
+    getAllVisitors: async (req, res) => {
+        const q = `call selectvisitors`; // formulate query
+        try {
+          // try-catch for error handling
+          db.query(q, (error, data) => {
+            if (error) {
+              return res.json({ error });
+            } else {
+              return res.json(data[0]);
+            }
+          });
+        } catch (err) {
+          return res.json({ err });
         }
-        catch(err)
-        {
-            return res.json({err});
+      },
+      getallvisitations: async (req, res) => {
+        const q = `Select concat(prisoner.fname," " , prisoner.lname) as "Prisoner Name" , prisonerid as "Prisoner id", visitor.visitorid as "Visitor id", visitdate as "Visit date" ,
+                    attended, concat(visitor.Fname, " " ,visitor.Lname) as "Visitor Name"
+                    from visitations, visitor, prisoner where prisonerid = pid and visitor.visitorid = visitations.visitorid`; // formulate query
+        try {
+          // try-catch for error handling
+          db.query(q, (error, data) => {
+            if (error) {
+              return res.json({ error });
+            } else {
+              return res.json(data);
+            }
+          });
+        } catch (err) {
+          return res.json({ err });
         }
-    }    
+      },
 
 }
 
