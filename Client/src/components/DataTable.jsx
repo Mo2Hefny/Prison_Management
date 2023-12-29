@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import './DataTable.css'
 
-export default function DataTable({ rows, columns, readOnly }) {
+export default function DataTable({ rows, columns, readOnly, rowID, selectedRows }) {
+  const getRowId = (row) => row[rowID];
   console.log(rows)
   console.log(columns)
   const [selectionModel, setSelectionModel] = useState([]);
@@ -26,6 +27,7 @@ export default function DataTable({ rows, columns, readOnly }) {
         selectionModel={selectionModel}
         onRowSelectionModelChange={(newSelectionModel) => addNewSelected(newSelectionModel)}
         keepNonExistentRowsSelected={true}
+        getRowId={getRowId}
       />
     </div>
   );

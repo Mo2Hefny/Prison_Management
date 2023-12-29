@@ -232,3 +232,21 @@ export const filterConditionsColumns = (dataTable, neededColumns) => {
     return newRow;
   });
 }
+
+// Offenses
+export const filterOffensesColumns = (dataTable, neededColumns) => {
+  console.log(dataTable)
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = row['offenseid'];
+    neededColumns.forEach((column) => {
+      if (column['id'] == 'offense_num')  {
+        newRow[column['id']] = `Offense ${row['offenseid']}`;
+      } else {
+        newRow[column['id']] = row[column['id']];
+      }
+      if (newRow[column['id']]==null) newRow[column['id']] = '-';
+    });
+    return newRow;
+  });
+}

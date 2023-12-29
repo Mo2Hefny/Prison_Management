@@ -141,29 +141,25 @@ const doctorsHeadCells = [
 ];
 
 const conditionsHeadCells = [
-  {
-    id: 'Prisoner name',
-    numeric: false,
-    disablePadding: false,
-    color: "var(--primary-color)",
-    label: 'Patient',
+  { 
+    id: 'Prisoner name', 
+    field: 'Prisoner name', 
+    headerName: 'Prisoner',
+    width: 100 
   },
-  {
-    id: 'Condition name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Condition',
+  { 
+    id: 'Condition name', 
+    field: 'Condition name', 
+    headerName: 'Condition',
+    width: 100 
   },
-  {
-    id: 'Severity',
-    numeric: true,
-    disablePadding: false,
-    label: 'Severity',
+  { 
+    id: 'Severity', 
+    field: 'Severity', 
+    headerName: 'Severity',
+    width: 100 
   },
-
-  
-  
-];
+]
 
 const MedicalRecords = ({ view }) => {
   // State variable to manage the form's visibility.
@@ -315,7 +311,7 @@ const MedicalRecords = ({ view }) => {
       <h1 className="page-title">Medical Wing Dashboard</h1>
       <div className="page-body">
         <div className="page-body-section">
-          <div className="table collapsible-table">
+          <div className="table collapsible-table glassmorphism">
             <CollapsibleTable
               dataTable={recordsFilteredTable}
               dataHeadCells={recordsHeadCells}
@@ -327,7 +323,7 @@ const MedicalRecords = ({ view }) => {
               readOnly={readOnly}
               />
           </div>
-          <div className="table enhanced-table">
+          <div className="table glassmorphism">
               <CollapsibleTable
                 dataTable={doctorsFilteredTable}
                 dataHeadCells={doctorsHeadCells}
@@ -341,7 +337,7 @@ const MedicalRecords = ({ view }) => {
                 subEditable={false}
               />
           </div>
-          <div className="table enhanced-table table-grid">
+          <div className="table enhanced-table table-grid glassmorphism">
               <EnhancedTable
                 dataTable={treatmentsFilteredDataTable}
                 dataHeadCells={treatmentsHeadCells}
@@ -353,7 +349,7 @@ const MedicalRecords = ({ view }) => {
               <DisplayTable
                 title="Prisoners Conditions"
                 dataTable={conditionsFilteredTable}
-                selectedColumns={["Prisoner name", "Condition name", "Severity"]}
+                selectedColumns={conditionsHeadCells}
                 onClick={toggleForm}
                 UIMode={"add"}
               />

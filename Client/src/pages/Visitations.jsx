@@ -182,7 +182,7 @@ const Visitations = ({ view }) => {
       <h1 className="page-title">Visitation Management Dashboard</h1>
       <div className="page-body">
         <div className="page-body-section">
-          <div className="table enhanced-table">
+          <div className="table enhanced-table glassmorphism">
             <EnhancedTable
               dataTable={visitorsFilteredTable}
               dataHeadCells={visitorsHeadCells}
@@ -192,7 +192,7 @@ const Visitations = ({ view }) => {
               readOnly={readOnly}
               />
           </div>
-          <div className="table enhanced-table table-grid">
+          <div className="table enhanced-table table-grid glassmorphism">
               <EnhancedTable
                 dataTable={visitsFilteredTable}
                 dataHeadCells={visitationsHeadCells}
@@ -208,6 +208,7 @@ const Visitations = ({ view }) => {
                 selectedColumns={tdyVisitationsHeadCells}
                 onClick={toggleForm}
                 UIMode={"add"}
+                readOnly={true}
               />
           </div>
         </div>

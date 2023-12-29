@@ -86,15 +86,15 @@
 .btn.btn-G {
   padding: 0.4rem 0.7rem;
   border: 1px solid var(--green);
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: var(--green);
-  color: var(--section-color);
+  color: var(--background-color);
   font-weight: 700;
   font-size: var(--small);
 }
 
 .btn-G:hover {
-  color: var(--dark-section);
+  color: var(--background-color);
   box-shadow: 0 0 7px var(--light-green);
 }
 

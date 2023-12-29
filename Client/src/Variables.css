@@ -4,15 +4,16 @@
 
 :root {
   --background-color: #1C212A;
-  --dark-section: #1a1a1a;
-  --section-color: #282a2e;
+  --dark-section: #232831;
+  --section-color: #232831;
+  --light-section: #4A4F58;
+  --dark-primary: #4F595E;
   --primary-color: #213A6F;
   --light-primary: #34598B;
-  --dark-primary: #4F595E;
   --light-secondary: #E5E5E5; 
   --secondary-color: #D2D1D3; 
   --dark-secondary: #8d8d8d; 
-  --accent-color: #EAA51C;
+  --accent-color: #FBA327;
   --text-color: #E6E2D9;
   --light-hover: #ffffff30;
   --light-accent: #fca211;
@@ -20,6 +21,7 @@
   --light-green: #34ee3d;
   --green: #45a049;
   --red: #ff5722;
+  /* #EAA51C #FBA327 */
 
   /* Fonts */
   --title-L: 2rem;
@@ -28,6 +30,10 @@
   --small: 0.8rem;
   --small-2: 0.6rem;
   --small-3: 6px;
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 @media (prefers-color-scheme: light) {

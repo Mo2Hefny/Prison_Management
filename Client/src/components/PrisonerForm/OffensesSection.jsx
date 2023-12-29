@@ -3,72 +3,39 @@ import Input from '../Input';
 import DropdownMenu from '../DropdownMenu';
 import DisplayTable from '../DisplayTable';
 import DateComp from '../DateComp';
+import { fetchOffensesWithNoPrisoner } from '../../service/prisonerService';
 
-const dt = [
-  {
-    offenseID: 1,
-    Pid: 1,
-    offenseName: 'Murder',
-    convictedDate: '11/4/2020',
-    served: false,
-    description: 'test'
+const offenseHeadCells = [
+  { 
+    field: 'offensename', 
+    headerName: 'Offense',
+    width: 140 
   },
-  {
-    offenseID: 2,
-    Pid: 1,
-    offenseName: 'Theft',
-    convictedDate: '12/4/2022',
-    served: false,
-    description: 'test2'
-  },
-  {
-    offenseID: 2,
-    Pid: 1,
-    offenseName: 'Theft',
-    convictedDate: '12/4/2022',
-    served: false,
-    description: 'test2'
-  },
-  {
-    offenseID: 2,
-    Pid: 1,
-    offenseName: 'Theft',
-    convictedDate: '12/4/2022',
-    served: false,
-    description: 'test2'
-  },
-  {
-    offenseID: 2,
-    Pid: 1,
-    offenseName: 'Theft',
-    convictedDate: '12/4/2022',
-    served: false,
-    description: 'test2'
-  },
-  {
-    offenseID: 2,
-    Pid: 1,
-    offenseName: 'Theft',
-    convictedDate: '12/4/2022',
-    served: false,
-    description: 'test2'
-  },
-  {
-    offenseID: 2,
-    Pid: 1,
-    offenseName: 'Theft',
-    convictedDate: '12/4/2022',
-    served: false,
-    description: 'test2'
+  { 
+    field: 'jailtime', 
+    headerName: 'Jail Time',
+    width: 140 
   },
 ]
 
 const OffensesSection = ({ details, onChange, toggleOffenseForm }) => {
   const selectedColumns = ['offenseID', 'offenseName', 'served']
 
+  const [offensesTable, setOffensesTable] = useState([{}]);
+
+  useEffect(() => {
+    async function fetchOffenses() {
+      const offensesNoCorr = await fetchOffensesWithNoPrisoner();
+      const offensesWithID = offensesNoCorr.map((offense) => { console.log(offense); return {id:offense.offenseid ,...offense} })
+      console.log(offensesWithID);
+      setOffensesTable([...offensesWithID])
+    }
+    fetchOffenses();
+  }, [])
+
   return (
     <div className='form-section offenses-section'>
-      <DisplayTable title='Offenses' dataTable={dt} selectedColumns={selectedColumns} UIMode='addBtn' onClick={toggleOffenseForm}/>
+      <DisplayTable title='Offenses' dataTable={offensesTable} selectedColumns={offenseHeadCells} UIMode='addBtn' onClick={toggleOffenseForm}/>
     </div>
   )
 }

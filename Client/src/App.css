@@ -8,6 +8,7 @@
   padding: 0;
   text-align: center;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .App {
@@ -17,19 +18,41 @@
 }
 
 .page {
+  position: relative;
   max-height: 100vh;
   padding-bottom: 4rem;
   height: 100%;
 }
 
 .page-title {
+  position: absolute;
   font-size: var(--title-L);
-  padding: 2% 4%;
+  z-index: 1;
+  left: 50%;
+  padding: 2rem;
+  padding-top: 3rem;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--dark-section);
+  box-shadow: 4px 1px 5px #d9d9d960;
+  
+  translate: -50%;
+}
+
+.glassmorphism {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(35, 40, 49, 0.75);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
 .page-body-section {
   padding: 2%;
-  max-height: 75vh;
+  padding-top: 10rem;
+  max-height: 100vh;
+  box-sizing: border-box;
   overflow: auto;
   display: grid;
   gap: 3%;

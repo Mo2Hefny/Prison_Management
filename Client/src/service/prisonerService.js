@@ -70,3 +70,56 @@ export const insertPrisoner = async (prisonerDetails) => {
     throw error;
   }
 }
+
+// Function to fetch a list of offenses that aren't connected to any prisoner
+export const fetchOffensesWithNoPrisoner = async () => {
+  try {
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/offenses_noprisoner",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    console.log(`Offenses: `, data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching prisoners:', error);
+    throw error;
+  }
+};
+// Function to fetch a list of offenses that aren't connected to any prisoner
+export const fetchOffensesById = async (id) => {
+  try {
+    console.log(id);
+    const response = await axios
+    .post("http://localhost:3000/admin/offensesById", id)
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    })
+    .catch((err) => { 
+      console.log(err);
+    });
+    return response;
+  } catch (error) {
+    console.error(`Error inserting prisoner with Details: ${prisonerDetails}:`, error);
+    throw error;
+  }
+};
+
+// Function to fetch a list of offenses that aren't connected to any prisoner
+export const fetchOffenses = async () => {
+  try {
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/allOffenses",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    console.log(`Offenses: `, data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching offenses:', error);
+    throw error;
+  }
+};

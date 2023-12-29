@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import EnhancedTable from "../components/SortingTable";
-import { fetchPrisonerById, fetchPrisoners, insertPrisoner } from "../service/prisonerService";
-import { filterPrisonersColumns } from "../utils/dataUtils";
+import { fetchOffenses, fetchOffensesById, fetchPrisonerById, fetchPrisoners, insertPrisoner } from "../service/prisonerService";
+import { filterOffensesColumns, filterPrisonersColumns } from "../utils/dataUtils";
 import { queryPrisonerFormat } from "../utils/formatUtils";
+import OffenseForm from "../components/OffenseForm/OffenseForm";
 
 const prisonersHeadCells = [
   {
@@ -59,6 +60,33 @@ const prisonersHeadCells = [
   
 ];
 
+const offensesHeadCells = [
+  {
+    id: 'offense_num',
+    numeric: false,
+    disablePadding: true,
+    label: 'Offense#',
+  },
+  {
+    id: 'offensename',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+  },
+  {
+    id: 'jailtime',
+    numeric: true,
+    disablePadding: false,
+    label: 'Jail time',
+  },
+  {
+    id: 'degree',
+    numeric: true,
+    disablePadding: false,
+    label: 'Degree',
+  },
+];
+
 const prisonerDetailsTemplate = {
   pid: null,
   fname: "",
@@ -69,8 +97,15 @@ const prisonerDetailsTemplate = {
   status: "Detained",
   admission_date: new Date(),
   release_date: new Date(),
-  cellid: null,
+  cell_id: null,
   blockid: null
+}
+
+const offenseDetailsTemplate = {
+  offenseid: null,
+  offensename: "",
+  jailtime: 0,
+  degree: 0,
 }
 
 const Prisoners = ({ view }) => {
@@ -79,7 +114,12 @@ const Prisoners = ({ view }) => {
   const [isFormEdit, setIsFormEdit] = useState(false);
   const [prisonerDetails, setPrisonerDetails] = useState(prisonerDetailsTemplate);
   const [prisonersFilteredTable, setPrisonersFilteredTable] = useState([{}]);
-  const readOnly = ["visitor", "doctor"].includes(view);
+  const readOnly = ["visitor", "doctor", "staff"].includes(view);
+  // Offenses variables
+  const [isOffenseFormOpen, setIsOffenseFormOpen] = useState(false);
+  const [isOffenseFormEdit, setIsOffenseFormEdit] = useState(false);
+  const [offenseDetails, setOffenseDetails] = useState(offenseDetailsTemplate);
+  const [offensesFilteredTable, setOffenseFilteredTable] = useState([{}]);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
@@ -96,11 +136,38 @@ const Prisoners = ({ view }) => {
     setIsFormOpen(!isFormOpen);
   };
 
+  // Function to toggle the form's visibility.
+  const onOffenseClose = () => {
+    setIsOffenseFormOpen(false);
+    setOffenseDetails(offenseDetailsTemplate);
+  };
+  
+  const editOffenseForm = () => {
+    setIsOffenseFormEdit(true);
+    setIsOffenseFormOpen(true);
+  };
+
+  const toggleOffenseForm = () => {
+    setIsOffenseFormEdit(false);
+    setIsOffenseFormOpen(!isFormOpen);
+  };
+
   const getPrisonerDetails = async (id) => {
     try {
       const newDetails = await fetchPrisonerById(id);
       console.log("Fetched prisoner:", newDetails);
       setPrisonerDetails({ ...newDetails });
+      editForm();
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  const getOffensesDetails = async (id) => {
+    try {
+      const newDetails = await fetchOffensesById(id);
+      console.log("Fetched offense:", newDetails);
+      setOffenseDetails({ ...newDetails });
       editForm();
     } catch (error) {
       console.error("Error:", error.message);
@@ -122,6 +189,22 @@ const Prisoners = ({ view }) => {
     fetchPrisonersData();
   }, [isFormEdit, isFormOpen]);
 
+  // Retrieve all offense details on any change or submission
+  useEffect(() => {
+    async function fetchAllOffenses() {
+      try {
+        const offensesDataTable = await fetchOffenses();
+        console.log(offensesDataTable)
+        const filteredTable = filterOffensesColumns(offensesDataTable, offensesHeadCells);
+        console.log("Fetched offenses:", filteredTable);
+        setOffenseFilteredTable([ ...filteredTable ]);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+    fetchAllOffenses();
+  }, [isOffenseFormEdit, isOffenseFormOpen]);
+
   return (
     <div className="page prisoners-page">
       {/* Render the form when it is opened */}
@@ -133,16 +216,35 @@ const Prisoners = ({ view }) => {
           onClose={onClose}
         ></PrisonerForm>
       )}
+      {/* Render the form when it is opened */}
+      {isFormOpen && (
+        <OffenseForm
+          details={offenseDetails}
+          isOpen={isOffenseFormOpen}
+          isEdit={isOffenseFormEdit}
+          onClose={onOffenseClose}
+        ></OffenseForm>
+      )}
       <h1 className="page-title">Prisoners Management Dashboard</h1>
       <div className="page-body">
         <div className="page-body-section">
-          <div className="table enhanced-table">
+          <div className="table enhanced-table glassmorphism">
             <EnhancedTable
               dataTable={prisonersFilteredTable}
               dataHeadCells={prisonersHeadCells}
               title="Prisoners"
               onAdd={toggleForm}
               onEdit={getPrisonerDetails}
+              readOnly={readOnly}
+            />
+          </div>
+          <div className="table enhanced-table glassmorphism">
+            <EnhancedTable
+              dataTable={offensesFilteredTable}
+              dataHeadCells={offensesHeadCells}
+              title="Offenses"
+              onAdd={toggleOffenseForm}
+              onEdit={getOffensesDetails}
               readOnly={readOnly}
             />
           </div>

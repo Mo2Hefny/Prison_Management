@@ -18,10 +18,14 @@ div.MuiDataGrid-columnHeadersInner div.columnHeaders {
 }
 
 /* Handle */
-.display-grid-container div::-webkit-scrollbar-thumb:vertical {
+div.display-grid-container div::-webkit-scrollbar-thumb:vertical {
   background: var(--light-primary);
 }
 
-.page .display-grid-container div::-webkit-scrollbar-thumb:horizontal {
+.page div.display-grid-container div::-webkit-scrollbar-thumb:horizontal {
   background: var(--light-primary);
+}
+
+div.MuiDataGrid-columnHeadersInner.css-gl260s-MuiDataGrid-columnHeadersInner {
+  color: var(--accent-color);
 }

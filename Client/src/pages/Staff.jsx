@@ -138,7 +138,7 @@ const Staff = ({ view }) => {
       <h1 className="page-title">Staff Management Dashboard</h1>
       <div className="page-body">
         <div className="page-body-section">
-          <div className="table enhanced-table">
+          <div className="table enhanced-table glassmorphism">
             <EnhancedTable
               dataTable={staffFilteredTable}
               dataHeadCells={staffHeadCells}

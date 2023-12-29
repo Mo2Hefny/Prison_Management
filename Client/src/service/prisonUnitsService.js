@@ -1,9 +1,6 @@
 import axios from "axios";
 // prisonerService.js
 
-const JSON_FILE_URL_BLOCK = '../../data/prisonBlocks.json'; // Adjust the path as needed
-const JSON_FILE_URL_CELL = '../../data/cells.json'; // Adjust the path as needed
-
 // Function to fetch a list of prison blocks
 export const fetchPrisonBlocks = async () => {
   try {
@@ -36,7 +33,7 @@ export const fetchPrisonBlocksById = async (id) => {
       throw new Error(`Block ${id} is not found`);
     }
 
-    return block;
+    return block[0];
     })
     .catch((err) => console.log(err));
     return response;
@@ -94,6 +91,21 @@ export const fetchCellById = async (id) => {
     return response;
   } catch (error) {
     console.error(`Error fetching cells in block ${id}:`, error);
+    throw error;
+  }
+}
+
+export const fetchCells = async () => {
+  try {
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getAllCells",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(`Error fetching cells`, error);
     throw error;
   }
 }

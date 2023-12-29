@@ -327,6 +327,37 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+  getOffensesById: async (req, res) => {
+    let id = req.body.offenseid;
+    const q = `Select * from offense where offenseid=?;`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, id, (error, data) => {
+        if (error) {
+          return res.json({ error });
+        } else {
+          return res.json(data);
+        }
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
+  getAllOffenses: async (req, res) => {
+    const q = `Select * from offense;`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        if (error) {
+          return res.json({ error });
+        } else {
+          return res.json(data);
+        }
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
   // Staff
   getstaffbyid: async (req, res) => {
     let staffid = req.body.staff_id;
@@ -648,6 +679,21 @@ const admincontroller = {
     try {
       // try-catch for error handling
       db.query(q, [cellid, blockid], (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
+  getAllCells: async (req, res) => {
+    const q = `Select * from cell`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
         // set the block id
         if (error) return res.json({ error }); // error occured
         else return res.json(data); // return data if a ll good

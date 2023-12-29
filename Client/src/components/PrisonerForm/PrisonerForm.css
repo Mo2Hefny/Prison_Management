@@ -3,12 +3,12 @@
 .prisoner-form.form {
   top: 2%;
   width: 95%;
-  max-height: 85%;
+  height: 85%;
 }
 
 .prisoner-form .grid-container {
   display: grid;
-  grid-template-rows: repeat(2, 1fr); /* Two rows for sections */
+  grid-template-rows: repeat(2, auto); /* Two rows for sections */
   grid-template-columns: 1fr; /* One column for the first row (prisoner details) */
   gap: clamp(1rem, 7%, 4rem) 1rem;
 }
@@ -51,6 +51,11 @@
 
 .offenses-section .form-section-input {
   gap: 1%;
+}
+
+.offenses-section .display-grid-container {
+  width: 40%;
+  overflow-x: hidden;
 }
 
 .sentence-date {
