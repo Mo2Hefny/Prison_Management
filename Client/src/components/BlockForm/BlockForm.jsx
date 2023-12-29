@@ -1,43 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
-import StaffDetails from "./StaffDetails";
 import "../Form.css";
 import "../PrisonerForm/PrisonerForm.css";
 import Button from "../Button";
 import { queryStaffFormat } from "../../utils/formatUtils";
-import {insertStaff} from "../../service/staffService"
+import {insertBlock, insertCell} from "../../service/prisonUnitsService"
+import BlockDetails from "./BlockDetails";
 
 
-const BlockForm = ({ blockDetails, isOpen, onClose }) => {
+const BlockForm = ({ details, isOpen, onClose }) => {
   const formRef = useRef(null);
   // State variable to manage the form's input values.
-  const [blockDetails, setBlockDetails] = useState(blockDetails);
-
-  const handleStaffDetailsChange = (field, value) => {
+  const [blockDetails, setBlockDetails] = useState(details);
+  
+  const handleCellDetailsChange = (field, value) => {
     setBlockDetails({ ...blockDetails, [field]: value });
   };
 
-  const insertNewCell = () => {
-    console.log(cellDetails);
-    const info = {...cellDetails};
+  const insertNewBlock = () => {
+    console.log(blockDetails);
+    const info = {...blockDetails};
     console.log(info)
-    queryStaffFormat(info);
-    const success = insertStaff(info);
+    const success = insertBlock(info);
     if (success) onClose();
   }
 
 
   return (
     <form ref={formRef} className="form prisoner-form">
-      <h2 className="form-title">Staff Form</h2>
+      <h2 className="form-title">Blocks Form</h2>
       <div className="grid-container">
-        <StaffDetails
+        <BlockDetails
           details={blockDetails}
-          onChange={handleStaffDetailsChange}
+          onChange={handleCellDetailsChange}
           setPrisonerDetails={setBlockDetails}
         />
       </div>
       <div className="btn-section">
-        <Button onClick={insertNewStaff} classNames='btn btn-4' text='Add Staff' />
+        <Button onClick={insertNewBlock} classNames='btn btn-4' text='Add Block' />
         <Button onClick={onClose} classNames='btn btn-3' text='Cancel' />
       </div>
     </form>

@@ -10,6 +10,7 @@ import {
 } from "../service/prisonUnitsService";
 import { filterBlockColumns } from "../utils/dataUtils";
 import CellForm from "../components/CellForm/CellForm";
+import BlockForm from "../components/BlockForm/BlockForm";
 
 const prisonBlockHeadCells = [
   {
@@ -175,7 +176,7 @@ const PrisonUnits = ({ view }) => {
     <div className="page prison-units-page">
       {/* Render the form when it is opened */}
       {isFormOpen && (
-        <BlockForm isOpen={isFormOpen} onClose={toggleForm}></BlockForm>
+        <BlockForm isOpen={isFormOpen} onClose={toggleForm}details={blockDetails}></BlockForm>
       )}
       {isCellFormOpen && (
         <CellForm isOpen={isCellFormOpen} onClose={toggleCellForm} details={cellDetails}></CellForm>

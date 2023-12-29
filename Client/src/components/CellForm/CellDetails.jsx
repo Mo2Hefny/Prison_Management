@@ -5,7 +5,7 @@ import DateComp from '../DateComp';
 import {getsupervisors} from '../../service/staffService'
 import { SelectAutoWidth, SelectSmall } from '../SelectComponent';
 import { getMonthDifference } from '../../utils/dateUtils';
-import { fetchPrisonBlocks } from '../../service/prisonUnitsService';
+import { fetchPrisonBlocksnotmax } from '../../service/prisonUnitsService';
 
 
 const CellDetails = ({ details, onChange, setCellDetails }) => {
@@ -32,7 +32,7 @@ const CellDetails = ({ details, onChange, setCellDetails }) => {
   useEffect(() => {
     async function fetchBlockIds() {
       try {
-        const otherlist = await fetchPrisonBlocks();
+        const otherlist = await fetchPrisonBlocksnotmax();
         const filteredlist = otherlist.map((sp) => sp.blockid)
         console.log(filteredlist)
         setBlockLists([ ...filteredlist]);

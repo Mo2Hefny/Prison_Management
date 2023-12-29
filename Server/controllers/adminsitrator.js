@@ -641,6 +641,25 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+  //  
+  getAllPrisonBlocksnotmax: async (req, res) => {
+    const q = `select blockid from cell_block
+              where cellsnumber > (select count(*) from cell c group by block_id having c.block_id = blockid) or blockid not in (select 
+              distinct block_id from cell);`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q ,(error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
+  //
   getcellbyid: async (req, res) => {
     let cellid = req.body.cell_id;
     let blockid = req.body.block_id;
@@ -713,6 +732,34 @@ const admincontroller = {
     try {
       // try-catch for error handling
       db.query(q, [cellcontent], (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
+  // Block insert
+  insertBlock: async (req, res) => {
+    /*
+        blockid: null,
+        securityType: "",
+        blockName: "",
+        cellsNum: 10,
+    */
+    let blockContent = [
+      req.body.blockid,
+      req.body.blockName,
+      req.body.cellsNum,
+      req.body.securityType,
+    ]
+    const q = `Insert into cell_block(blockid, blockname,cellsnumber,security_type) values (?)`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, [blockContent], (error, data) => {
         // set the block id
         if (error) return res.json({ error }); // error occured
         else return res.json(data); // return data if a ll good
