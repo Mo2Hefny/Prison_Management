@@ -16,10 +16,16 @@ const visitorsHeadCells = [
     label: 'Full Name',
   },
   {
-    id: 'ssn',
+    id: 'SSN',
     numeric: false,
     disablePadding: false,
     label: 'SSN',
+  },
+  {
+    id: 'age',
+    numeric: true,
+    disablePadding: false,
+    label: 'Age',
   },
   {
     id: 'address',

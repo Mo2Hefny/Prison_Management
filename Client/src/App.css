@@ -19,6 +19,12 @@
 .page {
   max-height: 100vh;
   padding-bottom: 4rem;
+  height: 100%;
+}
+
+.page-title {
+  font-size: var(--title-L);
+  padding: 2% 4%;
 }
 
 .page-body-section {

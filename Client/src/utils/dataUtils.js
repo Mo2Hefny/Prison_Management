@@ -106,12 +106,14 @@ export const filterDoctorColumns = (dataTable, neededColumns, neededCollapsingTa
 export const filterVisitorsColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
     const newRow = {};
-    newRow['id'] = row['visID'];
+    newRow['id'] = row['visitorid'];
     neededColumns.forEach((column) => {
       if (column['id'] === 'name') {
         // Combine fname and lname to create the "Name" column
         console.log(row);
-        newRow[column['id']] = `${row['visFname']} ${row['visLname']}`;
+        newRow[column['id']] = `${row['Fname']} ${row['Lname']}`;
+      } else  if (column['id'] === 'age') {
+        newRow[column['id']] = getYearDifference(new Date(row['Bdate']), new Date());
       } else {
         newRow[column['id']] = row[column['id']];
       }
@@ -125,7 +127,7 @@ export const filterVisitorsColumns = (dataTable, neededColumns) => {
 export const filterVisitsColumns = (dataTable, neededColumns) => {
   return dataTable.map((row) => {
     const newRow = {};
-    newRow['id'] = [row['Prisoner id'], row['Visit date'], row['Visitor id']];
+    newRow['id'] = `${row['Prisoner id']} ${row['Visit date']} ${row['Visitor id']}`;
     fixVisitFormat(row);
     neededColumns.forEach((column) => {
       newRow[column['id']] = row[column['id']];

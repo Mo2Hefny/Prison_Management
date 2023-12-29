@@ -8,15 +8,16 @@ const JSON_FILE_URL_VISITORS = '../../data/visitors.json'; // Adjust the path as
 // Function to fetch a list of visitors
 export const fetchVisitors = async () => {
   try {
-    const response = await fetch(JSON_FILE_URL_VISITORS);
-    if (!response.ok) {
-      throw new Error('Failed to fetch visitors');
-    }
-
-    const data = await response.json();
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getAllVisitors",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    console.log(`Visitations: `, data);
     return data;
   } catch (error) {
-    console.error('Error fetching visitors:', error);
+    console.error('Error fetching visits log:', error);
     throw error;
   }
 };

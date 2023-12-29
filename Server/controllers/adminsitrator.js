@@ -544,6 +544,21 @@ const admincontroller = {
     }
   },
   // Visits
+  getAllVisitors: async (req, res) => {
+    const q = `Select * from visitor`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        if (error) {
+          return res.json({ error });
+        } else {
+          return res.json(data);
+        }
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
   getupcomingvisitations: async (req, res) => {
     var datetime = new Date(); // get the current date and time
     let currentdate = datetime.toISOString().slice(0, 10); // take the date part only
