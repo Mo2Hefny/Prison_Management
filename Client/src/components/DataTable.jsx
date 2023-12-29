@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import './DataTable.css'
 
-export default function DataTable({ rows, columns, readOnly, rowID, selectedRows }) {
-  const getRowId = (row) => row[rowID];
+export default function DataTable({ rows, columns, readOnly }) {
   console.log(rows)
   console.log(columns)
   const [selectionModel, setSelectionModel] = useState([]);
-  console.log('Selected Rows:', selectionModel);
   function addNewSelected(selectedRows) {
     // Add your custom logic here
-    setSelectionModel(selectedRows)
+    console.log('Selected Rows:', selectedRows);
+    setSelectionModel([selectedRows])
   }
   return (
     <div style={{ height: 400, width: '100%' }}>
@@ -23,11 +22,10 @@ export default function DataTable({ rows, columns, readOnly, rowID, selectedRows
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection={!readOnly}
+        checkboxSelection={false}
         selectionModel={selectionModel}
         onRowSelectionModelChange={(newSelectionModel) => addNewSelected(newSelectionModel)}
         keepNonExistentRowsSelected={true}
-        getRowId={getRowId}
       />
     </div>
   );

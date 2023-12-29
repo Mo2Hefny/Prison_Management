@@ -1,74 +1,82 @@
-import React, { useEffect, useState } from 'react'
-import Input from '../Input'
-import DisplayTable from '../DisplayTable';
-import { fetchCellById, fetchCells, fetchPrisonBlocksById } from '../../service/prisonUnitsService';
+import React, { useEffect, useState } from "react";
+import Input from "../Input";
+import DisplayTable from "../DisplayTable";
+import {
+  fetchCellById,
+  fetchCells,
+  fetchCellsForBlockById,
+  fetchPrisonBlocks,
+  fetchPrisonBlocksById,
+} from "../../service/prisonUnitsService";
+import { SelectSmall } from "../SelectComponent";
 
 const cellsHeadCells = [
   {
-    field: 'fullName',
-    headerName: 'Cell',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 110,
-    valueGetter: (params) =>
-      `${params.row.blockname || ''} C${params.row.cell_id || ''}`,
+    field: "cell_id",
+    headerName: "Cell#",
+    width: 130,
   },
-  { 
-    field: 'security', 
-    headerName: 'Security',
-    width: 130
+  {
+    field: "size",
+    headerName: "Occupants",
+    width: 130,
   },
-  { 
-    field: 'capacity', 
-    headerName: 'Cap',
-    width: 100
+  {
+    field: "capacity",
+    headerName: "Cap",
+    width: 100,
   },
-]
+];
 
-const CellSection = ({ details, onChange, setSelected }) => {
-  const [selectionModel, setSelectionModel] = useState([]);
-  const [cellTable, setCellTable] = useState([{}]);
+const CellSection = ({ details, onChange }) => {
+  const [blockList, setBlockList] = useState([[]]);
+  const [cellTable, setCellTable] = useState([[]]);
 
   const handleChange = (e, field) => {
     onChange(field, e.target.value);
-  }
+  };
 
   useEffect(() => {
-    async function fetchOwnCell() {
-      const prisonerCell = await fetchCellById([details.blockid, details.cell_id]);
-      console.log(prisonerCell);
-      setSelectionModel(prisonerCell);
+    async function fetchBlockList() {
+      try {
+        const blocks = await fetchPrisonBlocks();
+        console.log(blocks);
+        const blockID = blocks.map((block) => block.blockid);
+        const blockNames = blocks.map((block) => block.blockname);
+        setBlockList([blockID, blockNames]);
+      } catch (e) {
+        throw new Error(e);
+      }
     }
-    fetchOwnCell();
+    fetchBlockList();
+  }, []);
+  useEffect(() => {
     async function fetchPrisonCells() {
-      const prisonerCells = await fetchCells();
-      console.log(prisonerCells);
-      const cellsBlockName = await Promise.all(
-      prisonerCells.map( async(cell) => {
-        const block = await fetchPrisonBlocksById(cell.block_id);
-        console.log(block.blockname);
-        return {'id': [cell.blockid, cell.cell_id] ,...cell, 'blockname': block.blockname, 'security': block.security_type};
-      }));
-      console.log(cellsBlockName);
-      setCellTable(cellsBlockName);
+      try {
+        const blockCells = await fetchCellsForBlockById(details.blockid);
+        console.log(blockCells);
+        setCellList(blockCells);
+      } catch (e) {
+        throw new Error(e);
+      }
     }
     fetchPrisonCells();
-  }, []);
-
+  }, [details.blockid]);
 
   return (
-    <div className='form-section cell-section'>
+    <div className="form-section cell-section">
+      <SelectSmall value={details.blockid} label='Block Name' list={blockList[0]} field='blockid' onChange={onChange} maxWidth={190} Null={true}/>
+      <SelectSmall value={details.cell_id} label='Status' list={cellList[0]} field='cell_id' onChange={onChange} maxWidth={190} Null={true}/>
       <DisplayTable
-        title='Cells'
-        dataTable={cellTable}
-        selectedColumns={cellsHeadCells}
-        setSelected={setSelected}
-        selectedRows={selectionModel} 
-        rowID='id'
-        readOnly={true}
+                title="Block cells"
+                dataTable={blockCells}
+                selectedColumns={cellsHeadCells}
+                onClick={toggleForm}
+                UIMode={"add"}
+                readOnly={true}
       />
     </div>
-  )
-}
+  );
+};
 
-export default CellSection
+export default CellSection;

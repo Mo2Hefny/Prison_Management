@@ -135,6 +135,7 @@ const PrisonUnits = ({ view }) => {
 
   const deleteBlock = async (blockid) => {
     try {
+      setToggleDelete(!toggleDelete);
       const newDetails = await deleteblock(blockid);
       console.log("Fetched cell:", newDetails);
       //editForm();
@@ -146,6 +147,7 @@ const PrisonUnits = ({ view }) => {
 
   const deleteCell = async (blockid_cell_id) => {
     try {
+      setToggleDelete(!toggleDelete);
       const newDetails = await deletecell(blockid_cell_id);
       console.log("Fetched cell:", newDetails);
       //editCellForm();
@@ -194,7 +196,7 @@ const PrisonUnits = ({ view }) => {
       }
     }
     fetchBlockData();
-  }, [isFormEdit, isFormOpen, isCellFormEdit, isCellFormOpen, isDelete]);
+  }, [isFormEdit, isFormOpen, isCellFormEdit, isCellFormOpen, toggleDelete]);
 
   return (
     <div className="page prison-units-page">

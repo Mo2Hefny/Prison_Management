@@ -217,7 +217,7 @@ const Prisoners = ({ view }) => {
         ></PrisonerForm>
       )}
       {/* Render the form when it is opened */}
-      {isFormOpen && (
+      {isOffenseFormOpen && (
         <OffenseForm
           details={offenseDetails}
           isOpen={isOffenseFormOpen}
