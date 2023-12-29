@@ -691,6 +691,38 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+  // Insert new cell
+  insertCell: async (req, res) => {
+    /*
+      block_id: null,
+      cell_id: null,
+      capacity: null,
+      type: "Inmate Cells",
+      size: null,
+      floor: null,
+    */
+    let cellcontent = [
+      req.body.cell_id,
+      req.body.block_id,
+      req.body.capacity,
+      req.body.type,
+      req.body.floor,
+      0
+    ]
+    const q = `Insert into cell(cell_id, block_id,capacity,type,floor,size) values (?)`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, [cellcontent], (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
 };
 
 export default admincontroller;

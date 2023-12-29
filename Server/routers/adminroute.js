@@ -36,6 +36,7 @@ adminrouter.post("/getcellbyid",admincontroller.getcellbyid)
 adminrouter.post("/getcellsblock",admincontroller.getcellsforblocks)
 adminrouter.post("/getprisonersincell",admincontroller.getprisonersincell)
 adminrouter.post("/getnumprisonersincell",admincontroller.getnumberprisonersincell)
+adminrouter.post("/insertCell",authMiddleware,admincontroller.insertCell)
 // Visitors
 adminrouter.get("/getallvisitation",admincontroller.getallvisitations)
 adminrouter.get("/getAllVisitors",admincontroller.getAllVisitors)

@@ -1,8 +1,6 @@
 import axios from "axios";
 // prisonerService.js
 
-const JSON_FILE_URL_BLOCK = '../../data/prisonBlocks.json'; // Adjust the path as needed
-const JSON_FILE_URL_CELL = '../../data/cells.json'; // Adjust the path as needed
 
 // Function to fetch a list of prison blocks
 export const fetchPrisonBlocks = async () => {
@@ -97,3 +95,31 @@ export const fetchCellById = async (id) => {
     throw error;
   }
 }
+
+// Insert new Cell
+export const insertCell = async (cellDetails) => {
+  try {
+    cellDetails.cell_id = parseInt(cellDetails.cell_id);
+    console.log(cellDetails);
+    console.log(localStorage.getItem('token'));
+    const response = await axios
+    .post("http://localhost:3000/admin/insertCell", cellDetails, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return true;
+    })
+    .catch((err) => { 
+      console.log(err);
+      return false
+    });
+    return response;
+  } catch (error) {
+    console.error(`Error inserting staff with Details: ${cellDetails}:`, error);
+    throw error;
+  }
+}
+// end insert cell

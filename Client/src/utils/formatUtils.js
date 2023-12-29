@@ -71,9 +71,10 @@ export const queryStaffFormat = (row) => {
     row['staff_type'] = 2;
   else if (row['staff_type'] === 'general')
     row['staff_type'] = 3;
-
 }
+// For cells
 
+// end cells part
 
 // Fix visits date, and attended format
 export const fixVisitFormat = (row) => {
