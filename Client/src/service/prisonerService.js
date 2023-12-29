@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { fixPrisonerFormat } from '../utils/formatUtils';
+import { view } from "../App";
 // prisonerService.js
 
 // Function to fetch a list of prisoners
@@ -7,7 +8,7 @@ export const fetchPrisoners = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/prisoner",
+      url: `http://localhost:3000/${view}/prisoner`,
     })
     console.log('Response:', response); // Log the response
     const responseData = response.data;
@@ -23,7 +24,7 @@ export const fetchPrisoners = async () => {
 export const fetchPrisonerById = async (id) => {
   try {
     const response = await axios
-    .post("http://localhost:3000/admin/prisonerid", { "prisonerid": id})
+    .post(`http://localhost:3000/${view}/prisonerid`, { "prisonerid": id})
     .then((res) => {
       // Find the prisoner with the specified ID
       const data = res.data
@@ -51,7 +52,7 @@ export const insertPrisoner = async (prisonerDetails) => {
     console.log(prisonerDetails);
     console.log(localStorage.getItem('token'));
     const response = await axios
-    .post("http://localhost:3000/admin/prisoner", prisonerDetails, {
+    .post(`http://localhost:3000/${view}/prisoner`, prisonerDetails, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -76,7 +77,7 @@ export const fetchOffensesWithNoPrisoner = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/offenses_noprisoner",
+      url: `http://localhost:3000/${view}/offenses_noprisoner`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -92,7 +93,7 @@ export const fetchOffensesById = async (id) => {
   try {
     console.log(id);
     const response = await axios
-    .post("http://localhost:3000/admin/offensesById", id)
+    .post(`http://localhost:3000/${view}/offensesById`, id)
     .then((res) => {
       console.log(res.data);
       return res.data;
@@ -112,7 +113,7 @@ export const fetchOffenses = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/allOffenses",
+      url: `http://localhost:3000/${view}/allOffenses`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;

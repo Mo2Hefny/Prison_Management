@@ -40,10 +40,10 @@ adminrouter.post("/getcellsblock",admincontroller.getcellsforblocks)//stored pro
 adminrouter.get("/getAllCells",admincontroller.getAllCells)
 adminrouter.post("/getprisonersincell",admincontroller.getprisonersincell)
 adminrouter.post("/getnumprisonersincell",admincontroller.getnumberprisonersincell)
-adminrouter.post("/insertCell",authMiddleware,admincontroller.insertCell)
-adminrouter.post("/insertBlock",authMiddleware,admincontroller.insertBlock)
-adminrouter.post("/deleteblock",authMiddleware,admincontroller.deleteblock)
-adminrouter.post("/deleteCell",authMiddleware,admincontroller.deleteCell) 
+adminrouter.post("/insertCell",authmiddleAdmin,admincontroller.insertCell)
+adminrouter.post("/insertBlock",authmiddleAdmin,admincontroller.insertBlock)
+adminrouter.post("/deleteblock",authmiddleAdmin,admincontroller.deleteblock)
+adminrouter.post("/deleteCell",authmiddleAdmin,admincontroller.deleteCell) 
 // Visitors
 adminrouter.get("/getallvisitation",admincontroller.getallvisitations)
 adminrouter.get("/getAllVisitors",admincontroller.getAllVisitors)  //stored proc

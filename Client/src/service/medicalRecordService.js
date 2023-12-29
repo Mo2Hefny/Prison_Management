@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { fixMedicalRecordFormat } from '../utils/formatUtils';
+import { view } from "../App";
 // medicalRecordService.js
 
 // Function to fetch a list of prisoners
@@ -7,7 +8,7 @@ export const fetchMedicalRecords = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/all_records",
+      url: `http://localhost:3000/${view}/all_records`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -23,7 +24,7 @@ export const fetchMedicalRecordByDoctorId = async (id) => {
   try {
     console.log(id)
     const response = await axios
-    .post("http://localhost:3000/admin/getdoctorrecords", { "doctorid": id })
+    .post(`http://localhost:3000/${view}/getdoctorrecords`, { "doctorid": id })
     .then((res) => {
       const data = res.data
       if (!data) {
@@ -42,7 +43,7 @@ export const fetchMedicalRecordByDoctorId = async (id) => {
 export const fetchMedicalRecordById = async (id) => {
   try {
     const response = await axios
-    .post("http://localhost:3000/admin/medical_record", { "prisoner_id": id[0], "record_id": id[1]})
+    .post(`http://localhost:3000/${view}/medical_record`, { "prisoner_id": id[0], "record_id": id[1]})
     .then((res) => {
       const data = res.data
       if (!data) {
@@ -82,7 +83,7 @@ export const fetchTreatmentsByRecordId = async (id) => {
   try {
     console.log(id)
     const response = await axios
-    .post("http://localhost:3000/admin/getrecordtreatments", { "pid": id[0], "recordid": id[1] })
+    .post(`http://localhost:3000/${view}/getrecordtreatments`, { "pid": id[0], "recordid": id[1] })
     .then((res) => {
       const data = res.data
       if (!data) {
@@ -105,7 +106,7 @@ export const fetchAllPrisonersConditions = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallPrisonerCondition",
+      url: `http://localhost:3000/${view}/getallPrisonerCondition`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;

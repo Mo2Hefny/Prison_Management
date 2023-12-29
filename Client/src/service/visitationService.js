@@ -1,16 +1,14 @@
 import axios from "axios";
 import { isDateToday } from "../utils/dateUtils";
+import { view } from "../App";
 // visitationService.js
-
-const JSON_FILE_URL_VISITS = '../../data/visitations.json'; // Adjust the path as needed
-const JSON_FILE_URL_VISITORS = '../../data/visitors.json'; // Adjust the path as needed
 
 // Function to fetch a list of visitors
 export const fetchVisitors = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getAllVisitors",
+      url: `http://localhost:3000/${view}/getAllVisitors`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -28,7 +26,7 @@ export const fetchVisitorById = async (id) => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getAllVisitors",
+      url: `http://localhost:3000/${view}/getAllVisitors`,
     })
     console.log('Response:', response); // Log the response
     if (!response.ok) {
@@ -63,7 +61,7 @@ export const fetchVisitations = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallvisitation",
+      url: `http://localhost:3000/${view}/getallvisitation`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -79,7 +77,7 @@ export const fetchVisitationsByDate = async (date) => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallvisitation",
+      url: `http://localhost:3000/${view}/getallvisitation`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -109,7 +107,7 @@ export const fetchVisitationsById = async (pid, visID) => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallvisitation",
+      url: `http://localhost:3000/${view}/getallvisitation`,
     })
     console.log('Response:', response); // Log the response
     if (!response.ok) {
