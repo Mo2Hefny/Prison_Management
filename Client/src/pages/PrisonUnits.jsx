@@ -6,12 +6,14 @@ import CollapsibleTable from "../components/CollapsibleTable";
 import {
   fetchPrisonBlocks,
   fetchCellsForBlockById,
+  fetchCellById,
+  fetchPrisonBlocksById,
 } from "../service/prisonUnitsService";
 import { filterBlockColumns } from "../utils/dataUtils";
 
 const prisonBlockHeadCells = [
   {
-    id: "blockName",
+    id: "blockname",
     numeric: false,
     disablePadding: true,
     label: "Block Name",
@@ -23,7 +25,7 @@ const prisonBlockHeadCells = [
     label: "Cells Capacity",
   },
   {
-    id: "securityType",
+    id: "security_type",
     numeric: true,
     disablePadding: false,
     label: "Security",
@@ -38,7 +40,7 @@ const prisonCellsHeadCells = [
     label: "Cell Type",
   },
   {
-    id: "cap",
+    id: "capacity",
     numeric: true,
     disablePadding: false,
     label: "Capacity",
@@ -58,10 +60,19 @@ const prisonCellsHeadCells = [
 ];
 
 const blockDetailsTemplate = {
-  block_id: null,
+  blockid: null,
   securityType: "",
   blockName: "",
   cellsNum: 10,
+};
+
+const cellDetailsTemplate = {
+  block_id: null,
+  cell_id: null,
+  capacity: null,
+  type: "Inmate Cells",
+  size: null,
+  floor: null,
 };
 
 const PrisonUnits = ({ view }) => {
@@ -71,6 +82,10 @@ const PrisonUnits = ({ view }) => {
   const [blockDetails, setBlockDetails] = useState(blockDetailsTemplate);
   const [blockFilteredTable, setBlockFilteredTable] = useState([{}]);
   const readOnly = ["staff", "visitor", "doctor"].includes(view);
+  // Cells variables
+  const [isCellFormOpen, setIsCellFormOpen] = useState(false);
+  const [isCellFormEdit, setIsCellFormEdit] = useState(false);
+  const [cellDetails, setCellDetails] = useState(blockDetailsTemplate);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
@@ -89,10 +104,38 @@ const PrisonUnits = ({ view }) => {
 
   const getBlockDetails = async (id) => {
     try {
-      const newDetails = await fetchStaffById(id);
-      console.log("Fetched staff:", newDetails);
+      const newDetails = await fetchPrisonBlocksById(id);
+      console.log("Fetched block:", newDetails);
       setBlockDetails({ ...newDetails });
-      editForm();
+      //editForm();
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  // Function to toggle the form's visibility.
+  const onCellClose = () => {
+    setIsCellFormOpen(false);
+    setCellDetails(cellDetailsTemplate);
+  };
+
+  const editCellForm = () => {
+    setIsCellFormEdit(true);
+    setIsCellFormOpen(true);
+  };
+
+  const toggleCellForm = () => {
+    setIsCellFormEdit(false);
+    setIsCellFormOpen(!isFormOpen);
+  };
+
+  const getCellDetails = async (id) => {
+    console.log(id);
+    try {
+      const newDetails = await fetchCellById(id);
+      console.log("Fetched cell:", newDetails);
+      setCellDetails({ ...newDetails });
+      editCellForm();
     } catch (error) {
       console.error("Error:", error.message);
     }
@@ -107,7 +150,7 @@ const PrisonUnits = ({ view }) => {
         // Retrieve all cells details belonging to each block.
         const blocksWithCells = await Promise.all(
           blockDataTable.map(async (block) => {
-            const cells = await fetchCellsForBlockById(block.block_id);
+            const cells = await fetchCellsForBlockById(block.blockid);
             // Assuming fetchCellsForBlock(blockId) is a function that fetches cells for a given block ID
             return { ...block, cells };
           })
@@ -118,7 +161,7 @@ const PrisonUnits = ({ view }) => {
           prisonBlockHeadCells,
           prisonCellsHeadCells
           );
-          console.log("Fetched blocks:", filteredTable);
+          console.log("Fetched filtered blocks:", filteredTable);
         setBlockFilteredTable([...filteredTable]);
       } catch (error) {
         console.error("Error:", error.message);
@@ -131,7 +174,12 @@ const PrisonUnits = ({ view }) => {
     <div className="page prison-units-page">
       {/* Render the form when it is opened */}
       {isFormOpen && (
-        <PrisonerForm isOpen={isFormOpen} onClose={toggleForm}></PrisonerForm>
+        //<BlockForm isOpen={isFormOpen} onClose={toggleForm}></BlockForm>
+        <></>
+      )}
+      {isCellFormOpen && (
+        //<CellForm isOpen={isCellFormOpen} onClose={toggleCellForm}></CellForm>
+        <></>
       )}
       <h1 className="page-title">Prison Units Management</h1>
       <div className="page-body">
@@ -145,6 +193,8 @@ const PrisonUnits = ({ view }) => {
               subTableTitle="Cells"
               readOnly={readOnly}
               onAdd={toggleForm}
+              onEdit={getBlockDetails}
+              onSubEdit={getCellDetails}
             />
           </div>
         </div>

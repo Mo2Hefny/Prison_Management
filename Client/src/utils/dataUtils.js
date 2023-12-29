@@ -140,12 +140,20 @@ export const filterVisitsColumns = (dataTable, neededColumns) => {
 export const filterBlockColumns = (dataTable, neededColumns, neededCollapsingTableColumns = undefined) => {
   return dataTable.map((row) => {
     const newRow = {};
-    newRow['id'] = row['block_id'];
+    newRow['subTable'] = [];
+    console.log(neededColumns);
+    console.log(row);
+    newRow['id'] = row['blockid'];
     neededColumns.forEach((column) => {
-      newRow[column['id']] = row[column['id']];
+      if (column['id'] === 'cellsNum') {
+        newRow['cellsNum'] = `- / ${row['cellsnumber']}`;
+      } else {
+        newRow[column['id']] = row[column['id']];
+      }
     });
-    if (typeof neededCollapsingTableColumns !== "undefined") {
-    newRow['subTable'] = filterCellsColumns(row['cells'], neededCollapsingTableColumns);
+    if (typeof neededCollapsingTableColumns !== "undefined" && typeof row['cells'] !== "undefined") {
+      newRow['subTable'] = filterCellsColumns(row['cells'], neededCollapsingTableColumns);
+      newRow['cellsNum'] = `${newRow['subTable'].length} / ${row['cellsnumber']}`;
     }
     return newRow;
   });
@@ -157,9 +165,9 @@ export const filterCellsColumns = (dataTable, neededColumns) => {
     const newRow = {};
     newRow['id'] = row['cell_id'];
     neededColumns.forEach((column) => {
-      if (column['id'] === 'cap') {
+      if (column['id'] === 'capacity') {
         // Combine current capacity and max capacity to create the "capacity" column
-        newRow[column['id']] = `- / ${row['cap']}`;
+        newRow[column['id']] = `- / ${row['capacity']}`;
       } else {
         newRow[column['id']] = row[column['id']];
       }

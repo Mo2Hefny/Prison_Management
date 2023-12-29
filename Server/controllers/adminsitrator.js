@@ -388,6 +388,21 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+  getsupervisors: async (req, res) => {
+    const q = `Select distinct supervisor_id from staff where supervisor_id is not null`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        if (error) {
+          return res.json({ error });
+        } else {
+          return res.json(data);
+        }
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
   // Medical
   getallmedicalrecords: async (req, res) => {
     const q = `Select m.recordid as "Record id", p.pid as "Prisoner id", concat(p.fname," ",p.lname) as "Prisoner name",
@@ -426,22 +441,6 @@ const admincontroller = {
       });
     } catch (err) {
       return res.json({ err }); // say what is the error
-    }
-  },
-  getnumberprisonersincell: async (req, res) => {
-    let cellid = req.body.cell_id;
-    const q = `Select count(*) as "Count prisoners" from prisoner where cell_id = ?`; // formulate query
-    try {
-      // try-catch for error handling
-      db.query(q, [cellid], (error, data) => {
-        // set the block id
-        if (error) return res.json({ error }); // error occured
-        else return res.json(data); // return data if a ll good
-      });
-    } catch (
-      err // catch block
-    ) {
-      return res.json({ err });
     }
   },
   getdoctorrecords: async (req, res) => {
@@ -627,6 +626,21 @@ const admincontroller = {
     }
   },
   // Prison Units
+  getAllPrisonBlocks: async (req, res) => {
+    const q = `Select * from cell_block;`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
   getcellbyid: async (req, res) => {
     let cellid = req.body.cell_id;
     let blockid = req.body.block_id;
@@ -660,18 +674,20 @@ const admincontroller = {
       return res.json({ err });
     }
   },
-  getsupervisors: async (req, res) => {
-    const q = `Select distinct supervisor_id from staff where supervisor_id is not null`; // formulate query
+  getnumberprisonersincell: async (req, res) => {
+    let cellid = req.body.cell_id;
+    let blockid = req.body.block_id;
+    const q = `Select count(*) as "Count prisoners" from prisoner where block_id=? AND cell_id = ?`; // formulate query
     try {
       // try-catch for error handling
-      db.query(q, (error, data) => {
-        if (error) {
-          return res.json({ error });
-        } else {
-          return res.json(data);
-        }
+      db.query(q, [blockid, cellid], (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
       });
-    } catch (err) {
+    } catch (
+      err // catch block
+    ) {
       return res.json({ err });
     }
   },

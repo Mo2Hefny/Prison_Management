@@ -3,8 +3,3 @@
   position: relative;
   height: 100%;
 }
-
-.page-title {
-  font-size: var(--title-L);
-  padding: 2% 4%;
-}
