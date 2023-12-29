@@ -1,0 +1,27 @@
+/* DataTable.css */
+/* Vertical Flex */
+div.css-ptkaw2-MuiDataGrid-root {
+  border-color: var(--dark-section);
+}
+
+/* Text */
+div.css-ptkaw2-MuiDataGrid-root {
+  color: var(--secondary-color);
+}
+
+div.MuiDataGrid-columnHeadersInner div.columnHeaders {
+  color: var(--dark-section);
+}
+
+.page div.MuiDataGrid-columnHeaderTitle.css-t89xny-MuiDataGrid-columnHeaderTitle {
+  color: var(--light-primary);
+}
+
+/* Handle */
+.display-grid-container div::-webkit-scrollbar-thumb:vertical {
+  background: var(--light-primary);
+}
+
+.page .display-grid-container div::-webkit-scrollbar-thumb:horizontal {
+  background: var(--light-primary);
+}

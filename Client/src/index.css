@@ -50,6 +50,11 @@ h1 {
   width: 3px;
 }
 
+/* height */
+::-webkit-scrollbar:horizontal {
+  height: 3px;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: var(--dark-section);

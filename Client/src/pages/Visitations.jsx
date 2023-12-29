@@ -64,6 +64,19 @@ const visitationsHeadCells = [
   
 ];
 
+const tdyVisitationsHeadCells = [
+  { 
+    field: 'Prisoner Name', 
+    headerName: 'Prisoner',
+    width: 140 
+  },
+  { 
+    field: 'Visitor Name', 
+    headerName: 'Visitor',
+    width: 140 
+  },
+]
+
 const Visitations = ({ view }) => {
   // State variable to manage the form's visibility.
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -191,8 +204,8 @@ const Visitations = ({ view }) => {
               />
               <DisplayTable
                 title="Today visits"
-                dataTable={tdyVisitsFilteredTable}
-                selectedColumns={["Prisoner Name", "Visitor Name"]}
+                dataTable={visitsFilteredTable}
+                selectedColumns={tdyVisitationsHeadCells}
                 onClick={toggleForm}
                 UIMode={"add"}
               />
