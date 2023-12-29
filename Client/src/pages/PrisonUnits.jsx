@@ -8,9 +8,10 @@ import {
   fetchCellById,
   fetchPrisonBlocksById,
 } from "../service/prisonUnitsService";
-import { filterBlockColumns } from "../utils/dataUtils";
+import { filterBlockColumns} from "../utils/dataUtils";
 import CellForm from "../components/CellForm/CellForm";
 import BlockForm from "../components/BlockForm/BlockForm";
+import { deleteblock,deletecell} from "../service/prisonUnitsService"
 
 const prisonBlockHeadCells = [
   {
@@ -131,13 +132,27 @@ const PrisonUnits = ({ view }) => {
     setIsCellFormOpen(!isCellFormOpen);
   };
 
-  const deleteBlock = (blockid) => {
-    
-  }
+  const deleteBlock = async (blockid) => {
+    try {
+      const newDetails = await deleteblock(blockid);
+      console.log("Fetched cell:", newDetails);
+      //editForm();
+    }
+    catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
-  const deleteCell = (blockid_cell_id) => {
-
-  }
+  const deleteCell = async (blockid_cell_id) => {
+    try {
+      const newDetails = await deletecell(blockid_cell_id);
+      console.log("Fetched cell:", newDetails);
+      //editCellForm();
+    }
+    catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
   const getCellDetails = async (id) => {
     console.log(id);

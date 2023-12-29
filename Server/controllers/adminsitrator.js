@@ -770,6 +770,39 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+  // Block Delete
+  deleteblock: async (req, res) => {
+    let blockid = req.body.blockid;
+    const q = `Delete from cell_block where blockid = ? and (select count(*) from cell where block_id = ?) = 0`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, [blockid,blockid], (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
+  // Cell Delete
+  deleteCell: async (req, res) => {
+    const cellId = req.body.cell_id;
+    const blockId = req.body.block_id;
+  
+    const q = `DELETE FROM cell WHERE cell_id = ? AND block_id = ? AND size = 0;`; // formulate query
+  
+    try {
+      // try-catch for error handling
+      db.query(q, [cellId, blockId], (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occurred
+        else return res.json(data); // return data if all good
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
 };
 
 export default admincontroller;

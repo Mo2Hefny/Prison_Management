@@ -169,3 +169,48 @@ export const insertBlock = async (blockDetails) => {
   }
 }
 // end insert cell
+
+// delete block
+export const deleteblock = async (id) => {
+  try {
+    console.log(id);
+    const obj = {"blockid":id};
+    console.log(obj.blockid);
+    const response = await axios
+    .post("http://localhost:3000/admin/deleteblock", obj,{
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((response) => {
+      console.log('Response:', response); // Log the response
+    })
+    .catch((err) => console.log(err));
+    return response;
+  } catch (error) {
+    console.error(`Error deleting cells in block ${id}`, error); // error message
+    throw error;
+  }
+}
+// delete cell
+export const deletecell = async (id) => { // id is list with cell_id and block_id
+  try {
+    console.log(id);
+    const obj = {"block_id": id[0], "cell_id": id[1]};
+    console.log(obj)
+    const response = await axios
+    .post("http://localhost:3000/admin/deleteCell", obj ,{
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((response) => {
+      console.log('Response:', response); // Log the response
+    })
+    .catch((err) => console.log(err));
+    return response;
+  } catch (error) {
+    console.error(`Error deleting cells in block ${id[0]} and cell ${id[1]}`, error);
+    throw error;
+  }
+}
