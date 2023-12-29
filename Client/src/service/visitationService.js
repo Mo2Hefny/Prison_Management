@@ -22,9 +22,14 @@ export const fetchVisitors = async () => {
   }
 };
 
+//karim mahmoud
+
 export const fetchVisitorById = async (id) => {
   try {
-    const response = await fetch(JSON_FILE_URL_VISITORS);
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getAllVisitors",
+    })
     console.log('Response:', response); // Log the response
     if (!response.ok) {
       throw new Error('Failed to fetch visitor');
@@ -47,6 +52,7 @@ export const fetchVisitorById = async (id) => {
     throw error;
   }
 };
+
 
 const fixVisitorsDetailsFormat = (details) => {
   details.bdate = new Date(details.bdate);
@@ -94,15 +100,23 @@ export const fetchVisitationsByDate = async (date) => {
   }
 };
 
+
+
+
+//just edited:karim mahmoud
+//new query or just filter?
 export const fetchVisitationsById = async (pid, visID) => {
   try {
-    const response = await fetch(JSON_FILE_URL_VISITS);
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getallvisitation",
+    })
     console.log('Response:', response); // Log the response
     if (!response.ok) {
       throw new Error('Failed to fetch visitor');
     }
     
-    const data = await response.json();
+    const data = response.data;
 
     // Find the visits with the specified ID
     const visits = data.filter((visit) => (visit.visID === visID && visit.pid === pid));

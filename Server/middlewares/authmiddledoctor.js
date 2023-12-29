@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 import db from "../db.js"
-const authMiddleware = async (req, res, next) => {
+const authMiddlewaredoc = async (req, res, next) => {
         // Get the token from the authorization header
         const authHeader = req.headers.authorization;
         // Check if the token exists
@@ -41,4 +41,4 @@ const authMiddleware = async (req, res, next) => {
         res.status(401).json({ error: "Invalid token" });
         }
 };
-export default authMiddleware;
+export default authMiddlewaredoc;

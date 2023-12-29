@@ -1,42 +1,42 @@
 import  { Router } from "express";
 import admincontroller from "../controllers/adminsitrator.js"
-import authMiddleware from "../middlewares/authmiddleAdmin.js";
+import authmiddleAdmin from "../middlewares/authmiddleAdmin.js";
 const adminrouter=Router();
 
 adminrouter.post("/",admincontroller.login);
-adminrouter.get('/',authMiddleware,admincontroller.aftertoken)
+adminrouter.get('/',authmiddleAdmin,admincontroller.aftertoken)
 // Prisoner
-adminrouter.get('/prisoner',admincontroller.selectallprisoners)
-adminrouter.post('/prisoner',authMiddleware,admincontroller.insertprisoner)
-adminrouter.post('/releaseprisoner',authMiddleware,admincontroller.releaseprisoner)
+adminrouter.get('/prisoner',admincontroller.selectallprisoners) //stored proc
+adminrouter.post('/prisoner',authmiddleAdmin,admincontroller.insertprisoner)
+adminrouter.post('/releaseprisoner',authmiddleAdmin,admincontroller.releaseprisoner)
 adminrouter.post("/updateprisoner",admincontroller.updateprisoner)
-adminrouter.get("/offenses_noprisoner",admincontroller.getoffensesnoprisoner)
+adminrouter.get("/offenses_noprisoner",admincontroller.getoffensesnoprisoner)//stored proc
 adminrouter.get("/allOffenses",admincontroller.getAllOffenses)
 adminrouter.post("/offensesById",admincontroller.getOffensesById)
-adminrouter.post("/prisonerid",admincontroller.getprisonerbyid)
+adminrouter.post("/prisonerid",admincontroller.getprisonerbyid) 
 adminrouter.get("/getallPrisonerCondition",admincontroller.getallPrisonerCondition)
 adminrouter.get("/getoffensesonprisoner",admincontroller.getoffensesbyprisoner)
-adminrouter.post("/prisoneroffenses",authMiddleware,admincontroller.prisoneroffenses)
+adminrouter.post("/prisoneroffenses",authmiddleAdmin,admincontroller.prisoneroffenses)
 // Staff
-adminrouter.get("/getallstaff",admincontroller.getallstaff)
+adminrouter.get("/getallstaff",admincontroller.getallstaff) //stored proc
 adminrouter.get("/getstaffbyid",admincontroller.getstaffbyid)
-adminrouter.get("/getsupervisors",admincontroller.getsupervisors)
-adminrouter.post('/staff',authMiddleware,admincontroller.addstaff)
-adminrouter.get("/doctors",authMiddleware,admincontroller.selectdoctors)
-adminrouter.post("/dbi",authMiddleware,admincontroller.selectdoctorsbyid)
+adminrouter.get("/getsupervisors",admincontroller.getsupervisors) //stored proc
+adminrouter.post('/staff',authmiddleAdmin,admincontroller.addstaff)
+adminrouter.get("/doctors",authmiddleAdmin,admincontroller.selectdoctors) //stored proc
+adminrouter.post("/dbi",authmiddleAdmin,admincontroller.selectdoctorsbyid)
 // Medical
-adminrouter.get("/all_records",admincontroller.getallmedicalrecords)
+adminrouter.get("/all_records",admincontroller.getallmedicalrecords) //stored proc
 adminrouter.post("/medical_record",admincontroller.getmedicalrecord)
 adminrouter.post("/getdoctorrecords",admincontroller.getdoctorrecords)
 adminrouter.post("/getrecordtreatments",admincontroller.getRecordtreatments)
-adminrouter.get("/getAllTreatments",admincontroller.getAllTreatments)
-adminrouter.post("/prisonercond",authMiddleware,admincontroller.selectprisonercond)
+adminrouter.get("/getAllTreatments",admincontroller.getAllTreatments)// stored proc
+adminrouter.post("/prisonercond",authmiddleAdmin,admincontroller.selectprisonercond)
 // Prison Units
 adminrouter.get("/getAllPrisonBlocks",admincontroller.getAllPrisonBlocks)
 adminrouter.get("/getAllPrisonBlocksnotmax",admincontroller.getAllPrisonBlocksnotmax)
 adminrouter.post("/getblockid",admincontroller.getprisonblocksbyid)
 adminrouter.post("/getcellbyid",admincontroller.getcellbyid)
-adminrouter.post("/getcellsblock",admincontroller.getcellsforblocks)
+adminrouter.post("/getcellsblock",admincontroller.getcellsforblocks)//stored proc
 adminrouter.get("/getAllCells",admincontroller.getAllCells)
 adminrouter.post("/getprisonersincell",admincontroller.getprisonersincell)
 adminrouter.post("/getnumprisonersincell",admincontroller.getnumberprisonersincell)
@@ -46,5 +46,6 @@ adminrouter.post("/deleteblock",authMiddleware,admincontroller.deleteblock)
 adminrouter.post("/deleteCell",authMiddleware,admincontroller.deleteCell) 
 // Visitors
 adminrouter.get("/getallvisitation",admincontroller.getallvisitations)
-adminrouter.get("/getAllVisitors",admincontroller.getAllVisitors)
+adminrouter.get("/getAllVisitors",admincontroller.getAllVisitors)  //stored proc
+//adminrouter.post("/visitationbyid",admincontroller)  //just added
 export default adminrouter

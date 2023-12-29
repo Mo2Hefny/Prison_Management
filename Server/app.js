@@ -17,7 +17,8 @@ app.get('/', (req, res) => {
         status:"sucess"
     });
 });
-
-
+app.use("/visitor",visitorrouter);
+app.use("/manager",managerrouter);
+app.use('/doctor',doctorrouter);
 app.use('/admin',adminrouter);
 app.listen(3000);
