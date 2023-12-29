@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import EnhancedTable from "../components/SortingTable";
-import { filterDoctorColumns, filterMedicalRecordsColumns, filterStaffColumns } from "../utils/dataUtils";
-import { fetchMedicalRecords, fetchMedicalRecordById, fetchTreatmentsByRecordId, fetchMedicalRecordByDoctorId } from "../service/medicalRecordService";
+import { filterConditionsColumns, filterDoctorColumns, filterMedicalRecordsColumns, filterStaffColumns, filterTreatmentsColumns } from "../utils/dataUtils";
+import { fetchMedicalRecords, fetchMedicalRecordById, fetchTreatmentsByRecordId, fetchMedicalRecordByDoctorId, fetchAllPrisonersConditions, fetchAllTreatments } from "../service/medicalRecordService";
 import DisplayTable from "../components/DisplayTable";
 import CollapsibleTable from "../components/CollapsibleTable";
 import { fetchDoctors, fetchStaff } from "../service/staffService";
@@ -20,7 +20,7 @@ const recordsHeadCells = [
   },
   {
     id: 'Staff name',
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: 'Assigned Doctor',
   },
@@ -56,7 +56,7 @@ const subRecordsHeadCells = [
   
 ];
 
-const treatmentsHeadCells = [
+const recordTreatmentsHeadCells = [
   {
     id: 'Drug Name',
     numeric: false,
@@ -77,6 +77,40 @@ const treatmentsHeadCells = [
     label: 'Drug Dosage',
   },
   
+];
+
+const treatmentsHeadCells = [
+  {
+    id: 'Drug Name',
+    numeric: false,
+    disablePadding: false,
+    color: "var(--primary-color)",
+    label: 'Drug Name',
+  },
+  {
+    id: 'type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Targets',
+  },
+  {
+    id: 'Drug doses',
+    numeric: true,
+    disablePadding: false,
+    label: 'Drug Dosage',
+  },
+  {
+    id: 'availability',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+  },
+  {
+    id: 'price',
+    numeric: true,
+    disablePadding: false,
+    label: 'Price',
+  },
 ];
 
 const doctorsHeadCells = [
@@ -100,10 +134,34 @@ const doctorsHeadCells = [
   },
   {
     id: 'num_records',
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: 'Load',
   },
+];
+
+const conditionsHeadCells = [
+  {
+    id: 'Prisoner name',
+    numeric: false,
+    disablePadding: false,
+    color: "var(--primary-color)",
+    label: 'Patient',
+  },
+  {
+    id: 'Condition name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Condition',
+  },
+  {
+    id: 'Severity',
+    numeric: true,
+    disablePadding: false,
+    label: 'Severity',
+  },
+
+  
   
 ];
 
@@ -113,10 +171,18 @@ const MedicalRecords = ({ view }) => {
   const [isFormEdit, setIsFormEdit] = useState(false);
   // Record variables
   const [recordDetails, setRecordDetails] = useState([]);
-  const [recordFilteredTable, setRecordsFilteredTable] = useState([{}]);
+  const [recordsFilteredTable, setRecordsFilteredTable] = useState([{}]);
   // Doctors variables
   const [doctorsFilteredTable, setDoctorsFilteredTable] = useState([{}]);
   const readOnly = ["visitor", "staff"].includes(view);
+  // Treatments variabkes
+  const [isTreatmentFormOpen, setIsTreatmentFormOpen] = useState(false);
+  const [isTreatmentFormEdit, setIsTreatmentFormEdit] = useState(false);
+  const [treatmentsFilteredDataTable, setTreatmentsFilteredTable] = useState([{}]);
+  // Prisoners_Conditions variabkes
+  const [conditonDetails, setConditionDetails] = useState([]);
+  const [conditionsFilteredTable, setConditionsFilteredTable] = useState([{}]);
+  const [isConditionFormOpen, setIsConditionFormOpen] = useState(false);
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
@@ -170,7 +236,7 @@ const MedicalRecords = ({ view }) => {
             return { ...record, treatments };
           })
         );
-        const filteredTable = filterMedicalRecordsColumns(tableWithTreatments, recordsHeadCells, treatmentsHeadCells);
+        const filteredTable = filterMedicalRecordsColumns(tableWithTreatments, recordsHeadCells, recordTreatmentsHeadCells);
         console.log("Fetched medical records:", filteredTable);
         setRecordsFilteredTable([ ...filteredTable ]);
       } catch (error) {
@@ -180,7 +246,7 @@ const MedicalRecords = ({ view }) => {
     fetchMedicalRecordData();
   }, [isFormEdit, isFormOpen]);
 
-  // Retrieve all visitations details on any change or submission
+  // Retrieve all doctors details and the medical records assigned to them on any change or submission
   useEffect(() => {
     async function fetchDoctorsDetails() {
       try {
@@ -204,6 +270,38 @@ const MedicalRecords = ({ view }) => {
     fetchDoctorsDetails();
   }, [isFormEdit, isFormOpen]);
 
+  // Retrieve all prisoners conditions on any change or submission
+  useEffect(() => {
+    async function fetchTreatmentsDetails() {
+      try {
+        const treatmentsDataTable = await fetchAllTreatments();
+        console.log(treatmentsDataTable);
+        const filteredTable = filterTreatmentsColumns(treatmentsDataTable, treatmentsHeadCells);
+        console.log("Fetched treatments:", filteredTable);
+        setTreatmentsFilteredTable([ ...filteredTable ]);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+    fetchTreatmentsDetails();
+  }, [isTreatmentFormEdit, isTreatmentFormOpen]);
+
+  // Retrieve all prisoners conditions on any change or submission
+  useEffect(() => {
+    async function fetchConditionsDetails() {
+      try {
+        const conditionsDataTable = await fetchAllPrisonersConditions();
+        console.log(conditionsDataTable);
+        const filteredTable = filterConditionsColumns(conditionsDataTable, conditionsHeadCells);
+        console.log("Fetched doctors:", filteredTable);
+        setConditionsFilteredTable([ ...filteredTable ]);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    }
+    fetchConditionsDetails();
+  }, [isConditionFormOpen]);
+
   return (
     <div className="page visitations-page">
       {/* Render the form when it is opened */}
@@ -219,9 +317,9 @@ const MedicalRecords = ({ view }) => {
         <div className="page-body-section">
           <div className="table collapsible-table">
             <CollapsibleTable
-              dataTable={recordFilteredTable}
+              dataTable={recordsFilteredTable}
               dataHeadCells={recordsHeadCells}
-              subDataHeadCells={treatmentsHeadCells}
+              subDataHeadCells={recordTreatmentsHeadCells}
               title="Medical Records"
               subTableTitle="Patient Treatments"
               onAdd={toggleForm}
@@ -239,23 +337,23 @@ const MedicalRecords = ({ view }) => {
                 onAdd={toggleForm}
                 onEdit={getRecordDetails}
                 readOnly={readOnly}
-                editable={false}
+                addable={false}
+                subEditable={false}
               />
           </div>
           <div className="table enhanced-table table-grid">
               <EnhancedTable
-                dataTable={doctorsFilteredTable}
-                dataHeadCells={doctorsHeadCells}
+                dataTable={treatmentsFilteredDataTable}
+                dataHeadCells={treatmentsHeadCells}
                 title="Treatments Management"
                 onAdd={toggleForm}
                 onEdit={getRecordDetails}
                 readOnly={readOnly}
-                editable={false}
               />
               <DisplayTable
                 title="Prisoners Conditions"
-                dataTable={recordFilteredTable}
-                selectedColumns={["prisoner", "visitor"]}
+                dataTable={conditionsFilteredTable}
+                selectedColumns={["Prisoner name", "Condition name", "Severity"]}
                 onClick={toggleForm}
                 UIMode={"add"}
               />

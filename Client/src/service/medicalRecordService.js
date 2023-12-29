@@ -25,7 +25,6 @@ export const fetchMedicalRecordByDoctorId = async (id) => {
     const response = await axios
     .post("http://localhost:3000/admin/getdoctorrecords", { "doctorid": id })
     .then((res) => {
-      // Find the prisoner with the specified ID
       const data = res.data
       if (!data) {
         throw new Error(`Medical records for doctor ${id} not found`);
@@ -45,7 +44,6 @@ export const fetchMedicalRecordById = async (id) => {
     const response = await axios
     .post("http://localhost:3000/admin/medical_record", { "prisoner_id": id[0], "record_id": id[1]})
     .then((res) => {
-      // Find the prisoner with the specified ID
       const data = res.data
       if (!data) {
         throw new Error(`Medical record with ID ${id} not found`);
@@ -64,26 +62,57 @@ export const fetchMedicalRecordById = async (id) => {
   }
 };
 
+export const fetchAllTreatments = async () => {
+  try {
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getAllTreatments",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    console.log(`Medical Records: `, data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching prisoners:', error);
+    throw error;
+  }
+};
+
 export const fetchTreatmentsByRecordId = async (id) => {
   try {
     console.log(id)
     const response = await axios
     .post("http://localhost:3000/admin/getrecordtreatments", { "pid": id[0], "recordid": id[1] })
     .then((res) => {
-      // Find the prisoner with the specified ID
       const data = res.data
       if (!data) {
         throw new Error(`Medical record with ID ${id} not found`);
       }
       console.log(data);
       const treatments = data;
-      console.log(`Treatments for Record ${id}: `, treatments); // Log the response
+      console.log(`Treatments for Record [${id}]: `, treatments); // Log the response
       return treatments;
     })
     .catch((err) => console.log(err));
     return response;
   } catch (error) {
     console.error(`Error fetching prisoner with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export const fetchAllPrisonersConditions = async () => {
+  try {
+    const response = await axios ({
+      method: "get",
+      url: "http://localhost:3000/admin/getallPrisonerCondition",
+    })
+    console.log('Response:', response); // Log the response
+    const data = response.data;
+    console.log(`Medical Records: `, data);
+    return data;
+  } catch (error) {
+    console.error('Error fetching prisoners:', error);
     throw error;
   }
 };

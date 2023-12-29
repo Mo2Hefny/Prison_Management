@@ -19,30 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from './Button';
 import './CollapsibleTable.css'
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
-
-function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitle }) {
+function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitle, addable, subAddable, editable, subEditable}) {
   const [open, setOpen] = React.useState(false);
   const subHeadCells = [ ...subDataHeadCells ]
   subHeadCells.push(
@@ -82,7 +59,8 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
         {/* New TableCell for Edit & Delete button */}
         {!readOnly && (
           <TableCell align="right">
-            <IconButton
+            {/* Edit button */ }
+            {editable &&  (<IconButton
               aria-label="edit"
               color="primary"
               size="small"
@@ -90,6 +68,8 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
             >
               <EditIcon />
             </IconButton>
+            )}
+            {/* Delete button */ }
             <IconButton
               aria-label="delete"
               color="secondary"
@@ -144,7 +124,8 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
                       {/* New SubTableCell for Edit & Delete button */}
                       {!readOnly && (
                         <TableCell align="right">
-                          <IconButton
+                          {/* Edit button */ }
+                          {subEditable &&  (<IconButton
                             aria-label="edit"
                             color="primary"
                             size="small"
@@ -152,6 +133,8 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
                           >
                             <EditIcon />
                           </IconButton>
+                          )}
+                          {/* Delete button */ }
                           <IconButton
                             aria-label="delete"
                             color="secondary"
@@ -174,15 +157,7 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
   );
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
-
-export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHeadCells, title, subTableTitle, onAdd, readOnly}) {
+export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHeadCells, title, subTableTitle, onAdd, readOnly, addable, subAddable, editable, subEditable}) {
   const plusSign = `<svg data-slot="icon" data-darkreader-inline-stroke="" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
   </svg><p>Add</p>`
@@ -214,7 +189,7 @@ export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHead
         >
           {title}
         </Typography>
-        {!readOnly && (
+        {!readOnly && addable && (
           <Button text={<span dangerouslySetInnerHTML={{ __html: plusSign }} />} onClick={onAdd} classNames='add-btn btn btn-G btn-wide right'/>
         )}
       </Toolbar>
@@ -243,8 +218,12 @@ export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHead
              row={row}
              dataHeadCells={dataHeadCells}
              subDataHeadCells={subDataHeadCells}
-             readOnly={readOnly}
              subTableTitle={subTableTitle}
+             addable={addable}
+             subAddable={subAddable}
+             editable={editable}
+             subEditable={subEditable}
+             readOnly={readOnly}
             />
           ))}
         </TableBody>
@@ -254,5 +233,9 @@ export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHead
 }
 
 CollapsibleTable.defaultProps = {
+  addable: true,
+  subAddable: true,
+  editable: true,
+  subEditable: true,
   readOnly: false,
 }

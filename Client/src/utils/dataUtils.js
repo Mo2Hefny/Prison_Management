@@ -1,6 +1,6 @@
 import { getStaffType } from "../service/staffService";
 import { getDateFromDBFormat, getDayDifference, getMonthDifference, getYearDifference } from "./dateUtils";
-import { fixMedicalRecordFormat, fixPrisonerFormat, fixStaffFormat, fixVisitFormat } from "./formatUtils";
+import { fixMedicalRecordFormat, fixPrisonerFormat, fixStaffFormat, fixTreatmentsFormat, fixVisitFormat } from "./formatUtils";
 
 // dataUtils.js
 // Prisoners
@@ -80,7 +80,7 @@ export const filterDoctorColumns = (dataTable, neededColumns, neededCollapsingTa
         // Combine fname and lname to create the "Name" column
         newRow[column['id']] = `${row['fname']} ${row['lname']}`;
       } else if (column['id'] === 'num_records') {
-        newRow['num_records'] = row['records'].length
+        newRow['num_records'] = `${(row['records'].length ?  row['records'].length + ' Record' + (row['records'].length > 1 ? 's' : '') : '-')}`
       } else if (column['id'] === 'supervisorSSN') {
         newRow[column['id']] = '-'
         newRow['supervisorID'] = null
@@ -195,7 +195,24 @@ export const filterTreatmentsColumns = (dataTable, neededColumns) => {
   console.log(dataTable)
   return dataTable.map((row) => {
     const newRow = {};
-    newRow['id'] = row['Drug name'];
+    newRow['id'] = row['Drug Name'];
+    fixTreatmentsFormat(row);
+    neededColumns.forEach((column) => {
+      if (column['id'] != 'id')  {
+        newRow[column['id']] = row[column['id']];
+        if (newRow[column['id']]==null) newRow[column['id']] = '-';
+      }
+    });
+    return newRow;
+  });
+}
+
+// Conditions
+export const filterConditionsColumns = (dataTable, neededColumns) => {
+  console.log(dataTable)
+  return dataTable.map((row) => {
+    const newRow = {};
+    newRow['id'] = row['Prisoner id'];
     neededColumns.forEach((column) => {
       if (column['id'] != 'id')  {
         newRow[column['id']] = row[column['id']];

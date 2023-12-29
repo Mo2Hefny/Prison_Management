@@ -480,6 +480,21 @@ const admincontroller = {
       return res.json({ err }); // say what is the error
     }
   },
+  getAllTreatments: async (req, res) => {
+    const q = `Select drugname as "Drug Name", availability, type, price, doses as "Drug Doses" from treatments;`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        if (error) {
+          return res.json({ error });
+        } else {
+          return res.json(data);
+        }
+      });
+    } catch (err) {
+      return res.json({ err });
+    }
+  },
   getRecordtreatments: async (req, res) => {
     let recordid = req.body.recordid;
     let pid = req.body.pid;
@@ -498,7 +513,7 @@ const admincontroller = {
     }
   },
   getallPrisonerCondition: async (req, res) => {
-    const q = `Select pid as "Prisoner id" , conditionname as "Condition Name", severity as "Severity" from prisoner_condition`; // formulate query
+    const q = `Select c.pid as "Prisoner id", concat(fname, " ",lname) as "Prisoner name" , conditionname as "Condition name", severity as "Severity" from prisoner_condition c natural join prisoner p`; // formulate query
     try {
       // try-catch for error handling
       db.query(q, (error, data) => {

@@ -85,3 +85,13 @@ export const fixVisitFormat = (row) => {
 export const fixMedicalRecordFormat = (row) => {
   row['updatedate'] = getDateFromDBFormat(row['updatedate']);
 }
+
+// Fix treatments availability, and expire date
+export const fixTreatmentsFormat = (row) => {
+  if (typeof row['availability'] !== 'undefined')
+  row['availability'] = (row['availability'] === 1 ? 'In Stock' : 'Out of Stock');
+}
+
+export const queryTreatmentsFormat = (row) => {
+  row['availability'] = (row['availability'] === 'In Stock' ? 1 : 0);
+}
