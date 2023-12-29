@@ -74,7 +74,7 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
               aria-label="delete"
               color="secondary"
               size="small"
-              onClick={onDelete}
+              onClick={(e) => { e.stopPropagation(); onDelete(row.id) }}
             >
               <DeleteIcon />
             </IconButton>
@@ -142,7 +142,10 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
                             aria-label="delete"
                             color="secondary"
                             size="small"
-                            onClick={onDelete}
+                            onClick={(e) => { e.stopPropagation(); 
+                            console.log(row.id)
+                            console.log(subRow.id)
+                            onSubDelete([row.id, subRow.id]) }}
                           >
                             <DeleteIcon />
                           </IconButton>

@@ -43,3 +43,7 @@ td.css-1ex1afd-MuiTableCell-root {
 .MuiCollapse-root .css-1y3yv5w-MuiTableCell-root {
   border-color: var(--dark-primary);
 }
+
+td.css-177gid-MuiTableCell-root, td.css-1nf681w-MuiTableCell-root, th.css-11w94w9-MuiTableCell-root {
+  border-color: var(--dark-secondary);
+}
