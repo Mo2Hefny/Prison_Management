@@ -849,6 +849,72 @@ const admincontroller = {
       return res.json({ err });
     }
   },
+  // Programs
+  getallPrograms: async (req, res) => {
+    const q = `Select * from prison_programs`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
+
+  getallLabour: async (req, res) => {
+    const q = `Select * from labour, labour_guard where programid = program_id`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
+  getallRehab: async (req, res) => {
+    const q = `SELECT *
+    FROM rehab
+    JOIN rehab_attendee ON rehab.program_id = rehab_attendee.program_id`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
+  getallParole: async (req, res) => {
+    const q = `SELECT *
+    FROM parole
+    NATURAL JOIN parole_council;`; // formulate query
+    try {
+      // try-catch for error handling
+      db.query(q, (error, data) => {
+        // set the block id
+        if (error) return res.json({ error }); // error occured
+        else return res.json(data); // return data if a ll good
+      });
+    } catch (
+      err // catch block
+    ) {
+      return res.json({ err });
+    }
+  },
 };
 
 export default admincontroller;

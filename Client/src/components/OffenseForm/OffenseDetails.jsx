@@ -8,7 +8,7 @@ import { getMonthDifference } from '../../utils/dateUtils';
 const OffenseDetails = () => {
   return (
     <div className='form-section prisoner-details'>
-      <h3 className='form-section-title'>Prisoner Details</h3>
+      <h3 className='form-section-title'>Offense Details</h3>
       <div className="form-section-input">
         <Input value={details.fname} field='fname' label='First Name' onChange={handleChange} />
         <Input value={details.lname} field='lname' label='Last Name' onChange={handleChange} />

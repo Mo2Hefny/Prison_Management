@@ -47,4 +47,9 @@ adminrouter.post("/deleteCell",authMiddleware,admincontroller.deleteCell)
 // Visitors
 adminrouter.get("/getallvisitation",admincontroller.getallvisitations)
 adminrouter.get("/getAllVisitors",admincontroller.getAllVisitors)
+// Prison Programs
+adminrouter.get("/getallPrograms",authMiddleware,admincontroller.getallPrograms)
+adminrouter.get("/getallLabour",authMiddleware,admincontroller.getallLabour)
+adminrouter.get("/getallParole",authMiddleware,admincontroller.getallParole)
+adminrouter.get("/getallRehab",authMiddleware,admincontroller.getallRehab)
 export default adminrouter
