@@ -235,6 +235,7 @@ const Prisoners = ({ view }) => {
               title="Prisoners"
               onAdd={toggleForm}
               onEdit={getPrisonerDetails}
+              deletable={false}
               readOnly={readOnly}
             />
           </div>

@@ -79,6 +79,7 @@ const cellDetailsTemplate = {
 
 const PrisonUnits = ({ view }) => {
   // State variable to manage the form's visibility.
+  const [toggleDelete, setToggleDelete] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
   const [blockDetails, setBlockDetails] = useState(blockDetailsTemplate);
@@ -193,7 +194,7 @@ const PrisonUnits = ({ view }) => {
       }
     }
     fetchBlockData();
-  }, [isFormEdit, isFormOpen]);
+  }, [isFormEdit, isFormOpen, isCellFormEdit, isCellFormOpen, isDelete]);
 
   return (
     <div className="page prison-units-page">
@@ -216,6 +217,8 @@ const PrisonUnits = ({ view }) => {
               subTableTitle="Cells"
               readOnly={readOnly}
               onAdd={toggleForm}
+              subAddable={true}
+              onSubAdd={toggleCellForm}
               onEdit={getBlockDetails}
               onSubEdit={getCellDetails}
               onDelete={deleteBlock}
