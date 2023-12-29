@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import PrisonerForm from "../components/PrisonerForm/PrisonerForm";
 import "./Prisoners.css";
 import CollapsibleTable from "../components/CollapsibleTable";
 import {
@@ -9,7 +8,10 @@ import {
   fetchCellById,
   fetchPrisonBlocksById,
 } from "../service/prisonUnitsService";
-import { filterBlockColumns } from "../utils/dataUtils";
+import { filterBlockColumns} from "../utils/dataUtils";
+import CellForm from "../components/CellForm/CellForm";
+import BlockForm from "../components/BlockForm/BlockForm";
+import { deleteblock,deletecell} from "../service/prisonUnitsService"
 
 const prisonBlockHeadCells = [
   {
@@ -67,12 +69,12 @@ const blockDetailsTemplate = {
 };
 
 const cellDetailsTemplate = {
-  block_id: null,
-  cell_id: null,
-  capacity: null,
+  block_id: "",
+  cell_id: "",
+  capacity: "",
   type: "Inmate Cells",
-  size: null,
-  floor: null,
+  size: "",
+  floor: "",
 };
 
 const PrisonUnits = ({ view }) => {
@@ -85,7 +87,8 @@ const PrisonUnits = ({ view }) => {
   // Cells variables
   const [isCellFormOpen, setIsCellFormOpen] = useState(false);
   const [isCellFormEdit, setIsCellFormEdit] = useState(false);
-  const [cellDetails, setCellDetails] = useState(blockDetailsTemplate);
+  const [cellDetails, setCellDetails] = useState(cellDetailsTemplate);
+  console.log(cellDetails)
   // Function to toggle the form's visibility.
   const onClose = () => {
     setIsFormOpen(false);
@@ -107,7 +110,7 @@ const PrisonUnits = ({ view }) => {
       const newDetails = await fetchPrisonBlocksById(id);
       console.log("Fetched block:", newDetails);
       setBlockDetails({ ...newDetails });
-      //editForm();
+      editForm();
     } catch (error) {
       console.error("Error:", error.message);
     }
@@ -126,16 +129,30 @@ const PrisonUnits = ({ view }) => {
 
   const toggleCellForm = () => {
     setIsCellFormEdit(false);
-    setIsCellFormOpen(!isFormOpen);
+    setIsCellFormOpen(!isCellFormOpen);
   };
 
-  const deleteBlock = (blockid) => {
-    
-  }
+  const deleteBlock = async (blockid) => {
+    try {
+      const newDetails = await deleteblock(blockid);
+      console.log("Fetched cell:", newDetails);
+      //editForm();
+    }
+    catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
-  const deleteCell = (blockid_cell_id) => {
-
-  }
+  const deleteCell = async (blockid_cell_id) => {
+    try {
+      const newDetails = await deletecell(blockid_cell_id);
+      console.log("Fetched cell:", newDetails);
+      //editCellForm();
+    }
+    catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
   const getCellDetails = async (id) => {
     console.log(id);
@@ -182,12 +199,10 @@ const PrisonUnits = ({ view }) => {
     <div className="page prison-units-page">
       {/* Render the form when it is opened */}
       {isFormOpen && (
-        //<BlockForm isOpen={isFormOpen} onClose={toggleForm}></BlockForm>
-        <></>
+        <BlockForm isOpen={isFormOpen} onClose={toggleForm}details={blockDetails}></BlockForm>
       )}
       {isCellFormOpen && (
-        //<CellForm isOpen={isCellFormOpen} onClose={toggleCellForm}></CellForm>
-        <></>
+        <CellForm isOpen={isCellFormOpen} onClose={toggleCellForm} details={cellDetails}></CellForm>
       )}
       <h1 className="page-title">Prison Units Management</h1>
       <div className="page-body">
