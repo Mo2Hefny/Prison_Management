@@ -129,6 +129,14 @@ const PrisonUnits = ({ view }) => {
     setIsCellFormOpen(!isFormOpen);
   };
 
+  const deleteBlock = (blockid) => {
+    
+  }
+
+  const deleteCell = (blockid_cell_id) => {
+
+  }
+
   const getCellDetails = async (id) => {
     console.log(id);
     try {
@@ -184,7 +192,7 @@ const PrisonUnits = ({ view }) => {
       <h1 className="page-title">Prison Units Management</h1>
       <div className="page-body">
         <div className="page-body-section">
-          <div className="table collapsible-table">
+          <div className="table collapsible-table glassmorphism">
             <CollapsibleTable
               dataTable={blockFilteredTable}
               dataHeadCells={prisonBlockHeadCells}
@@ -195,6 +203,8 @@ const PrisonUnits = ({ view }) => {
               onAdd={toggleForm}
               onEdit={getBlockDetails}
               onSubEdit={getCellDetails}
+              onDelete={deleteBlock}
+              onSubDelete={deleteCell}
             />
           </div>
         </div>
