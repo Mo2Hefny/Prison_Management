@@ -13,12 +13,13 @@ import Staff from './pages/Staff'
 import Dashboard from './pages/Dashboard'
 import Visitations from './pages/Visitations'
 import MedicalRecords from './pages/MedicalRecords'
-
+export let view;
 function App() {
   const [viewType, setViewType] = useState('');
   const [isLoggedIn, setLoggedIn] = useState(false);
   console.log(viewType);
   const handleUserSelection = (type) => {
+    view = type;
     setViewType(type);
     setLoggedIn(true);
   }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { view } from "../App";
 // prisonerService.js
 
 
@@ -7,7 +8,7 @@ export const fetchPrisonBlocks = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getAllPrisonBlocks",
+      url: `http://localhost:3000/${view}/getAllPrisonBlocks`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -23,7 +24,7 @@ export const fetchPrisonBlocksnotmax = async () => { // get blocks that we can i
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getAllPrisonBlocksnotmax",
+      url: `http://localhost:3000/${view}/getAllPrisonBlocksnotmax`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -41,7 +42,7 @@ export const fetchPrisonBlocksById = async (id) => {
   try {
     console.log(id);
     const response = await axios
-    .post("http://localhost:3000/admin/getblockid", { "block_id": id })
+    .post(`http://localhost:3000/${view}/getblockid`, { "block_id": id })
     .then((response) => {
       console.log('Response:', response); // Log the response
     const block = response.data;
@@ -66,7 +67,7 @@ export const fetchCellsForBlockById = async (id) => {
   try {
     console.log(id);
     const response = await axios
-    .post("http://localhost:3000/admin/getcellsblock", { "block_id": id})
+    .post(`http://localhost:3000/${view}/getcellsblock`, { "block_id": id})
     .then((response) => {
       console.log('Response:', response); // Log the response
     const cells = response.data;
@@ -92,7 +93,7 @@ export const fetchCellById = async (id) => {
   try {
     console.log(id);
     const response = await axios
-    .post("http://localhost:3000/admin/getcellbyid", { "block_id": id[0], "cell_id": id[1] })
+    .post(`http://localhost:3000/${view}/getcellbyid`, { "block_id": id[0], "cell_id": id[1] })
     .then((response) => {
       console.log('Response:', response); // Log the response
     const cells = response.data;
@@ -121,7 +122,7 @@ export const insertCell = async (cellDetails) => {
     console.log(cellDetails);
     console.log(localStorage.getItem('token'));
     const response = await axios
-    .post("http://localhost:3000/admin/insertCell", cellDetails, {
+    .post(`http://localhost:3000/${view}/insertCell`, cellDetails, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -149,7 +150,7 @@ export const insertBlock = async (blockDetails) => {
     console.log(blockDetails);
     console.log(localStorage.getItem('token'));
     const response = await axios
-    .post("http://localhost:3000/admin/insertBlock", blockDetails, {
+    .post(`http://localhost:3000/${view}/insertBlock`, blockDetails, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -177,7 +178,7 @@ export const deleteblock = async (id) => {
     const obj = {"blockid":id};
     console.log(obj.blockid);
     const response = await axios
-    .post("http://localhost:3000/admin/deleteblock", obj,{
+    .post(`http://localhost:3000/${view}/deleteblock`, obj,{
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -199,7 +200,7 @@ export const deletecell = async (id) => { // id is list with cell_id and block_i
     const obj = {"block_id": id[0], "cell_id": id[1]};
     console.log(obj)
     const response = await axios
-    .post("http://localhost:3000/admin/deleteCell", obj ,{
+    .post(`http://localhost:3000/${view}/deleteCell`, obj ,{
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -219,7 +220,7 @@ export const fetchCells = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getAllCells",
+      url: `http://localhost:3000/${view}/getAllCells`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;

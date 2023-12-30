@@ -19,7 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Button from './Button';
 import './CollapsibleTable.css'
 
-function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitle, onEdit, onSubEdit, onDelete, onSubDelete, addable, subAddable, editable, subEditable}) {
+function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitle, onSubAdd, onEdit, onSubEdit, onDelete, onSubDelete, addable, subAddable, editable, subEditable}) {
   const [open, setOpen] = React.useState(false);
   const subHeadCells = [ ...subDataHeadCells ]
   subHeadCells.push(
@@ -30,6 +30,9 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
       label: '',
     }
   )
+  const plusSign = `<svg data-slot="icon" data-darkreader-inline-stroke="" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+  </svg><p>Add</p>`
 
   return (
     <React.Fragment>
@@ -85,9 +88,19 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                {subTableTitle}
-              </Typography>
+                <Toolbar
+                sx={{
+                  pl: { sm: 2 },
+                  pr: { xs: 1, sm: 1 },
+                }}
+                >
+                  <Typography variant="h6" gutterBottom component="div">
+                    {subTableTitle}
+                  </Typography>
+                  {!readOnly && subAddable && (
+                    <Button text={<span dangerouslySetInnerHTML={{ __html: plusSign }} />} onClick={onSubAdd} classNames='add-btn btn btn-G btn-wide right'/>
+                  )}
+                </Toolbar>
               <Table size="small" aria-label="purchases">
                 {/* Add SubTable Header Cells */}
                 <TableHead>
@@ -163,7 +176,7 @@ function Row({ key, row, dataHeadCells, subDataHeadCells, readOnly, subTableTitl
   );
 }
 
-export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHeadCells, title, subTableTitle, onAdd, onEdit, onSubEdit, onDelete, onSubDelete, readOnly, addable, subAddable, editable, subEditable}) {
+export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHeadCells, title, subTableTitle, onAdd, onSubAdd, onEdit, onSubEdit, onDelete, onSubDelete, readOnly, addable, subAddable, editable, subEditable}) {
   const plusSign = `<svg data-slot="icon" data-darkreader-inline-stroke="" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
   </svg><p>Add</p>`
@@ -230,6 +243,7 @@ export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHead
              editable={editable}
              subEditable={subEditable}
              readOnly={readOnly}
+             onSubAdd={onSubAdd}
              onEdit={onEdit}
              onSubEdit={onSubEdit}
              onDelete={onDelete}
@@ -244,12 +258,13 @@ export default function CollapsibleTable({ dataTable, dataHeadCells, subDataHead
 
 CollapsibleTable.defaultProps = {
   addable: true,
-  subAddable: true,
+  subAddable: false,
   editable: true,
   subEditable: true,
   readOnly: false,
   onEdit: (e) => {e.stopPropagation() },
   onSubEdit: (e) => {e.stopPropagation() },
+  onSubAdd: () => {},
   onDelete: (e) => {e.stopPropagation() },
   onSubDelete: (e) => {e.stopPropagation() },
 }

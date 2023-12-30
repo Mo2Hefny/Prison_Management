@@ -1,5 +1,6 @@
 import axios from "axios";
 import { fixStaffFormat } from "../utils/formatUtils";
+import { view } from "../App";
 // Staff service
 
 // Function to fetch a list of prisoners
@@ -7,7 +8,7 @@ export const fetchStaff = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallstaff",
+      url: `http://localhost:3000/${view}/getallstaff`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -23,7 +24,7 @@ export const fetchDoctors = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/doctors",
+      url: `http://localhost:3000/${view}/doctors`,
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -41,7 +42,7 @@ export const fetchDoctors = async () => {
 export const fetchStaffById = async (id) => {
   try {
     const response = await axios
-    .post("http://localhost:3000/admin/getstaffbyid", { "staff_id": id})
+    .post(`http://localhost:3000/${view}/getstaffbyid`, { "staff_id": id})
     .then((res) => {
       // Find the prisoner with the specified ID
       const data = res.data
@@ -80,7 +81,7 @@ export const getStaffType = (staff) => {
 export const getsupervisors = async () => {
   try {
     const response = await axios
-    .get("http://localhost:3000/admin/getsupervisors")
+    .get(`http://localhost:3000/${view}/getsupervisors`)
     .then((res) => {
       // Find the prisoner with the specified ID
       const data = res.data;
@@ -104,7 +105,7 @@ export const insertStaff = async (staffdetails) => {
     console.log(staffdetails);
     console.log(localStorage.getItem('token'));
     const response = await axios
-    .post("http://localhost:3000/admin/staff", staffdetails, {
+    .post(`http://localhost:3000/${view}/staff`, staffdetails, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('token')}`,
       },

@@ -135,7 +135,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-function EnhancedTableToolbar({ onAdd, readOnly, title, ...props }) {
+function EnhancedTableToolbar({ onAdd, onDelete, deletable, readOnly, title, ...props }) {
   const { numSelected } = props;
 
   const plusSign = `<svg data-slot="icon" data-darkreader-inline-stroke="" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -173,9 +173,9 @@ function EnhancedTableToolbar({ onAdd, readOnly, title, ...props }) {
         </Typography>
       )}
 
-      {numSelected > 0 && !readOnly ? (
+      {numSelected > 0 && !readOnly && deletable ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -192,7 +192,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit, onAdd, onDelete, readOnly, editable }) {
+export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit, onAdd, onDelete, deletable, readOnly, editable }) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -202,7 +202,12 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
   const [rows, setRows] = React.useState([ ...dataTable ]);
 
   console.log(dataTable)
-  
+  const deleteSelected = () => {
+    console.log('deleting')
+    onDelete(selected);
+  }
+
+
   React.useEffect(() => {
     setRows([...dataTable]);
   }, [dataTable]);
@@ -275,6 +280,8 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
           title={title} 
           numSelected={selected.length}
           onAdd={onAdd}
+          onDelete={deleteSelected}
+          deletable={deletable}
           readOnly={readOnly}
         />
         <TableContainer>
@@ -381,4 +388,6 @@ export default function EnhancedTable({ title, dataTable, dataHeadCells, onEdit,
 EnhancedTable.defaultProps = {
   readOnly: false,
   editable: true,
+  deletable: true,
+  onDelete: (e) => { },
 };

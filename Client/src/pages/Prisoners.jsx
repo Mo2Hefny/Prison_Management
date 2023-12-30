@@ -217,7 +217,7 @@ const Prisoners = ({ view }) => {
         ></PrisonerForm>
       )}
       {/* Render the form when it is opened */}
-      {isFormOpen && (
+      {isOffenseFormOpen && (
         <OffenseForm
           details={offenseDetails}
           isOpen={isOffenseFormOpen}
@@ -235,6 +235,7 @@ const Prisoners = ({ view }) => {
               title="Prisoners"
               onAdd={toggleForm}
               onEdit={getPrisonerDetails}
+              deletable={false}
               readOnly={readOnly}
             />
           </div>

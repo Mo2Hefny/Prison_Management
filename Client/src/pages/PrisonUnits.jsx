@@ -79,6 +79,7 @@ const cellDetailsTemplate = {
 
 const PrisonUnits = ({ view }) => {
   // State variable to manage the form's visibility.
+  const [toggleDelete, setToggleDelete] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
   const [blockDetails, setBlockDetails] = useState(blockDetailsTemplate);
@@ -134,6 +135,7 @@ const PrisonUnits = ({ view }) => {
 
   const deleteBlock = async (blockid) => {
     try {
+      setToggleDelete(!toggleDelete);
       const newDetails = await deleteblock(blockid);
       console.log("Fetched cell:", newDetails);
       //editForm();
@@ -145,6 +147,7 @@ const PrisonUnits = ({ view }) => {
 
   const deleteCell = async (blockid_cell_id) => {
     try {
+      setToggleDelete(!toggleDelete);
       const newDetails = await deletecell(blockid_cell_id);
       console.log("Fetched cell:", newDetails);
       //editCellForm();
@@ -193,7 +196,7 @@ const PrisonUnits = ({ view }) => {
       }
     }
     fetchBlockData();
-  }, [isFormEdit, isFormOpen]);
+  }, [isFormEdit, isFormOpen, isCellFormEdit, isCellFormOpen, toggleDelete]);
 
   return (
     <div className="page prison-units-page">
@@ -216,6 +219,8 @@ const PrisonUnits = ({ view }) => {
               subTableTitle="Cells"
               readOnly={readOnly}
               onAdd={toggleForm}
+              subAddable={true}
+              onSubAdd={toggleCellForm}
               onEdit={getBlockDetails}
               onSubEdit={getCellDetails}
               onDelete={deleteBlock}

@@ -1,16 +1,14 @@
 import axios from "axios";
 import { isDateToday } from "../utils/dateUtils";
+import { view } from "../App";
 // visitationService.js
-
-const JSON_FILE_URL_VISITS = '../../data/visitations.json'; // Adjust the path as needed
-const JSON_FILE_URL_VISITORS = '../../data/visitors.json'; // Adjust the path as needed
 
 // Function to fetch a list of visitors
 export const fetchVisitors = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getAllVisitors",
+      url: `http://localhost:3000/${view}/getAllVisitors`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -22,9 +20,14 @@ export const fetchVisitors = async () => {
   }
 };
 
+//karim mahmoud
+
 export const fetchVisitorById = async (id) => {
   try {
-    const response = await fetch(JSON_FILE_URL_VISITORS);
+    const response = await axios ({
+      method: "get",
+      url: `http://localhost:3000/${view}/getAllVisitors`,
+    })
     console.log('Response:', response); // Log the response
     if (!response.ok) {
       throw new Error('Failed to fetch visitor');
@@ -48,6 +51,7 @@ export const fetchVisitorById = async (id) => {
   }
 };
 
+
 const fixVisitorsDetailsFormat = (details) => {
   details.bdate = new Date(details.bdate);
 }
@@ -57,7 +61,7 @@ export const fetchVisitations = async () => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallvisitation",
+      url: `http://localhost:3000/${view}/getallvisitation`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -73,7 +77,7 @@ export const fetchVisitationsByDate = async (date) => {
   try {
     const response = await axios ({
       method: "get",
-      url: "http://localhost:3000/admin/getallvisitation",
+      url: `http://localhost:3000/${view}/getallvisitation`,
     })
     console.log('Response:', response); // Log the response
     const data = response.data;
@@ -94,15 +98,23 @@ export const fetchVisitationsByDate = async (date) => {
   }
 };
 
+
+
+
+//just edited:karim mahmoud
+//new query or just filter?
 export const fetchVisitationsById = async (pid, visID) => {
   try {
-    const response = await fetch(JSON_FILE_URL_VISITS);
+    const response = await axios ({
+      method: "get",
+      url: `http://localhost:3000/${view}/getallvisitation`,
+    })
     console.log('Response:', response); // Log the response
     if (!response.ok) {
       throw new Error('Failed to fetch visitor');
     }
     
-    const data = await response.json();
+    const data = response.data;
 
     // Find the visits with the specified ID
     const visits = data.filter((visit) => (visit.visID === visID && visit.pid === pid));
