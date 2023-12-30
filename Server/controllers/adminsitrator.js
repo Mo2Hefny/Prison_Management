@@ -93,9 +93,9 @@ const admincontroller = {
           release_date,
           status,
           blockid,
-          cellid,
+          cell_id,
         } = req.body;
-        const q3 = `insert into prisoner(ssn,fname,lname,gender,bdate,admission_date,release_date,status,blockid,cell_id) values (${ssn},'${fname}','${lname}',${gender},'${bdate}','${admission_date}','${release_date}',${status},${blockid},${cellid} )`;
+        const q3 = `insert into prisoner(ssn,fname,lname,gender,bdate,admission_date,release_date,status,blockid,cell_id) values (${ssn},'${fname}','${lname}',${gender},'${bdate}','${admission_date}','${release_date}',${status},${blockid},${cell_id} )`;
         try {
           db.query(q3, (error, data) => {
             if (error) {

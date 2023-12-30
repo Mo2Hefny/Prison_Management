@@ -55,7 +55,10 @@ const CellSection = ({ details, onChange }) => {
     async function fetchPrisonCells() {
       try {
         const blockCells = await fetchCellsForBlockById(details.blockid);
-        const cellID = blockCells.map((cell) => cell.cell_id);
+        const cellID = blockCells.map((cell) => {
+          cell.id = cell.cell_id;
+          return cell.cell_id
+        });
         console.log(blockCells);
         console.log(cellID);
         setCellTable(blockCells);
@@ -70,7 +73,7 @@ const CellSection = ({ details, onChange }) => {
   return (
     <div className="form-section cell-section">
       <SelectSmall value={details.blockid} label='Block Name' list={blockList[0]} field='blockid' onChange={onChange} maxWidth={190} Null={true}/>
-      <SelectSmall value={details.cell_id} label='Status' list={cellList} field='cell_id' onChange={onChange} maxWidth={190} Null={true}/>
+      <SelectSmall value={details.cell_id} label='Cell' list={cellList} field='cell_id' onChange={onChange} maxWidth={190} Null={true}/>
       <DisplayTable
                 title="Block cells"
                 dataTable={cellTable}

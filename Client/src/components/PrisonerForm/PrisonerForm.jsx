@@ -32,6 +32,7 @@ const PrisonerForm = ({ details, isOpen, isEdit, onClose }) => {
     // Add validation calls
     const info = {...prisonerDetails};
     queryPrisonerFormat(info);
+    console.log(info);
     const success = insertPrisoner(info);
     if (success) onClose();
   }
